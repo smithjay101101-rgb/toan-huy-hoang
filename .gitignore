@@ -1,0 +1,21 @@
+node_modules
+dist
+.DS_Store
+*.local
+.env
+.env.*
+!.env.example
+
+# Editor / local tooling config
+.claude/
+.vscode/
+.idea/
+
+# Optimized listing images downloaded from Airtable at build time.
+public/listings/
+
+# vite-react-ssg cache
+.vite-react-ssg
+
+# Scratch downloads from Higgsfield generations (source frames, references).
+.higgsfield/

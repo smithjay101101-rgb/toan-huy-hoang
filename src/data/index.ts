@@ -1,0 +1,29 @@
+import type { DealType, Listing } from './types'
+import listingsJson from './listings.json'
+
+// Build-time generated data, imported statically so it is fully prerendered.
+export const listings = listingsJson as unknown as Listing[]
+
+export function getListings(): Listing[] {
+  return listings
+}
+
+export function getListingsByDeal(dealType: DealType): Listing[] {
+  return listings.filter((l) => l.dealType === dealType)
+}
+
+export function getFeatured(limit = 4): Listing[] {
+  const featured = listings.filter((l) => l.featured)
+  const pool = featured.length >= limit ? featured : listings
+  return pool.slice(0, limit)
+}
+
+export function getListingBySlug(slug: string): Listing | undefined {
+  return listings.find((l) => l.slug === slug)
+}
+
+export function getAllSlugs(): string[] {
+  return listings.map((l) => l.slug)
+}
+
+export * from './types'

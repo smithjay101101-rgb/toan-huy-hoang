@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1067" width="1600" height="1067" role="img">
+  <defs>
+    <radialGradient id="glow" cx="67.6%" cy="47.6%" r="70%">
+      <stop offset="0%" stop-color="#1c2a22" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#0B1712" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#070707"/>
+    </radialGradient>
+    <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#070707" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#070707" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#070707" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1067" fill="url(#glow)"/>
+  <polyline points="0,1067 0,667 160,660 320,654 480,649 640,645 800,644 960,645 1120,649 1280,654 1440,660 1600,667 1600,1067" fill="#0B1712" fill-opacity="0.16" stroke="none"/><polyline points="0,1067 0,603 160,582 320,569 480,569 640,582 800,603 960,624 1120,637 1280,637 1440,624 1600,603 1600,1067" fill="#0B1712" fill-opacity="0.12" stroke="none"/><polyline points="0,1067 0,539 160,524 320,521 480,533 640,550 800,558 960,550 1120,533 1280,521 1440,524 1600,539 1600,1067" fill="#0B1712" fill-opacity="0.08" stroke="none"/>
+  <circle cx="1082" cy="508" r="235" fill="#C7A96B" fill-opacity="0.05"/>
+  <rect width="1600" height="1067" fill="url(#vignette)"/>
+  <rect x="760" y="1011" width="80" height="1" fill="#C7A96B" fill-opacity="0.6"/>
+  <text x="800" y="1039" text-anchor="middle" fill="#C7A96B" fill-opacity="0.5" font-family="Georgia, serif" font-size="20" letter-spacing="4">PROJECT</text>
+</svg>

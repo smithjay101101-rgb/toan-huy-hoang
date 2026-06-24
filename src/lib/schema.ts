@@ -1,0 +1,107 @@
+import { SITE } from '@/config/site'
+import { localePath } from '@/lib/locale'
+import { formatArea, pick } from '@/lib/format'
+import type { Listing } from '@/data/types'
+import type { Locale } from '@/i18n'
+
+export function realEstateAgentSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateAgent',
+    '@id': `${SITE.url}/#agent`,
+    name: SITE.name,
+    legalName: SITE.legalName,
+    url: SITE.url,
+    image: SITE.url + SITE.ogImage,
+    founder: { '@type': 'Person', name: SITE.founder },
+    areaServed: { '@type': 'City', name: SITE.city },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: SITE.city,
+      addressRegion: SITE.region,
+      addressCountry: SITE.country,
+    },
+    telephone: SITE.phone,
+    email: SITE.email,
+    knowsLanguage: ['en', 'vi'],
+  }
+}
+
+export function organizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE.url}/#org`,
+    name: SITE.legalName,
+    url: SITE.url,
+    logo: SITE.url + SITE.ogImage,
+  }
+}
+
+export function listingSchema(listing: Listing, locale: Locale) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: pick(listing.title, locale),
+    description: pick(listing.shortDesc, locale),
+    url: SITE.url + localePath(locale, `property/${listing.slug}`),
+    image: SITE.url + (listing.heroImage?.avif ?? listing.heroImage?.src ?? ''),
+    datePosted: listing.datePublished,
+    offers: {
+      '@type': 'Offer',
+      price: listing.price,
+      priceCurrency: listing.currency,
+      availability: 'https://schema.org/InStock',
+    },
+    about: {
+      '@type': 'Residence',
+      name: pick(listing.title, locale),
+      ...(listing.areaM2
+        ? {
+            floorSize: {
+              '@type': 'QuantitativeValue',
+              value: listing.areaM2,
+              unitCode: 'MTK',
+              description: formatArea(listing.areaM2, locale),
+            },
+          }
+        : {}),
+      ...(listing.bedrooms ? { numberOfBedrooms: listing.bedrooms } : {}),
+      ...(listing.bathrooms ? { numberOfBathroomsTotal: listing.bathrooms } : {}),
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: listing.district || SITE.city,
+        addressRegion: SITE.region,
+        addressCountry: SITE.country,
+      },
+      ...(listing.lat != null && listing.lng != null
+        ? { geo: { '@type': 'GeoCoordinates', latitude: listing.lat, longitude: listing.lng } }
+        : {}),
+    },
+  }
+}
+
+export function breadcrumbSchema(items: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: SITE.url + item.path,
+    })),
+  }
+}
+
+export function faqSchema(faq: { q: string; a: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }
+}

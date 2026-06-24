@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1067" width="1600" height="1067" role="img">
+  <defs>
+    <radialGradient id="glow" cx="29.5%" cy="32.5%" r="70%">
+      <stop offset="0%" stop-color="#1c2a22" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#0B1712" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#070707"/>
+    </radialGradient>
+    <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#070707" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#070707" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#070707" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1067" fill="url(#glow)"/>
+  <polyline points="0,1067 0,667 160,654 320,642 480,633 640,627 800,625 960,627 1120,633 1280,642 1440,654 1600,667 1600,1067" fill="#0B1712" fill-opacity="0.16" stroke="none"/><polyline points="0,1067 0,603 160,592 320,585 480,585 640,592 800,603 960,614 1120,621 1280,621 1440,614 1600,603 1600,1067" fill="#0B1712" fill-opacity="0.12" stroke="none"/><polyline points="0,1067 0,539 160,508 320,502 480,527 640,562 800,578 960,562 1120,527 1280,502 1440,508 1600,539 1600,1067" fill="#0B1712" fill-opacity="0.08" stroke="none"/>
+  <circle cx="472" cy="347" r="235" fill="#C7A96B" fill-opacity="0.05"/>
+  <rect width="1600" height="1067" fill="url(#vignette)"/>
+  <rect x="760" y="1011" width="80" height="1" fill="#C7A96B" fill-opacity="0.6"/>
+  <text x="800" y="1039" text-anchor="middle" fill="#C7A96B" fill-opacity="0.5" font-family="Georgia, serif" font-size="20" letter-spacing="4">APARTMENT</text>
+</svg>

@@ -1,0 +1,522 @@
+[
+  {
+    "id": "mock-1",
+    "slug": "oceanfront-villa-non-nuoc",
+    "title": {
+      "en": "Oceanfront Villa, Non Nuoc",
+      "vi": "Biệt Thự Ven Biển, Non Nước"
+    },
+    "dealType": "buy",
+    "category": "Villa",
+    "district": "Ngu Hanh Son",
+    "price": 4200000,
+    "currency": "USD",
+    "bedrooms": 5,
+    "bathrooms": 6,
+    "areaM2": 620,
+    "shortDesc": {
+      "en": "A private beachfront residence where the South China Sea is the only neighbour.",
+      "vi": "Một dinh thự ven biển riêng tư nơi Biển Đông là người hàng xóm duy nhất."
+    },
+    "longDesc": {
+      "en": "A private beachfront residence where the South China Sea is the only neighbour. Oceanfront Villa, Non Nuoc sits within Ngu Hanh Son, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.",
+      "vi": "Một dinh thự ven biển riêng tư nơi Biển Đông là người hàng xóm duy nhất. Biệt Thự Ven Biển, Non Nước tọa lạc tại Ngu Hanh Son, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận."
+    },
+    "heroImage": {
+      "src": "/placeholders/listings/oceanfront-villa-non-nuoc/hero.svg",
+      "width": 1600,
+      "height": 1067,
+      "alt": "Oceanfront Villa, Non Nuoc",
+      "placeholder": true
+    },
+    "gallery": [
+      {
+        "src": "/placeholders/listings/oceanfront-villa-non-nuoc/g1.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Oceanfront Villa, Non Nuoc, view 1",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/oceanfront-villa-non-nuoc/g2.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Oceanfront Villa, Non Nuoc, view 2",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/oceanfront-villa-non-nuoc/g3.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Oceanfront Villa, Non Nuoc, view 3",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/oceanfront-villa-non-nuoc/g4.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Oceanfront Villa, Non Nuoc, view 4",
+        "placeholder": true
+      }
+    ],
+    "lat": 16.0006,
+    "lng": 108.2705,
+    "featured": true,
+    "datePublished": "2026-01-10"
+  },
+  {
+    "id": "mock-2",
+    "slug": "han-river-penthouse",
+    "title": {
+      "en": "Han River Penthouse",
+      "vi": "Penthouse Sông Hàn"
+    },
+    "dealType": "buy",
+    "category": "Apartment",
+    "district": "Hai Chau",
+    "price": 1850000,
+    "currency": "USD",
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "areaM2": 240,
+    "shortDesc": {
+      "en": "The skyline at eye level, the river below, the bridges lit at night.",
+      "vi": "Đường chân trời ngang tầm mắt, dòng sông phía dưới, những cây cầu rực sáng về đêm."
+    },
+    "longDesc": {
+      "en": "The skyline at eye level, the river below, the bridges lit at night. Han River Penthouse sits within Hai Chau, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.",
+      "vi": "Đường chân trời ngang tầm mắt, dòng sông phía dưới, những cây cầu rực sáng về đêm. Penthouse Sông Hàn tọa lạc tại Hai Chau, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận."
+    },
+    "heroImage": {
+      "src": "/placeholders/listings/han-river-penthouse/hero.svg",
+      "width": 1600,
+      "height": 1067,
+      "alt": "Han River Penthouse",
+      "placeholder": true
+    },
+    "gallery": [
+      {
+        "src": "/placeholders/listings/han-river-penthouse/g1.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Han River Penthouse, view 1",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/han-river-penthouse/g2.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Han River Penthouse, view 2",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/han-river-penthouse/g3.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Han River Penthouse, view 3",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/han-river-penthouse/g4.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Han River Penthouse, view 4",
+        "placeholder": true
+      }
+    ],
+    "lat": 16.0678,
+    "lng": 108.2237,
+    "featured": true,
+    "datePublished": "2026-02-11"
+  },
+  {
+    "id": "mock-3",
+    "slug": "son-tra-hillside-estate",
+    "title": {
+      "en": "Son Tra Hillside Estate",
+      "vi": "Dinh Thự Sườn Đồi Sơn Trà"
+    },
+    "dealType": "buy",
+    "category": "Villa",
+    "district": "Son Tra",
+    "price": 6800000,
+    "currency": "USD",
+    "bedrooms": 6,
+    "bathrooms": 7,
+    "areaM2": 940,
+    "shortDesc": {
+      "en": "Above the peninsula, wrapped in jungle, the whole bay laid out beneath.",
+      "vi": "Trên bán đảo, ôm trọn trong rừng xanh, cả vịnh trải dài bên dưới."
+    },
+    "longDesc": {
+      "en": "Above the peninsula, wrapped in jungle, the whole bay laid out beneath. Son Tra Hillside Estate sits within Son Tra, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.",
+      "vi": "Trên bán đảo, ôm trọn trong rừng xanh, cả vịnh trải dài bên dưới. Dinh Thự Sườn Đồi Sơn Trà tọa lạc tại Son Tra, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận."
+    },
+    "heroImage": {
+      "src": "/placeholders/listings/son-tra-hillside-estate/hero.svg",
+      "width": 1600,
+      "height": 1067,
+      "alt": "Son Tra Hillside Estate",
+      "placeholder": true
+    },
+    "gallery": [
+      {
+        "src": "/placeholders/listings/son-tra-hillside-estate/g1.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Son Tra Hillside Estate, view 1",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/son-tra-hillside-estate/g2.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Son Tra Hillside Estate, view 2",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/son-tra-hillside-estate/g3.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Son Tra Hillside Estate, view 3",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/son-tra-hillside-estate/g4.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Son Tra Hillside Estate, view 4",
+        "placeholder": true
+      }
+    ],
+    "lat": 16.1059,
+    "lng": 108.2939,
+    "featured": true,
+    "datePublished": "2026-03-12"
+  },
+  {
+    "id": "mock-4",
+    "slug": "my-khe-beach-residence",
+    "title": {
+      "en": "My Khe Beach Residence",
+      "vi": "Căn Hộ Biển Mỹ Khê"
+    },
+    "dealType": "rent",
+    "category": "Apartment",
+    "district": "Son Tra",
+    "price": 3200,
+    "currency": "USD",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "areaM2": 120,
+    "shortDesc": {
+      "en": "Steps from one of Asia finest beaches, considered and calm.",
+      "vi": "Vài bước chân tới một trong những bãi biển đẹp nhất châu Á, tinh tế và tĩnh lặng."
+    },
+    "longDesc": {
+      "en": "Steps from one of Asia finest beaches, considered and calm. My Khe Beach Residence sits within Son Tra, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.",
+      "vi": "Vài bước chân tới một trong những bãi biển đẹp nhất châu Á, tinh tế và tĩnh lặng. Căn Hộ Biển Mỹ Khê tọa lạc tại Son Tra, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận."
+    },
+    "heroImage": {
+      "src": "/placeholders/listings/my-khe-beach-residence/hero.svg",
+      "width": 1600,
+      "height": 1067,
+      "alt": "My Khe Beach Residence",
+      "placeholder": true
+    },
+    "gallery": [
+      {
+        "src": "/placeholders/listings/my-khe-beach-residence/g1.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "My Khe Beach Residence, view 1",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/my-khe-beach-residence/g2.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "My Khe Beach Residence, view 2",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/my-khe-beach-residence/g3.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "My Khe Beach Residence, view 3",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/my-khe-beach-residence/g4.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "My Khe Beach Residence, view 4",
+        "placeholder": true
+      }
+    ],
+    "lat": 16.0598,
+    "lng": 108.2497,
+    "featured": true,
+    "datePublished": "2026-04-13"
+  },
+  {
+    "id": "mock-5",
+    "slug": "an-thuong-garden-villa",
+    "title": {
+      "en": "An Thuong Garden Villa",
+      "vi": "Biệt Thự Vườn An Thượng"
+    },
+    "dealType": "rent",
+    "category": "Villa",
+    "district": "Ngu Hanh Son",
+    "price": 5400,
+    "currency": "USD",
+    "bedrooms": 4,
+    "bathrooms": 4,
+    "areaM2": 360,
+    "shortDesc": {
+      "en": "A walled garden home in the quiet heart of the expat quarter.",
+      "vi": "Một ngôi nhà vườn có tường bao trong lòng khu phố yên tĩnh."
+    },
+    "longDesc": {
+      "en": "A walled garden home in the quiet heart of the expat quarter. An Thuong Garden Villa sits within Ngu Hanh Son, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.",
+      "vi": "Một ngôi nhà vườn có tường bao trong lòng khu phố yên tĩnh. Biệt Thự Vườn An Thượng tọa lạc tại Ngu Hanh Son, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận."
+    },
+    "heroImage": {
+      "src": "/placeholders/listings/an-thuong-garden-villa/hero.svg",
+      "width": 1600,
+      "height": 1067,
+      "alt": "An Thuong Garden Villa",
+      "placeholder": true
+    },
+    "gallery": [
+      {
+        "src": "/placeholders/listings/an-thuong-garden-villa/g1.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "An Thuong Garden Villa, view 1",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/an-thuong-garden-villa/g2.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "An Thuong Garden Villa, view 2",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/an-thuong-garden-villa/g3.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "An Thuong Garden Villa, view 3",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/an-thuong-garden-villa/g4.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "An Thuong Garden Villa, view 4",
+        "placeholder": true
+      }
+    ],
+    "lat": 16.0445,
+    "lng": 108.2462,
+    "featured": false,
+    "datePublished": "2026-05-14"
+  },
+  {
+    "id": "mock-6",
+    "slug": "coastal-land-nam-o",
+    "title": {
+      "en": "Coastal Land Parcel, Nam O",
+      "vi": "Đất Ven Biển, Nam Ô"
+    },
+    "dealType": "buy",
+    "category": "Land",
+    "district": "Lien Chieu",
+    "price": 980000,
+    "currency": "USD",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "areaM2": 1100,
+    "shortDesc": {
+      "en": "A rare seafront parcel on the city emerging northern shore.",
+      "vi": "Một lô đất ven biển hiếm có trên bờ bắc đang phát triển của thành phố."
+    },
+    "longDesc": {
+      "en": "A rare seafront parcel on the city emerging northern shore. Coastal Land Parcel, Nam O sits within Lien Chieu, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.",
+      "vi": "Một lô đất ven biển hiếm có trên bờ bắc đang phát triển của thành phố. Đất Ven Biển, Nam Ô tọa lạc tại Lien Chieu, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận."
+    },
+    "heroImage": {
+      "src": "/placeholders/listings/coastal-land-nam-o/hero.svg",
+      "width": 1600,
+      "height": 1067,
+      "alt": "Coastal Land Parcel, Nam O",
+      "placeholder": true
+    },
+    "gallery": [
+      {
+        "src": "/placeholders/listings/coastal-land-nam-o/g1.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Coastal Land Parcel, Nam O, view 1",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/coastal-land-nam-o/g2.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Coastal Land Parcel, Nam O, view 2",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/coastal-land-nam-o/g3.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Coastal Land Parcel, Nam O, view 3",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/coastal-land-nam-o/g4.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Coastal Land Parcel, Nam O, view 4",
+        "placeholder": true
+      }
+    ],
+    "lat": 16.1167,
+    "lng": 108.1289,
+    "featured": false,
+    "datePublished": "2026-06-15"
+  },
+  {
+    "id": "mock-7",
+    "slug": "marble-mountain-townhouse",
+    "title": {
+      "en": "Marble Mountain Townhouse",
+      "vi": "Nhà Phố Ngũ Hành Sơn"
+    },
+    "dealType": "rent",
+    "category": "Apartment",
+    "district": "Ngu Hanh Son",
+    "price": 1800,
+    "currency": "USD",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "areaM2": 150,
+    "shortDesc": {
+      "en": "A modern townhouse between the mountains and the sea.",
+      "vi": "Một căn nhà phố hiện đại giữa núi và biển."
+    },
+    "longDesc": {
+      "en": "A modern townhouse between the mountains and the sea. Marble Mountain Townhouse sits within Ngu Hanh Son, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.",
+      "vi": "Một căn nhà phố hiện đại giữa núi và biển. Nhà Phố Ngũ Hành Sơn tọa lạc tại Ngu Hanh Son, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận."
+    },
+    "heroImage": {
+      "src": "/placeholders/listings/marble-mountain-townhouse/hero.svg",
+      "width": 1600,
+      "height": 1067,
+      "alt": "Marble Mountain Townhouse",
+      "placeholder": true
+    },
+    "gallery": [
+      {
+        "src": "/placeholders/listings/marble-mountain-townhouse/g1.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Marble Mountain Townhouse, view 1",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/marble-mountain-townhouse/g2.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Marble Mountain Townhouse, view 2",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/marble-mountain-townhouse/g3.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Marble Mountain Townhouse, view 3",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/marble-mountain-townhouse/g4.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Marble Mountain Townhouse, view 4",
+        "placeholder": true
+      }
+    ],
+    "lat": 16.0036,
+    "lng": 108.2628,
+    "featured": false,
+    "datePublished": "2026-01-16"
+  },
+  {
+    "id": "mock-8",
+    "slug": "han-riverside-development",
+    "title": {
+      "en": "Han Riverside Development",
+      "vi": "Dự Án Ven Sông Hàn"
+    },
+    "dealType": "buy",
+    "category": "Project",
+    "district": "Hai Chau",
+    "price": 320000,
+    "currency": "USD",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "areaM2": 65,
+    "shortDesc": {
+      "en": "Early release residences in a landmark riverside tower.",
+      "vi": "Những căn hộ mở bán sớm trong tòa tháp ven sông biểu tượng."
+    },
+    "longDesc": {
+      "en": "Early release residences in a landmark riverside tower. Han Riverside Development sits within Hai Chau, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.",
+      "vi": "Những căn hộ mở bán sớm trong tòa tháp ven sông biểu tượng. Dự Án Ven Sông Hàn tọa lạc tại Hai Chau, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận."
+    },
+    "heroImage": {
+      "src": "/placeholders/listings/han-riverside-development/hero.svg",
+      "width": 1600,
+      "height": 1067,
+      "alt": "Han Riverside Development",
+      "placeholder": true
+    },
+    "gallery": [
+      {
+        "src": "/placeholders/listings/han-riverside-development/g1.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Han Riverside Development, view 1",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/han-riverside-development/g2.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Han Riverside Development, view 2",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/han-riverside-development/g3.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Han Riverside Development, view 3",
+        "placeholder": true
+      },
+      {
+        "src": "/placeholders/listings/han-riverside-development/g4.svg",
+        "width": 1600,
+        "height": 1067,
+        "alt": "Han Riverside Development, view 4",
+        "placeholder": true
+      }
+    ],
+    "lat": 16.0721,
+    "lng": 108.2256,
+    "featured": false,
+    "datePublished": "2026-02-17"
+  }
+]

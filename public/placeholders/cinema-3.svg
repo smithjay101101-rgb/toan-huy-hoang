@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1067" width="1600" height="1067" role="img">
+  <defs>
+    <radialGradient id="glow" cx="47.1%" cy="37.2%" r="70%">
+      <stop offset="0%" stop-color="#1c2a22" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#0B1712" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#070707"/>
+    </radialGradient>
+    <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#070707" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#070707" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#070707" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1067" fill="url(#glow)"/>
+  <polyline points="0,1067 0,660 160,651 320,644 480,638 640,634 800,632 960,634 1120,638 1280,644 1440,651 1600,660 1600,1067" fill="#0B1712" fill-opacity="0.16" stroke="none"/><polyline points="0,1067 0,596 160,585 320,578 480,578 640,585 800,596 960,607 1120,614 1280,614 1440,607 1600,596 1600,1067" fill="#0B1712" fill-opacity="0.12" stroke="none"/><polyline points="0,1067 0,532 160,517 320,514 480,526 640,543 800,550 960,543 1120,526 1280,514 1440,517 1600,532 1600,1067" fill="#0B1712" fill-opacity="0.08" stroke="none"/>
+  <circle cx="753" cy="397" r="235" fill="#C7A96B" fill-opacity="0.05"/>
+  <rect width="1600" height="1067" fill="url(#vignette)"/>
+  <rect x="760" y="1011" width="80" height="1" fill="#C7A96B" fill-opacity="0.6"/>
+  <text x="800" y="1039" text-anchor="middle" fill="#C7A96B" fill-opacity="0.5" font-family="Georgia, serif" font-size="20" letter-spacing="4">COASTLINE</text>
+</svg>
