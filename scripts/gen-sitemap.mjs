@@ -1,6 +1,6 @@
-// Generates public/sitemap.xml with hreflang alternates for EN and VI across
-// all static pages and every published listing. Runs before the SSG build so
-// the file is copied into dist.
+// Generates public/sitemap.xml with hreflang alternates for EN, VI and RU
+// across all static pages and every published listing. Runs before the SSG
+// build so the file is copied into dist.
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { readFile, writeFile } from 'node:fs/promises'
@@ -8,7 +8,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const SITE_URL = process.env.SITE_URL || 'https://toanhuyhoang.com'
-const LOCALES = ['en', 'vi']
+const LOCALES = ['en', 'vi', 'ru']
 
 const STATIC = ['', 'buy', 'rent', 'projects', 'about', 'contact']
 

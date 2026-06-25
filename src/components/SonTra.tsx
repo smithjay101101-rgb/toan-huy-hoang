@@ -37,10 +37,13 @@ export default function SonTra({ locale }: { locale: Locale }) {
     const img = imgRef.current
     if (!el || !head) return
 
+    const mobile = window.matchMedia('(max-width: 1023px)').matches
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) {
+    // On mobile (and reduced-motion) the headline is static so it never travels
+    // down into the listing card. Scroll-driven travel is desktop-only.
+    if (reduce || mobile) {
       if (img) img.style.transform = 'scale(1)'
-      head.style.transform = 'translateY(calc(58vh - 40px))'
+      head.style.transform = mobile ? 'translateY(13vh)' : 'translateY(calc(58vh - 40px))'
       head.style.opacity = '1'
       return
     }
@@ -138,11 +141,11 @@ export default function SonTra({ locale }: { locale: Locale }) {
           style={{
             top: 0,
             left: 'clamp(24px, 5vw, 56px)',
-            transform: 'translateY(calc(58vh - 40px))',
+            transform: 'translateY(13vh)',
             willChange: 'transform, opacity',
-            maxWidth: '20ch',
+            maxWidth: '18ch',
             paddingRight: 24,
-            fontSize: 'clamp(48px, 6.5vw, 104px)',
+            fontSize: 'clamp(34px, 6.5vw, 104px)',
             lineHeight: 1.04,
             letterSpacing: '0.01em',
             textWrap: 'balance',

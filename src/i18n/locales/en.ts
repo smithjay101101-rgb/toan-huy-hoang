@@ -113,6 +113,20 @@ const en = {
     area: 'Area',
     inquire: 'Inquire',
   },
+  search: {
+    type: 'Type',
+    location: 'Location',
+    budget: 'Budget',
+    bedrooms: 'Bedrooms',
+    code: 'Code',
+    search: 'Search',
+    clear: 'Clear filters',
+    anyType: 'All',
+    anyLocation: 'All',
+    anyBeds: 'Any',
+    codePlaceholder: '#000',
+    results: 'results',
+  },
   detail: {
     overview: 'Overview',
     specifications: 'Specifications',
@@ -139,6 +153,7 @@ const en = {
   about: {
     eyebrow: 'About',
     headline: 'A local expert, a global standard.',
+    tldr: 'Twelve years in Da Nang, hundreds of homes, one principle: the right decision before any sale.',
     body1:
       'For over twelve years, Toan Huy Hoang has guided buyers and investors through Da Nang, from the quiet beaches of Non Nuoc to the rising skyline along the Han River.',
     body2:
@@ -158,23 +173,23 @@ const en = {
         body: 'Private conversations, considered introductions, no noise.',
       },
     },
-    faqTitle: 'Da Nang buyer questions',
+    faqTitle: 'Questions buyers ask in Da Nang',
     faq: [
       {
-        q: 'Can foreigners buy property in Da Nang, Vietnam?',
-        a: 'Foreign nationals can own apartments in Vietnam under a long term ownership certificate, with limits on the proportion of units per building. Land use rights work differently. We guide each client through the correct structure for their situation.',
+        q: 'Can foreigners buy property in Da Nang?',
+        a: 'Yes. Foreign nationals can own apartments here on a long term ownership certificate, within the limit each building sets aside. Land follows different rules. We arrange the legal structure for you, so your purchase is sound from day one.',
       },
       {
-        q: 'Which districts in Da Nang are best for investment?',
-        a: 'Demand concentrates along the coastal stretch of Ngu Hanh Son and Son Tra, the Han River corridor in Hai Chau, and emerging value inland in Lien Chieu and Cam Le. The right choice depends on whether you seek lifestyle, yield, or long term appreciation.',
+        q: 'Which area is the right investment?',
+        a: 'It depends on what you want from it. Beachfront living points to Ngu Hanh Son and Son Tra. City and riverside, to the Han River in Hai Chau. Early value, to the districts now growing inland. We guide you to the address that fits your goal, not the one with the most listings.',
       },
       {
-        q: 'What is the buying process for a non resident?',
-        a: 'It begins with a private consultation, then property selection, legal verification, deposit, and the ownership certificate. We coordinate with trusted legal partners at every step.',
+        q: 'Can I buy from abroad without flying in?',
+        a: 'Most of the process is done remotely. We start with a private call, shortlist the right homes, verify every document with trusted legal partners, then handle the deposit and ownership certificate. You stay informed at each step, and visit only when you choose to.',
       },
       {
-        q: 'Do you assist with rental and property management?',
-        a: 'Yes. For owners who buy to let, we arrange tenanting and ongoing management so the property earns quietly in your absence.',
+        q: 'Do you manage the property after I buy?',
+        a: 'Yes. For buy to let owners, we find tenants and run the day to day, so your home earns quietly while you are away.',
       },
     ],
   },
@@ -190,10 +205,11 @@ const en = {
     messagePlaceholder: 'What are you looking for in Da Nang?',
     send: 'Send Inquiry',
     orZalo: 'Or message directly on Zalo',
+    orWhatsApp: 'Or message directly on WhatsApp',
     directTitle: 'Direct',
     office: 'Office',
     officeValue: 'Da Nang, Vietnam',
-    sent: 'Thank you. Your message has been noted. We will be in touch shortly.',
+    sent: 'Your email is ready to send. Please review it in your mail app and hit send. If nothing opened, write to us directly:',
   },
   footer: {
     tagline: 'Luxury real estate, Da Nang.',

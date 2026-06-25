@@ -25,15 +25,15 @@ export default function MeetToan({ locale }: { locale: Locale }) {
               height={1490}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{ objectPosition: '50% 22%' }}
+              className="absolute inset-0 h-full w-full object-contain"
+              style={{ objectPosition: 'center bottom', padding: '8px' }}
             />
           </picture>
         </div>
 
         <div
           className="flex flex-col justify-center"
-          style={{ padding: '80px clamp(40px,7vw,120px)' }}
+          style={{ padding: '120px clamp(40px,7vw,120px)' }}
         >
           <p
             className="text-[13px] uppercase"

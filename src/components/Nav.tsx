@@ -43,7 +43,16 @@ export default function Nav({ locale }: { locale: Locale }) {
     }
   }, [open])
 
-  const condensed = scrolled || open
+  // Pages that open on a light (cream) section have no dark header for the
+  // transparent nav to sit over, so the nav gets a solid dark bar at the top
+  // there (a light frost isn't dark enough for the white nav text on cream).
+  const lightTop = pathname.endsWith('/about')
+  const condensed = scrolled || open || lightTop
+  const headerBg = !condensed
+    ? 'rgba(13,22,30,0)'
+    : lightTop && !scrolled
+      ? 'rgba(13,22,30,0.94)'
+      : 'rgba(13,22,30,0.72)'
   const isActive = (sub: string) => pathname.startsWith(localePath(locale, sub))
 
   return (
@@ -51,7 +60,7 @@ export default function Nav({ locale }: { locale: Locale }) {
     <header
       className="fixed inset-x-0 top-0 z-50"
       style={{
-        background: condensed ? 'rgba(13,22,30,0.72)' : 'rgba(13,22,30,0)',
+        background: headerBg,
         backdropFilter: condensed ? 'blur(16px) saturate(140%)' : 'none',
         WebkitBackdropFilter: condensed ? 'blur(16px) saturate(140%)' : 'none',
         borderBottom: `1px solid ${condensed ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0)'}`,

@@ -1,7 +1,7 @@
 import type { Listing } from '@/data/types'
 import type { Locale } from '@/i18n'
 
-const LOCALE_TAG: Record<Locale, string> = { en: 'en-US', vi: 'vi-VN' }
+const LOCALE_TAG: Record<Locale, string> = { en: 'en-US', vi: 'vi-VN', ru: 'ru-RU' }
 
 export function formatPrice(listing: Listing, locale: Locale): string {
   const { price, currency } = listing
@@ -21,6 +21,7 @@ export function formatArea(area: number, locale: Locale): string {
   return `${area.toLocaleString(LOCALE_TAG[locale])} m²`
 }
 
-export function pick<T>(value: { en: T; vi: T }, locale: Locale): T {
-  return value[locale]
+export function pick<T>(value: { en: T; vi: T; ru?: T }, locale: Locale): T {
+  // Listing data is en/vi; other locales (ru) fall back to English content.
+  return value[locale] ?? value.en
 }

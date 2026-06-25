@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { BedDouble, Bath, Maximize } from 'lucide-react'
-import type { Listing } from '@/data/types'
+import type { Listing, ImageAsset } from '@/data/types'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
 import { formatPrice, pick } from '@/lib/format'
+import { localizeDistrict } from '@/data/locations'
 import PropertyImage from './PropertyImage'
 
 interface Props {
   listing: Listing
   locale: Locale
-  /** A larger editorial treatment for the first item in a showcase. */
+  /** A larger editorial treatment for a lead card. */
   feature?: boolean
   priority?: boolean
 }
@@ -21,65 +21,70 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
   const price = formatPrice(listing, locale)
   const isRent = listing.dealType === 'rent'
 
+  // TEST ONLY: until real Airtable photos exist, swap placeholder hero images for
+  // generic stock photos so the cards look populated. Real photos (placeholder
+  // false) pass through untouched.
+  const hero: ImageAsset = listing.heroImage.placeholder
+    ? (() => {
+        let h = 0
+        for (const c of listing.slug) h = (h * 31 + c.charCodeAt(0)) >>> 0
+        const base = `/media/placeholders/prop-${(h % 8) + 1}`
+        return { src: `${base}.jpg`, avif: `${base}.avif`, webp: `${base}.webp`, width: 800, height: 600, alt: pick(listing.title, locale) }
+      })()
+    : listing.heroImage
+
   return (
-    <Link to={href} className="feature-card group block">
-      <div className="relative overflow-hidden">
-        <div className={feature ? 'aspect-[16/10]' : 'aspect-[4/3]'}>
-          <PropertyImage
-            image={listing.heroImage}
-            priority={priority}
-            sizes={feature ? '100vw' : '(min-width: 768px) 50vw, 100vw'}
-            className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-          />
-        </div>
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{ background: 'linear-gradient(180deg, transparent 45%, rgba(7,7,7,0.7) 100%)' }}
-          aria-hidden="true"
+    <Link
+      to={href}
+      className="group block overflow-hidden border border-ink/10 bg-white transition-[transform,box-shadow,border-color] duration-300 ease-lux-out hover:-translate-y-1 hover:border-gold-ink/40 hover:shadow-[0_24px_60px_rgba(28,38,48,0.16)]"
+    >
+      <div className={`relative overflow-hidden ${feature ? 'aspect-[16/10]' : 'aspect-[4/3]'}`}>
+        <PropertyImage
+          image={hero}
+          priority={priority}
+          sizes={feature ? '100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
+          className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
         />
-        <div className="absolute left-4 top-4 flex gap-2">
-          <span className="rounded-[2px] border border-line bg-bg/60 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-text/85 backdrop-blur-sm">
-            {listing.category}
+        {listing.featured && (
+          <span className="absolute left-4 top-4 rounded-[2px] bg-ink/55 px-3 py-1 text-[0.6rem] uppercase tracking-[0.24em] text-gold-2 backdrop-blur-sm">
+            {t('showcase.featured')}
           </span>
-          {listing.featured && (
-            <span className="rounded-[2px] border border-gold/50 bg-bg/60 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-gold backdrop-blur-sm">
-              {t('showcase.featured')}
-            </span>
-          )}
-        </div>
+        )}
       </div>
 
       <div className="p-6">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted">{listing.district}</p>
-        <h3 className="mt-2 font-display text-text transition-colors group-hover:text-gold" style={{ fontSize: feature ? '1.75rem' : '1.35rem', lineHeight: 1.15 }}>
+        <div className="text-[0.68rem] font-medium uppercase tracking-[0.26em] text-gold-ink">
+          {localizeDistrict(listing.district, locale)} · {listing.category}
+        </div>
+        <h3
+          className="mt-3 font-display font-semibold text-ink transition-colors group-hover:text-gold-ink"
+          style={{ fontSize: feature ? '2rem' : '1.6rem', lineHeight: 1.1 }}
+        >
           {pick(listing.title, locale)}
         </h3>
-        <p className="mt-3 line-clamp-2 max-w-prose text-sm text-muted">
-          {pick(listing.shortDesc, locale)}
-        </p>
 
-        <div className="mt-5 flex items-center justify-between border-t border-line pt-5">
-          <div className="font-display text-gold">
-            {price}
-            {isRent && <span className="ml-1 text-xs text-muted">{t('listings.perMonth')}</span>}
+        {listing.category !== 'Land' && (
+          <div className="mt-3 flex items-center gap-3 text-[0.82rem] font-light text-ink/60">
+            <span>
+              {listing.bedrooms} {t('listings.beds')}
+            </span>
+            <span className="opacity-40">·</span>
+            <span>
+              {listing.bathrooms} {t('listings.baths')}
+            </span>
+            <span className="opacity-40">·</span>
+            <span>{listing.areaM2} m²</span>
           </div>
-          {listing.category !== 'Land' && (
-            <div className="flex items-center gap-4 text-xs text-muted">
-              {listing.bedrooms > 0 && (
-                <span className="inline-flex items-center gap-1.5" title={t('listings.beds')}>
-                  <BedDouble size={15} strokeWidth={1.5} /> {listing.bedrooms}
-                </span>
-              )}
-              {listing.bathrooms > 0 && (
-                <span className="inline-flex items-center gap-1.5" title={t('listings.baths')}>
-                  <Bath size={15} strokeWidth={1.5} /> {listing.bathrooms}
-                </span>
-              )}
-              <span className="inline-flex items-center gap-1.5" title={t('listings.area')}>
-                <Maximize size={15} strokeWidth={1.5} /> {listing.areaM2}m²
-              </span>
-            </div>
-          )}
+        )}
+
+        <div className="mt-5 flex items-center justify-between border-t border-ink/12 pt-4">
+          <div className="font-display text-lg text-ink">
+            {price}
+            {isRent && <span className="ml-1 font-sans text-xs text-ink/50">{t('listings.perMonth')}</span>}
+          </div>
+          <span className="text-[0.7rem] uppercase tracking-[0.2em] text-gold-ink transition-colors group-hover:text-ink">
+            {t('sontra.viewListing')}
+          </span>
         </div>
       </div>
     </Link>

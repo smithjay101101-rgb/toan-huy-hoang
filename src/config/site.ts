@@ -11,9 +11,10 @@ export const SITE = {
   founder: 'Toan Huy Hoang',
   // SWAP: real Zalo number (digits only, international format without +).
   zaloNumber: '84905123456',
-  // SWAP: real phone and email.
+  // SWAP: real phone. (Zalo/WhatsApp derive from this.)
   phone: '+84 905 123 456',
-  email: 'private@toanhuyhoang.com',
+  // Toan's real business inbox. The contact form opens a pre-filled email here.
+  email: 'toanhuyhoang.bds@gmail.com',
   ogImage: '/og/og-default.jpg',
 } as const
 

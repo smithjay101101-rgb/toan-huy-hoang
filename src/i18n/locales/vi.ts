@@ -112,6 +112,20 @@ const vi: Dictionary = {
     area: 'Diện tích',
     inquire: 'Liên hệ',
   },
+  search: {
+    type: 'Loại',
+    location: 'Khu vực',
+    budget: 'Ngân sách',
+    bedrooms: 'Phòng ngủ',
+    code: 'Mã',
+    search: 'Tìm kiếm',
+    clear: 'Xoá bộ lọc',
+    anyType: 'Tất cả',
+    anyLocation: 'Tất cả',
+    anyBeds: 'Bất kỳ',
+    codePlaceholder: '#000',
+    results: 'kết quả',
+  },
   detail: {
     overview: 'Tổng Quan',
     specifications: 'Thông Số',
@@ -138,6 +152,7 @@ const vi: Dictionary = {
   about: {
     eyebrow: 'Giới Thiệu',
     headline: 'Chuyên gia bản địa, tiêu chuẩn toàn cầu.',
+    tldr: 'Mười hai năm tại Đà Nẵng, hàng trăm ngôi nhà, một nguyên tắc: quyết định đúng đắn trước mọi giao dịch.',
     body1:
       'Hơn mười hai năm qua, Toàn Huy Hoàng đã đồng hành cùng người mua và nhà đầu tư khắp Đà Nẵng, từ bãi biển yên bình Non Nước đến đường chân trời đang vươn lên bên sông Hàn.',
     body2:
@@ -161,19 +176,19 @@ const vi: Dictionary = {
     faq: [
       {
         q: 'Người nước ngoài có thể mua bất động sản tại Đà Nẵng không?',
-        a: 'Người nước ngoài có thể sở hữu căn hộ tại Việt Nam theo giấy chứng nhận sở hữu dài hạn, với giới hạn về tỷ lệ căn hộ trong mỗi tòa nhà. Quyền sử dụng đất thì khác. Chúng tôi hướng dẫn từng khách hàng theo cấu trúc phù hợp với hoàn cảnh của họ.',
+        a: 'Có. Người nước ngoài có thể sở hữu căn hộ theo giấy chứng nhận sở hữu dài hạn, trong giới hạn mà mỗi toà nhà dành ra. Đất đai có quy định khác. Chúng tôi lo phần pháp lý cho bạn, để giao dịch vững vàng ngay từ đầu.',
       },
       {
-        q: 'Quận nào tại Đà Nẵng tốt nhất để đầu tư?',
-        a: 'Nhu cầu tập trung dọc bờ biển Ngũ Hành Sơn và Sơn Trà, hành lang sông Hàn ở Hải Châu, và giá trị mới nổi trong nội địa tại Liên Chiểu và Cẩm Lệ. Lựa chọn đúng phụ thuộc vào việc bạn tìm kiếm phong cách sống, lợi suất hay tăng giá dài hạn.',
+        q: 'Khu vực nào là khoản đầu tư phù hợp?',
+        a: 'Tuỳ vào điều bạn mong muốn. Sống ven biển hướng đến Ngũ Hành Sơn và Sơn Trà. Giữa thành phố và bên sông là sông Hàn ở Hải Châu. Giá trị tiềm năng nằm ở các khu đang phát triển phía trong. Chúng tôi đưa bạn đến nơi phù hợp với mục tiêu, không phải nơi có nhiều tin rao nhất.',
       },
       {
-        q: 'Quy trình mua dành cho người không cư trú là gì?',
-        a: 'Bắt đầu bằng buổi tư vấn riêng, sau đó là chọn bất động sản, thẩm định pháp lý, đặt cọc và giấy chứng nhận sở hữu. Chúng tôi phối hợp với các đối tác pháp lý đáng tin cậy ở mỗi bước.',
+        q: 'Tôi có thể mua từ nước ngoài mà không cần bay sang không?',
+        a: 'Phần lớn quy trình thực hiện từ xa. Chúng tôi bắt đầu bằng một cuộc gọi riêng, chọn lọc những căn phù hợp, kiểm tra mọi giấy tờ cùng đối tác pháp lý tin cậy, rồi lo việc đặt cọc và giấy chứng nhận sở hữu. Bạn được cập nhật từng bước, và chỉ sang khi bạn muốn.',
       },
       {
-        q: 'Bạn có hỗ trợ cho thuê và quản lý bất động sản không?',
-        a: 'Có. Với những chủ sở hữu mua để cho thuê, chúng tôi sắp xếp tìm khách thuê và quản lý liên tục để bất động sản sinh lời lặng lẽ khi bạn vắng mặt.',
+        q: 'Quý vị có quản lý bất động sản sau khi tôi mua không?',
+        a: 'Có. Với chủ sở hữu mua để cho thuê, chúng tôi tìm khách thuê và lo việc vận hành hằng ngày, để ngôi nhà của bạn sinh lời lặng lẽ khi bạn vắng mặt.',
       },
     ],
   },
@@ -189,10 +204,11 @@ const vi: Dictionary = {
     messagePlaceholder: 'Bạn đang tìm kiếm điều gì tại Đà Nẵng?',
     send: 'Gửi Yêu Cầu',
     orZalo: 'Hoặc nhắn trực tiếp qua Zalo',
+    orWhatsApp: 'Hoặc nhắn trực tiếp qua WhatsApp',
     directTitle: 'Liên hệ trực tiếp',
     office: 'Văn phòng',
     officeValue: 'Đà Nẵng, Việt Nam',
-    sent: 'Cảm ơn bạn. Lời nhắn đã được ghi nhận. Chúng tôi sẽ liên hệ sớm.',
+    sent: 'Email của bạn đã sẵn sàng. Vui lòng kiểm tra trong ứng dụng email và nhấn gửi. Nếu không có gì mở ra, hãy viết trực tiếp cho chúng tôi:',
   },
   footer: {
     tagline: 'Bất động sản cao cấp, Đà Nẵng.',

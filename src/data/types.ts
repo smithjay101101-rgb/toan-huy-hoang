@@ -21,6 +21,8 @@ export interface ImageAsset {
 export interface Localized {
   en: string
   vi: string
+  /** Optional. Listing content is en/vi from Airtable; ru falls back to en. */
+  ru?: string
 }
 
 export interface Listing {

@@ -17,12 +17,21 @@ export default function Projects() {
   return (
     <>
       <Seo title={meta.title} description={meta.description} />
-      <PageHeader eyebrow={t('projects.eyebrow')} title={t('projects.headline')} lead={t('projects.body')} />
+      <PageHeader
+        title={t('projects.headline')}
+        lead={t('projects.body')}
+        image={{
+          avif: '/media/coast-cove.avif',
+          webp: '/media/coast-cove.webp',
+          jpg: '/media/coast-cove.jpg',
+          alt: 'The Son Tra coastline, Da Nang',
+        }}
+      />
 
-      <section className="section">
-        <div className="container-lux">
+      <section className="bg-cream text-ink">
+        <div className="container-lux pb-24 pt-20 lg:pb-32 lg:pt-28">
           {projects.length === 0 ? (
-            <p className="py-20 text-center text-muted">{t('listings.empty')}</p>
+            <p className="py-20 text-center text-ink/55">{t('listings.empty')}</p>
           ) : (
             <Reveal stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {projects.map((l, i) => (

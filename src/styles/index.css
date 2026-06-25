@@ -210,6 +210,54 @@
     box-shadow: var(--ring);
   }
 
+  /* ---- Cream surface helpers --------------------------------------------
+     On cream/light surfaces, gold (#c9a24b) is too low-contrast, so accents
+     use gold-ink (#b98f3e) and text uses the ink tiers. Keep these in lockstep
+     with the dark-surface .eyebrow/.lead/.input/.btn above. */
+  .eyebrow-ink {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+  }
+  .lead-ink {
+    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+    color: var(--cream-muted);
+    line-height: 1.65;
+    max-width: 56ch;
+  }
+  .input-light {
+    width: 100%;
+    background: #faf8f3;
+    color: var(--cream-text);
+    border: 1px solid rgba(28, 38, 48, 0.15);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 16px;
+    font-family: 'Jost', sans-serif;
+    transition: border-color 200ms ease;
+  }
+  .input-light::placeholder {
+    color: rgba(28, 38, 48, 0.4);
+  }
+  .input-light:focus {
+    border-color: var(--gold-ink);
+    box-shadow: 0 0 0 2px rgba(185, 143, 62, 0.3);
+    outline: none;
+  }
+  .btn-slate {
+    color: #fff;
+    border: 1px solid var(--cream-text);
+    background: var(--cream-text);
+  }
+  .btn-slate:hover {
+    background: var(--gold-ink);
+    border-color: var(--gold-ink);
+    color: #fff;
+  }
+
   /* Section vertical rhythm. Sections breathe. */
   .section {
     padding-block: 96px;
