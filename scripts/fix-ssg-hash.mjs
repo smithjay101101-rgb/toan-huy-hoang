@@ -1,0 +1,46 @@
+// Workaround for vite-react-ssg 0.7.x: it emits static-loader-data-manifest-<hash>.json
+// but does not inject window.__VITE_REACT_SSG_HASH__ into the prerendered HTML. The
+// client then requests static-loader-data-manifest-undefined.json on in-app navigation,
+// which 404s on a static host (GitHub Pages) and returns an HTML page, so the app throws
+// "Unexpected token '<', '<!DOCTYPE'... is not valid JSON". Injecting the real hash makes
+// the client load the correct (empty) loader-data manifest.
+import { readdir, readFile, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
+
+const DIST = 'dist'
+
+async function findManifestHash() {
+  const files = await readdir(DIST)
+  const m = files.find((f) => /^static-loader-data-manifest-.+\.json$/.test(f))
+  return m ? m.replace('static-loader-data-manifest-', '').replace('.json', '') : null
+}
+
+async function walkHtml(dir) {
+  const out = []
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const p = join(dir, entry.name)
+    if (entry.isDirectory()) out.push(...(await walkHtml(p)))
+    else if (entry.name.endsWith('.html')) out.push(p)
+  }
+  return out
+}
+
+async function main() {
+  const hash = await findManifestHash()
+  if (!hash) {
+    console.log('[fix-ssg-hash] no manifest found, skipping')
+    return
+  }
+  const tag = `<script>window.__VITE_REACT_SSG_HASH__=${JSON.stringify(hash)}</script>`
+  let n = 0
+  for (const file of await walkHtml(DIST)) {
+    let html = await readFile(file, 'utf8')
+    if (html.includes('__VITE_REACT_SSG_HASH__')) continue
+    html = html.replace(/<head>/i, `<head>${tag}`)
+    await writeFile(file, html)
+    n++
+  }
+  console.log(`[fix-ssg-hash] injected hash ${hash} into ${n} HTML files`)
+}
+
+main()

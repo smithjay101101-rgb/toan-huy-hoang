@@ -1,0 +1,51 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+  # Airtable automation can hit the GitHub "dispatch" API to trigger a rebuild
+  # when a listing is published (event_type: airtable-publish).
+  repository_dispatch:
+    types: [airtable-publish]
+
+# Don't pile up deploys; keep only the latest.
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build (pulls Airtable data when secrets are set)
+        env:
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: appZ9wP5ZlerVW3z8
+          AIRTABLE_TABLE_LISTINGS: Listings
+          SITE_URL: https://smithjay101101-rgb.github.io
+        run: npm run build
+
+      - name: Prepare static host files (root redirect + no Jekyll)
+        run: |
+          touch dist/.nojekyll
+          node -e 'const fs=require("fs");const p="dist/index.html";let h=fs.readFileSync(p,"utf8");if(!h.includes("0; url=/en")){h=h.replace(/<head>/i,"<head>\n<meta http-equiv=\"refresh\" content=\"0; url=/en\">");fs.writeFileSync(p,h)}'
+
+      - name: Publish to the live site repo
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.DEPLOY_TOKEN }}
+          external_repository: smithjay101101-rgb/smithjay101101-rgb.github.io
+          publish_branch: main
+          publish_dir: ./dist
+          force_orphan: true
+          commit_message: "Deploy from toan-huy-hoang@${{ github.sha }}"

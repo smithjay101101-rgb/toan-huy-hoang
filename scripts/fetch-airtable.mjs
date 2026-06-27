@@ -76,7 +76,8 @@ async function optimizeImage(sharp, url, outDir, name, alt) {
 }
 
 function localized(fields, base) {
-  return { en: fields[`${base}_en`] ?? '', vi: fields[`${base}_vi`] ?? fields[`${base}_en`] ?? '' }
+  const en = fields[`${base}_en`] ?? ''
+  return { en, vi: fields[`${base}_vi`] ?? en, ru: fields[`${base}_ru`] ?? en }
 }
 
 async function buildFromAirtable() {

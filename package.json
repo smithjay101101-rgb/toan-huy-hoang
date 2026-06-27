@@ -7,7 +7,7 @@
   "scripts": {
     "fetch:data": "node scripts/fetch-airtable.mjs",
     "dev": "vite-react-ssg dev",
-    "build": "npm run fetch:data && node scripts/gen-sitemap.mjs && vite-react-ssg build",
+    "build": "npm run fetch:data && node scripts/gen-sitemap.mjs && vite-react-ssg build && node scripts/fix-ssg-hash.mjs",
     "preview": "vite preview --port 4173",
     "typecheck": "tsc --noEmit"
   },

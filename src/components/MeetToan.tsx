@@ -12,9 +12,10 @@ export default function MeetToan({ locale }: { locale: Locale }) {
   const { t } = useTranslation()
   return (
     <section className="bg-cream text-ink" style={{ fontFamily: "'Jost', sans-serif" }}>
-      <div className="grid lg:grid-cols-2">
-        {/* Founder portrait (Toan), graded warm to sit against the cream section. */}
-        <div className="relative min-h-[48vh] overflow-hidden lg:min-h-[60vh]" style={{ background: '#e7ddcb' }}>
+      <div className="grid items-start lg:grid-cols-2">
+        {/* Founder portrait (Toan). The box matches the photo's 4:5 ratio so the
+            full image fills it edge to edge, with no frame or crop. */}
+        <div className="relative w-full overflow-hidden" style={{ aspectRatio: '120 / 149', background: '#e7ddcb' }}>
           <picture>
             <source srcSet="/media/toan-portrait.avif" type="image/avif" />
             <source srcSet="/media/toan-portrait.webp" type="image/webp" />
@@ -25,8 +26,7 @@ export default function MeetToan({ locale }: { locale: Locale }) {
               height={1490}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-contain"
-              style={{ objectPosition: 'center bottom', padding: '8px' }}
+              className="absolute inset-0 h-full w-full object-cover"
             />
           </picture>
         </div>
