@@ -13,7 +13,7 @@ interface SeoProps {
   type?: 'website' | 'article'
 }
 
-const OG_LOCALE: Record<Locale, string> = { en: 'en_US', vi: 'vi_VN', ru: 'ru_RU' }
+const OG_LOCALE: Record<Locale, string> = { en: 'en_US', vi: 'vi_VN', ru: 'ru_RU', ko: 'ko_KR' }
 
 /**
  * Per page title, description, Open Graph, canonical, and full hreflang set

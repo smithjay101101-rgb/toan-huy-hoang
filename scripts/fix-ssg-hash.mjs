@@ -25,13 +25,34 @@ async function walkHtml(dir) {
   return out
 }
 
+// Content-Security-Policy, injected at build time only (a CSP in the source
+// index.html would break the Vite dev server's HMR). script/style use
+// 'unsafe-inline': the app relies on inline style attributes throughout, and the
+// prerendered HTML carries inline bootstrap scripts (the hash below + per-page
+// router hydration data) whose content varies, so a single hash is not viable.
+// The high-value restrictions still apply: no plugins, locked base URI, frames
+// limited to the map embed, and everything else same-origin.
+const CSP = [
+  "default-src 'self'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline'",
+  "connect-src 'self'",
+  'frame-src https://www.openstreetmap.org',
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ')
+
 async function main() {
   const hash = await findManifestHash()
   if (!hash) {
     console.log('[fix-ssg-hash] no manifest found, skipping')
     return
   }
-  const tag = `<script>window.__VITE_REACT_SSG_HASH__=${JSON.stringify(hash)}</script>`
+  const cspMeta = `<meta http-equiv="Content-Security-Policy" content="${CSP}">`
+  const tag = `${cspMeta}<script>window.__VITE_REACT_SSG_HASH__=${JSON.stringify(hash)}</script>`
   let n = 0
   for (const file of await walkHtml(DIST)) {
     let html = await readFile(file, 'utf8')
@@ -40,7 +61,7 @@ async function main() {
     await writeFile(file, html)
     n++
   }
-  console.log(`[fix-ssg-hash] injected hash ${hash} into ${n} HTML files`)
+  console.log(`[fix-ssg-hash] injected CSP + hash ${hash} into ${n} HTML files`)
 }
 
 main()

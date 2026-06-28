@@ -3,8 +3,10 @@
 export const SITE = {
   name: 'Toan Huy Hoang',
   legalName: 'Toan Huy Hoang Luxury Real Estate',
-  // SWAP: production domain on Cloudflare Pages.
-  url: 'https://toanhuyhoang.com',
+  // Live origin, injected at build time from SITE_URL (see vite.config.ts) so the
+  // canonical/OG tags and the sitemap always agree. Defaults to the GitHub Pages
+  // domain; set SITE_URL to the custom domain once it goes live.
+  url: __SITE_URL__,
   city: 'Da Nang',
   region: 'Da Nang',
   country: 'VN',

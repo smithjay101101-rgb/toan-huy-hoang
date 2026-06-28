@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { Listing, ImageAsset } from '@/data/types'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
-import { formatPrice, pick } from '@/lib/format'
+import { formatPriceParts, pick } from '@/lib/format'
 import { localizeDistrict } from '@/data/locations'
 import PropertyImage from './PropertyImage'
 
@@ -18,7 +18,7 @@ interface Props {
 export default function PropertyCard({ listing, locale, feature = false, priority = false }: Props) {
   const { t } = useTranslation()
   const href = localePath(locale, `property/${listing.slug}`)
-  const price = formatPrice(listing, locale)
+  const { usd, vnd } = formatPriceParts(listing, locale)
   const isRent = listing.dealType === 'rent'
 
   // TEST ONLY: until real Airtable photos exist, swap placeholder hero images for
@@ -77,12 +77,15 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
           </div>
         )}
 
-        <div className="mt-5 flex items-center justify-between border-t border-ink/12 pt-4">
-          <div className="font-display text-lg text-ink">
-            {price}
-            {isRent && <span className="ml-1 font-sans text-xs text-ink/50">{t('listings.perMonth')}</span>}
+        <div className="mt-5 flex items-end justify-between gap-3 border-t border-ink/12 pt-4">
+          <div className="min-w-0">
+            <div className="font-display text-lg text-ink whitespace-nowrap">
+              {usd}
+              {isRent && <span className="ml-1 font-sans text-xs text-ink/50">{t('listings.perMonth')}</span>}
+            </div>
+            {vnd && <div className="mt-0.5 whitespace-nowrap text-xs text-ink/55">{vnd}</div>}
           </div>
-          <span className="text-[0.7rem] uppercase tracking-[0.2em] text-gold-ink transition-colors group-hover:text-ink">
+          <span className="shrink-0 self-end text-[0.7rem] uppercase tracking-[0.2em] text-gold-ink transition-colors group-hover:text-ink">
             {t('sontra.viewListing')}
           </span>
         </div>

@@ -77,7 +77,23 @@ async function optimizeImage(sharp, url, outDir, name, alt) {
 
 function localized(fields, base) {
   const en = fields[`${base}_en`] ?? ''
-  return { en, vi: fields[`${base}_vi`] ?? en, ru: fields[`${base}_ru`] ?? en }
+  return {
+    en,
+    vi: fields[`${base}_vi`] ?? en,
+    ru: fields[`${base}_ru`] ?? en,
+    ko: fields[`${base}_ko`] ?? en,
+  }
+}
+
+// A listing published before its photos are uploaded must never produce a null
+// heroImage — that would crash PropertyCard/PropertyDetail. Fall back to one of
+// the shipped generic images (same set PropertyCard hashes into), marked as a
+// placeholder so the card treatment knows it's not real photography.
+function placeholderAsset(slug, alt) {
+  let h = 0
+  for (const c of String(slug)) h = (h * 31 + c.charCodeAt(0)) >>> 0
+  const base = `/media/placeholders/prop-${(h % 8) + 1}`
+  return { src: `${base}.jpg`, avif: `${base}.avif`, webp: `${base}.webp`, width: 800, height: 600, alt, placeholder: true }
 }
 
 async function buildFromAirtable() {
@@ -115,7 +131,7 @@ async function buildFromAirtable() {
       areaM2: Number(f.area_m2 ?? 0),
       shortDesc: localized(f, 'short_desc'),
       longDesc: localized(f, 'long_desc'),
-      heroImage: heroImage ?? gallery[0] ?? null,
+      heroImage: heroImage ?? gallery[0] ?? placeholderAsset(slug, titleEn),
       gallery,
       lat: f.lat != null ? Number(f.lat) : null,
       lng: f.lng != null ? Number(f.lng) : null,

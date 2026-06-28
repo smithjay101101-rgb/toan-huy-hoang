@@ -1,3 +1,4 @@
+import { Head } from 'vite-react-ssg'
 import { useTranslation } from 'react-i18next'
 import { useLocale } from '@/lib/locale'
 import Seo from '@/components/Seo'
@@ -15,6 +16,17 @@ export default function Home() {
   return (
     <>
       <Seo title={t('meta.home.title')} description={t('meta.home.description')} />
+      <Head>
+        {/* Preload the hero poster (the LCP element) so the fetch starts before
+            the body is parsed. AVIF only — supported by all modern browsers. */}
+        <link
+          rel="preload"
+          as="image"
+          href="/media/hero-city.avif"
+          type="image/avif"
+          {...{ fetchpriority: 'high' }}
+        />
+      </Head>
       <Hero locale={locale} />
       <SonTra locale={locale} />
       <MeetToan locale={locale} />

@@ -7,8 +7,8 @@ import { readFile, writeFile } from 'node:fs/promises'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
-const SITE_URL = process.env.SITE_URL || 'https://toanhuyhoang.com'
-const LOCALES = ['en', 'vi', 'ru']
+const SITE_URL = process.env.SITE_URL || 'https://smithjay101101-rgb.github.io'
+const LOCALES = ['en', 'vi', 'ru', 'ko']
 
 const STATIC = ['', 'buy', 'rent', 'projects', 'about', 'contact']
 

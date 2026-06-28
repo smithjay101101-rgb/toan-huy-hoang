@@ -28,22 +28,23 @@ interface Bracket {
   en: string
   vi: string
   ru: string
+  ko: string
 }
 
 // Budget brackets per deal type. Ranges are inclusive of min, exclusive of max.
 const BUDGETS: Record<DealType, Bracket[]> = {
   buy: [
-    { key: 'any', min: 0, max: Infinity, en: 'Any price', vi: 'Tùy giá', ru: 'Любая цена' },
-    { key: 'u1m', min: 0, max: 1_000_000, en: 'Under $1M', vi: 'Dưới $1M', ru: 'До $1M' },
-    { key: '1to3m', min: 1_000_000, max: 3_000_000, en: '$1M – $3M', vi: '$1M – $3M', ru: '$1M – $3M' },
-    { key: '3to5m', min: 3_000_000, max: 5_000_000, en: '$3M – $5M', vi: '$3M – $5M', ru: '$3M – $5M' },
-    { key: '5mplus', min: 5_000_000, max: Infinity, en: '$5M+', vi: '$5M+', ru: '$5M+' },
+    { key: 'any', min: 0, max: Infinity, en: 'Any price', vi: 'Tùy giá', ru: 'Любая цена', ko: '모든 가격' },
+    { key: 'u1m', min: 0, max: 1_000_000, en: 'Under $1M', vi: 'Dưới $1M', ru: 'До $1M', ko: '$100만 미만' },
+    { key: '1to3m', min: 1_000_000, max: 3_000_000, en: '$1M – $3M', vi: '$1M – $3M', ru: '$1M – $3M', ko: '$100만 – $300만' },
+    { key: '3to5m', min: 3_000_000, max: 5_000_000, en: '$3M – $5M', vi: '$3M – $5M', ru: '$3M – $5M', ko: '$300만 – $500만' },
+    { key: '5mplus', min: 5_000_000, max: Infinity, en: '$5M+', vi: '$5M+', ru: '$5M+', ko: '$500만 이상' },
   ],
   rent: [
-    { key: 'any', min: 0, max: Infinity, en: 'Any price', vi: 'Tùy giá', ru: 'Любая цена' },
-    { key: 'u2500', min: 0, max: 2_500, en: 'Under $2,500 / mo', vi: 'Dưới $2,500 / tháng', ru: 'До $2,500 / мес' },
-    { key: '2500to5000', min: 2_500, max: 5_000, en: '$2,500 – $5,000 / mo', vi: '$2,500 – $5,000 / tháng', ru: '$2,500 – $5,000 / мес' },
-    { key: '5000plus', min: 5_000, max: Infinity, en: '$5,000+ / mo', vi: '$5,000+ / tháng', ru: '$5,000+ / мес' },
+    { key: 'any', min: 0, max: Infinity, en: 'Any price', vi: 'Tùy giá', ru: 'Любая цена', ko: '모든 가격' },
+    { key: 'u2500', min: 0, max: 2_500, en: 'Under $2,500 / mo', vi: 'Dưới $2,500 / tháng', ru: 'До $2,500 / мес', ko: '$2,500 / 월 미만' },
+    { key: '2500to5000', min: 2_500, max: 5_000, en: '$2,500 – $5,000 / mo', vi: '$2,500 – $5,000 / tháng', ru: '$2,500 – $5,000 / мес', ko: '$2,500 – $5,000 / 월' },
+    { key: '5000plus', min: 5_000, max: Infinity, en: '$5,000+ / mo', vi: '$5,000+ / tháng', ru: '$5,000+ / мес', ko: '$5,000+ / 월' },
   ],
 }
 

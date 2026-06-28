@@ -4,14 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#070707" />
-    <!-- Brand fonts: Cormorant Garamond (display) + Jost (body/UI). -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500&display=swap"
-    />
+    <meta name="theme-color" content="#0d1a24" />
+    <!-- Brand fonts are self-hosted (see src/styles/fonts.css). Preload the two
+         above-the-fold latin faces so headings + body swap in immediately. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/cormorant-garamond-600-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/jost-400-latin.woff2" crossorigin />
     <!-- Title and meta are injected per route at prerender time. -->
   </head>
   <body>

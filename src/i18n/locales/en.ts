@@ -141,6 +141,7 @@ const en = {
     inquireBody:
       'Speak directly with Toan Huy Hoang. No pressure, no obligation. Only considered guidance.',
     inquireZalo: 'Message on Zalo',
+    inquireWhatsApp: 'Message on WhatsApp',
     backTo: 'Back to all properties',
   },
   projects: {

@@ -140,6 +140,7 @@ const vi: Dictionary = {
     inquireBody:
       'Trao đổi trực tiếp với Toàn Huy Hoàng. Không áp lực, không ràng buộc. Chỉ có sự tư vấn tận tâm.',
     inquireZalo: 'Nhắn tin qua Zalo',
+    inquireWhatsApp: 'Nhắn tin qua WhatsApp',
     backTo: 'Trở lại tất cả bất động sản',
   },
   projects: {

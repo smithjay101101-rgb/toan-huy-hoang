@@ -140,6 +140,7 @@ const ru: Dictionary = {
     inquireBody:
       'Поговорите напрямую с Toan Huy Hoang. Без давления, без обязательств. Только продуманное сопровождение.',
     inquireZalo: 'Написать в Zalo',
+    inquireWhatsApp: 'Написать в WhatsApp',
     backTo: 'Ко всем объектам',
   },
   projects: {

@@ -9,7 +9,10 @@ export function getListings(): Listing[] {
 }
 
 export function getListingsByDeal(dealType: DealType): Listing[] {
-  return listings.filter((l) => l.dealType === dealType)
+  // Developments belong to the Projects page only. Keep them out of Buy/Rent
+  // (which also keeps a stray "Project" off the Type filter those pages build
+  // from their own results).
+  return listings.filter((l) => l.dealType === dealType && l.category !== 'Project')
 }
 
 export function getFeatured(limit = 4): Listing[] {
