@@ -60,7 +60,7 @@ const ko: Dictionary = {
     caption2: '기회로 떠오르는 도시',
   },
   sontra: {
-    cardEyebrow: '가장 독점적인 · 손트라',
+    cardEyebrow: '가장 독점적인',
     viewListing: '매물 보기 →',
   },
   meet: {

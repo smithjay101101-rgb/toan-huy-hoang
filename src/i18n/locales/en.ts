@@ -60,7 +60,7 @@ const en = {
     caption2: 'A city becoming an opportunity',
   },
   sontra: {
-    cardEyebrow: 'Most Exclusive · Son Tra',
+    cardEyebrow: 'Most Exclusive',
     viewListing: 'VIEW LISTING →',
   },
   meet: {

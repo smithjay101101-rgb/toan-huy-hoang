@@ -23,6 +23,9 @@ const {
   AIRTABLE_API_KEY,
   AIRTABLE_BASE_ID,
   AIRTABLE_TABLE_LISTINGS,
+  // Temporary: when '1', use the site's existing photos as listing images
+  // instead of the Airtable attachments (until real photos are uploaded).
+  FAKE_IMAGES,
 } = process.env
 
 function slugify(s) {
@@ -96,6 +99,38 @@ function placeholderAsset(slug, alt) {
   return { src: `${base}.jpg`, avif: `${base}.avif`, webp: `${base}.webp`, width: 800, height: 600, alt, placeholder: true }
 }
 
+// Stand-in imagery: deterministically reuse one of the site's existing Da Nang
+// photos as a listing image. Enabled by FAKE_IMAGES; remove the flag once real
+// photos are uploaded to Airtable.
+const FAKE_PHOTOS = ['hero-city', 'golden-bridge', 'coast-cove']
+function fakeAsset(slug, alt) {
+  let h = 0
+  for (const c of String(slug)) h = (h * 31 + c.charCodeAt(0)) >>> 0
+  const base = `/media/${FAKE_PHOTOS[h % FAKE_PHOTOS.length]}`
+  return { src: `${base}.jpg`, avif: `${base}.avif`, webp: `${base}.webp`, width: 1600, height: 1067, alt }
+}
+
+// The client maintains only the long description per locale. The short version
+// (card blurb + meta description) is derived from its first paragraph/sentence,
+// trimmed to a sensible length on a word or sentence boundary.
+function firstPart(text, max = 200) {
+  const para = String(text || '').split('\n')[0].trim()
+  if (para.length <= max) return para
+  const slice = para.slice(0, max)
+  const stop = Math.max(slice.lastIndexOf('. '), slice.lastIndexOf('! '), slice.lastIndexOf('? '))
+  if (stop > 80) return slice.slice(0, stop + 1).trim()
+  const space = slice.lastIndexOf(' ')
+  return (space > 0 ? slice.slice(0, space) : slice).trim() + '…'
+}
+function shortFromLong(longDesc) {
+  return {
+    en: firstPart(longDesc.en),
+    vi: firstPart(longDesc.vi),
+    ru: firstPart(longDesc.ru),
+    ko: firstPart(longDesc.ko),
+  }
+}
+
 async function buildFromAirtable() {
   const sharp = (await import('sharp')).default
   const records = await fetchAirtableRecords()
@@ -106,17 +141,22 @@ async function buildFromAirtable() {
     const titleEn = f.title_en ?? 'Untitled'
     const dir = join(PUBLIC_DIR, 'listings', slug)
     let heroImage = null
-    if (Array.isArray(f.hero_image) && f.hero_image[0]) {
-      heroImage = await optimizeImage(sharp, f.hero_image[0].url, dir, 'hero', titleEn)
-    }
     const gallery = []
-    if (Array.isArray(f.gallery)) {
-      for (let i = 0; i < f.gallery.length; i++) {
-        gallery.push(
-          await optimizeImage(sharp, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`),
-        )
+    if (FAKE_IMAGES) {
+      heroImage = fakeAsset(slug, titleEn)
+    } else {
+      if (Array.isArray(f.hero_image) && f.hero_image[0]) {
+        heroImage = await optimizeImage(sharp, f.hero_image[0].url, dir, 'hero', titleEn)
+      }
+      if (Array.isArray(f.gallery)) {
+        for (let i = 0; i < f.gallery.length; i++) {
+          gallery.push(
+            await optimizeImage(sharp, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`),
+          )
+        }
       }
     }
+    const longDesc = localized(f, 'long_desc')
     out.push({
       id: rec.id,
       slug,
@@ -129,8 +169,8 @@ async function buildFromAirtable() {
       bedrooms: Number(f.bedrooms ?? 0),
       bathrooms: Number(f.bathrooms ?? 0),
       areaM2: Number(f.area_m2 ?? 0),
-      shortDesc: localized(f, 'short_desc'),
-      longDesc: localized(f, 'long_desc'),
+      shortDesc: shortFromLong(longDesc),
+      longDesc,
       heroImage: heroImage ?? gallery[0] ?? placeholderAsset(slug, titleEn),
       gallery,
       lat: f.lat != null ? Number(f.lat) : null,

@@ -60,7 +60,7 @@ const vi: Dictionary = {
     caption2: 'Một thành phố đang trở thành cơ hội',
   },
   sontra: {
-    cardEyebrow: 'Độc Quyền Nhất · Sơn Trà',
+    cardEyebrow: 'Độc Quyền Nhất',
     viewListing: 'XEM CHI TIẾT →',
   },
   meet: {

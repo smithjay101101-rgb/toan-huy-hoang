@@ -59,7 +59,7 @@ const ru: Dictionary = {
     caption2: 'Город, который становится возможностью',
   },
   sontra: {
-    cardEyebrow: 'Самое эксклюзивное · Сон Тра',
+    cardEyebrow: 'Самое эксклюзивное',
     viewListing: 'СМОТРЕТЬ ОБЪЕКТ →',
   },
   meet: {

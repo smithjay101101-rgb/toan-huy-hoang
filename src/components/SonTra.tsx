@@ -5,6 +5,7 @@ import type { Locale } from '@/i18n'
 import { listings } from '@/data'
 import { localePath } from '@/lib/locale'
 import { pick } from '@/lib/format'
+import { localizeDistrict } from '@/data/locations'
 import PropertyImage from './PropertyImage'
 
 /**
@@ -23,12 +24,12 @@ export default function SonTra({ locale }: { locale: Locale }) {
   const imgRef = useRef<HTMLImageElement | null>(null)
   const headRef = useRef<HTMLHeadingElement | null>(null)
 
-  // The hero listing for the card: the largest featured Son Tra property.
+  // The hero listing for the card: always the single most expensive property
+  // site-wide (developments excluded). Auto-selected by price, no manual flag.
   const listing = useMemo(() => {
-    const sonTra = listings.filter((l) => l.district === 'Son Tra')
-    const featured = sonTra.filter((l) => l.featured)
-    const pool = featured.length ? featured : sonTra.length ? sonTra : listings
-    return [...pool].sort((a, b) => b.areaM2 - a.areaM2)[0]
+    const houses = listings.filter((l) => l.category !== 'Project')
+    const pool = houses.length ? houses : listings
+    return [...pool].sort((a, b) => b.price - a.price)[0]
   }, [])
 
   useEffect(() => {
@@ -177,7 +178,7 @@ export default function SonTra({ locale }: { locale: Locale }) {
               className="mb-3 text-[11px] font-medium uppercase tracking-[0.3em]"
               style={{ color: '#f4d488', textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
             >
-              {t('sontra.cardEyebrow')}
+              {t('sontra.cardEyebrow')} · {localizeDistrict(listing.district, locale)}
             </div>
             <div
               className="mb-3 font-display text-[2rem] font-semibold leading-[1.04]"
