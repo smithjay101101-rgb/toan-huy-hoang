@@ -83,14 +83,14 @@ export default function Listings({ dealType }: { dealType: DealType }) {
 
           <div ref={resultsRef} className="pt-16" style={{ scrollMarginTop: 96 }}>
             <div className="mb-8 flex items-center justify-between border-b border-ink/12 pb-5">
-              <p className="text-sm text-ink/55">
-                {shown.length} {t('search.results')}
+              <p className="text-sm text-ink/70">
+                {shown.length} {shown.length === 1 ? t('search.result') : t('search.results')}
               </p>
               {isFiltered && (
                 <button
                   type="button"
                   onClick={() => setFilter(EMPTY_FILTER)}
-                  className="text-xs uppercase tracking-[0.18em] text-ink/55 transition-colors hover:text-gold-ink"
+                  className="text-xs uppercase tracking-[0.18em] text-ink/70 transition-colors hover:text-gold-ink"
                 >
                   {t('search.clear')}
                 </button>
@@ -98,7 +98,7 @@ export default function Listings({ dealType }: { dealType: DealType }) {
             </div>
 
             {shown.length === 0 ? (
-              <p className="py-20 text-center text-ink/55">{t('listings.empty')}</p>
+              <p className="py-20 text-center text-ink/70">{t('listings.empty')}</p>
             ) : (
               <Reveal stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {shown.map((l, i) => (

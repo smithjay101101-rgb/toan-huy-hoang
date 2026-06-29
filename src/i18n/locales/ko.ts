@@ -125,6 +125,7 @@ const ko: Dictionary = {
     anyLocation: '전체',
     anyBeds: '전체',
     codePlaceholder: '#000',
+    result: '개 결과',
     results: '개 결과',
   },
   detail: {

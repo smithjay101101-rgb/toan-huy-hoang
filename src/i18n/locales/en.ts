@@ -125,6 +125,7 @@ const en = {
     anyLocation: 'All',
     anyBeds: 'Any',
     codePlaceholder: '#000',
+    result: 'result',
     results: 'results',
   },
   detail: {

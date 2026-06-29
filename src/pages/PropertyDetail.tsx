@@ -87,7 +87,7 @@ export default function PropertyDetail() {
           <h1 className="mt-4 max-w-[20ch] font-display text-white" style={{ fontSize: 'clamp(2.25rem, 1.6rem + 3.4vw, 4.5rem)', lineHeight: 1.04 }}>
             {title}
           </h1>
-          <div className="mt-4 font-display text-2xl text-gold-2 lg:text-3xl">
+          <div className="mt-4 font-display text-2xl text-gold-2 tabular-nums lg:text-3xl">
             {formatPrice(listing, locale)}
             {isRent && <span className="ml-2 text-sm text-white/70">{t('listings.perMonth')}</span>}
           </div>
@@ -133,7 +133,7 @@ export default function PropertyDetail() {
               <dl className="mt-6 space-y-4">
                 {specs.map((s) => (
                   <div key={s.label} className="flex items-center justify-between border-b border-ink/10 pb-4 last:border-0 last:pb-0">
-                    <dt className="inline-flex items-center gap-2 text-sm text-ink/60">
+                    <dt className="inline-flex items-center gap-2 text-sm text-ink/70">
                       <s.icon size={16} strokeWidth={1.5} /> {s.label}
                     </dt>
                     <dd className="text-sm text-ink">{s.value}</dd>
@@ -144,7 +144,7 @@ export default function PropertyDetail() {
 
             <div className="mt-6 rounded-[4px] border border-ink/10 bg-white p-7">
               <h2 className="font-display text-xl text-ink">{t('detail.inquireTitle')}</h2>
-              <p className="mt-3 text-sm text-ink/60">{t('detail.inquireBody')}</p>
+              <p className="mt-3 text-sm text-ink/70">{t('detail.inquireBody')}</p>
               <div className="mt-6 flex flex-col gap-3">
                 <a href={zaloLink()} target="_blank" rel="noopener noreferrer" className="btn btn-slate w-full">
                   <MessageCircle size={16} strokeWidth={1.5} />

@@ -65,7 +65,7 @@ export default function Contact() {
                 </div>
                 <Field id="phone" label={t('contact.phone')} type="tel" autoComplete="tel" />
                 <div>
-                  <label htmlFor="message" className="mb-2 block text-xs uppercase tracking-[0.18em] text-ink/60">
+                  <label htmlFor="message" className="mb-2 block text-xs uppercase tracking-[0.18em] text-ink/70">
                     {t('contact.message')}
                   </label>
                   <textarea
@@ -135,7 +135,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-xs uppercase tracking-[0.18em] text-ink/60">
+      <label htmlFor={id} className="mb-2 block text-xs uppercase tracking-[0.18em] text-ink/70">
         {label}
         {required && <span className="ml-1 text-gold-ink">*</span>}
       </label>
@@ -161,7 +161,7 @@ function ContactRow({
     <>
       <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-gold-ink" />
       <span>
-        <span className="block text-xs uppercase tracking-[0.18em] text-ink/55">{label}</span>
+        <span className="block text-xs uppercase tracking-[0.18em] text-ink/70">{label}</span>
         <span className="mt-1 block text-ink">{value}</span>
       </span>
     </>

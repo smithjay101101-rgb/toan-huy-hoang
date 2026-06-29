@@ -124,6 +124,7 @@ const ru: Dictionary = {
     anyLocation: 'Все',
     anyBeds: 'Любое',
     codePlaceholder: '#000',
+    result: 'результат',
     results: 'результатов',
   },
   detail: {

@@ -31,7 +31,7 @@ export default function Projects() {
       <section className="bg-cream text-ink">
         <div className="container-lux pb-24 pt-20 lg:pb-32 lg:pt-28">
           {projects.length === 0 ? (
-            <p className="py-20 text-center text-ink/55">{t('listings.empty')}</p>
+            <p className="py-20 text-center text-ink/70">{t('listings.empty')}</p>
           ) : (
             <Reveal stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {projects.map((l, i) => (

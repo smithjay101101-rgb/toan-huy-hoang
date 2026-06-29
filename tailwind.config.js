@@ -13,7 +13,9 @@ export default {
         // gold used for text on the cream (light) surfaces.
         gold: '#C9A24B',
         'gold-2': '#D8AF5B',
-        'gold-ink': '#B98F3E',
+        // Deeper antique gold for text/labels on light surfaces (WCAG AA >=4.5:1).
+        // Keep in lockstep with --gold-ink in src/styles/index.css.
+        'gold-ink': '#8a6420',
         // Cream light surface + its ink colors.
         cream: '#F4EFE6',
         ink: '#1C2630',

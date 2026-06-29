@@ -60,7 +60,7 @@ const controlCls =
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-[0.66rem] font-medium uppercase tracking-[0.24em] text-ink/60">
+      <span className="mb-2 block text-[0.66rem] font-medium uppercase tracking-[0.24em] text-ink/70">
         {label}
       </span>
       {children}

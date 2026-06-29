@@ -15,7 +15,9 @@
   --card: #243441;
   --gold: #c9a24b;
   --gold-2: #d8af5b;
-  --gold-ink: #b98f3e;
+  /* Darker antique gold for text/labels on light surfaces: meets WCAG AA
+     (>=4.5:1 on cream and white). The brighter --gold is for dark surfaces. */
+  --gold-ink: #8a6420;
   --text: #f4f4f1;
   --text-muted: rgba(244, 244, 241, 0.74);
   --line: rgba(201, 162, 75, 0.24);
@@ -80,6 +82,20 @@
     outline: none;
     box-shadow: var(--ring);
     border-radius: var(--radius);
+  }
+
+  /* Honor reduced-motion globally: near-instant transitions/animations and no
+     smooth-scroll. The JS reveals already bail out under reduced-motion; this
+     also covers CSS-only motion like the hero scroll-cue. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   img {

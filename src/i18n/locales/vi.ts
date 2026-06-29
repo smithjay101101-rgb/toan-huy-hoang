@@ -124,6 +124,7 @@ const vi: Dictionary = {
     anyLocation: 'Tất cả',
     anyBeds: 'Bất kỳ',
     codePlaceholder: '#000',
+    result: 'kết quả',
     results: 'kết quả',
   },
   detail: {

@@ -64,7 +64,7 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
         </h3>
 
         {listing.category !== 'Land' && (
-          <div className="mt-3 flex items-center gap-3 text-[0.82rem] font-light text-ink/60">
+          <div className="mt-3 flex items-center gap-3 text-[0.82rem] font-light text-ink/70">
             <span>
               {listing.bedrooms} {t('listings.beds')}
             </span>
@@ -79,11 +79,11 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
 
         <div className="mt-5 flex items-end justify-between gap-3 border-t border-ink/12 pt-4">
           <div className="min-w-0">
-            <div className="font-display text-lg text-ink whitespace-nowrap">
+            <div className="font-display text-lg text-ink tabular-nums whitespace-nowrap">
               {usd}
-              {isRent && <span className="ml-1 font-sans text-xs text-ink/50">{t('listings.perMonth')}</span>}
+              {isRent && <span className="ml-1 font-sans text-xs text-ink/70">{t('listings.perMonth')}</span>}
             </div>
-            {vnd && <div className="mt-0.5 whitespace-nowrap text-xs text-ink/55">{vnd}</div>}
+            {vnd && <div className="mt-0.5 whitespace-nowrap text-xs text-ink/70 tabular-nums">{vnd}</div>}
           </div>
           <span className="shrink-0 self-end text-[0.7rem] uppercase tracking-[0.2em] text-gold-ink transition-colors group-hover:text-ink">
             {t('sontra.viewListing')}
