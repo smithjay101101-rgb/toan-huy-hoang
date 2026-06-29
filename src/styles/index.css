@@ -231,8 +231,8 @@
 
   /* ---- Cream surface helpers --------------------------------------------
      On cream/light surfaces, gold (#c9a24b) is too low-contrast, so accents
-     use gold-ink (#b98f3e) and text uses the ink tiers. Keep these in lockstep
-     with the dark-surface .eyebrow/.lead/.input/.btn above. */
+     use gold-ink (#8a6420, WCAG AA) and text uses the ink tiers. Keep these in
+     lockstep with the dark-surface .eyebrow/.lead/.input/.btn above. */
   .eyebrow-ink {
     font-family: 'Jost', sans-serif;
     font-size: 0.75rem;
