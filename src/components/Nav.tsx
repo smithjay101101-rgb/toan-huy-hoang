@@ -12,6 +12,7 @@ const ITEMS = [
   { key: 'buy', sub: 'buy' },
   { key: 'rent', sub: 'rent' },
   { key: 'projects', sub: 'projects' },
+  { key: 'guides', sub: 'guides' },
   { key: 'about', sub: 'about' },
   { key: 'contact', sub: 'contact' },
 ] as const
@@ -46,7 +47,7 @@ export default function Nav({ locale }: { locale: Locale }) {
   // Pages that open on a light (cream) section have no dark header for the
   // transparent nav to sit over, so the nav gets a solid dark bar at the top
   // there (a light frost isn't dark enough for the white nav text on cream).
-  const lightTop = pathname.endsWith('/about')
+  const lightTop = pathname.endsWith('/about') || pathname.includes('/guides')
   const condensed = scrolled || open || lightTop
   const headerBg = !condensed
     ? 'rgba(13,22,30,0)'

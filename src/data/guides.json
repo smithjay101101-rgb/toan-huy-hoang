@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "son-tra-neighborhood-guide",
+    "category": "Neighborhood Guides",
+    "coverImage": {
+      "src": "/media/coast-cove.webp",
+      "avif": "/media/coast-cove.avif",
+      "webp": "/media/coast-cove.webp",
+      "width": 2200,
+      "height": 1238,
+      "alt": "The Son Tra coastline, Da Nang"
+    },
+    "publishedDate": "2026-05-10",
+    "updatedDate": "2026-06-01",
+    "featured": true,
+    "author": "Toan Huy Hoang",
+    "locales": {
+      "en": {
+        "title": "A Buyer’s Guide to Son Tra",
+        "excerpt": "The peninsula, its coves, and what makes the coast road worth the climb.",
+        "bodyMarkdown": "## A considered introduction\n\nDa Nang rewards the patient buyer. Son Tra sits where the mountains meet the sea, and the right home here is chosen for the life it offers, not the square metres it occupies.\n\n### What to look for\n\n- Proximity to the coast road and the beach\n- Title clarity and the building's foreign-ownership quota\n- The direction the district is growing\n\nWe guide you to the address that fits your goal. This is placeholder copy, held to the brand grade, ready to be replaced once the real guide is written.",
+        "metaTitle": "A Buyer’s Guide to Son Tra, Da Nang",
+        "metaDescription": "The peninsula, its coves, and what makes the coast road worth the climb.",
+        "readingTime": 1
+      },
+      "vi": {
+        "title": "Cẩm Nang Mua Nha ở Sơn Trà",
+        "excerpt": "Bán đảo, những vịnh nhỏ, và con đường ven biển.",
+        "bodyMarkdown": "## A considered introduction\n\nDa Nang rewards the patient buyer. Sơn Trà sits where the mountains meet the sea, and the right home here is chosen for the life it offers, not the square metres it occupies.\n\n### What to look for\n\n- Proximity to the coast road and the beach\n- Title clarity and the building's foreign-ownership quota\n- The direction the district is growing\n\nWe guide you to the address that fits your goal. This is placeholder copy, held to the brand grade, ready to be replaced once the real guide is written.",
+        "metaTitle": "Cẩm Nang Mua Nha ở Sơn Trà",
+        "metaDescription": "Bán đảo, những vịnh nhỏ, và con đường ven biển.",
+        "readingTime": 1
+      },
+      "ru": {
+        "title": "Гид покупателя по Сонча",
+        "excerpt": "Полуостров, бухты и прибрежная дорога.",
+        "bodyMarkdown": "## A considered introduction\n\nDa Nang rewards the patient buyer. Сонча sits where the mountains meet the sea, and the right home here is chosen for the life it offers, not the square metres it occupies.\n\n### What to look for\n\n- Proximity to the coast road and the beach\n- Title clarity and the building's foreign-ownership quota\n- The direction the district is growing\n\nWe guide you to the address that fits your goal. This is placeholder copy, held to the brand grade, ready to be replaced once the real guide is written.",
+        "metaTitle": "Гид покупателя по Сонча",
+        "metaDescription": "Полуостров, бухты и прибрежная дорога.",
+        "readingTime": 1
+      },
+      "ko": {
+        "title": "손트라 구매 가이드",
+        "excerpt": "반도와 조용한 만, 그리고 해안 도로.",
+        "bodyMarkdown": "## A considered introduction\n\nDa Nang rewards the patient buyer. 손트라 sits where the mountains meet the sea, and the right home here is chosen for the life it offers, not the square metres it occupies.\n\n### What to look for\n\n- Proximity to the coast road and the beach\n- Title clarity and the building's foreign-ownership quota\n- The direction the district is growing\n\nWe guide you to the address that fits your goal. This is placeholder copy, held to the brand grade, ready to be replaced once the real guide is written.",
+        "metaTitle": "손트라 구매 가이드",
+        "metaDescription": "반도와 조용한 만, 그리고 해안 도로.",
+        "readingTime": 1
+      }
+    }
+  },
+  {
+    "slug": "foreign-ownership-explained",
+    "category": "Legal",
+    "coverImage": null,
+    "publishedDate": "2026-04-18",
+    "updatedDate": "2026-04-18",
+    "featured": false,
+    "author": "Toan Huy Hoang",
+    "locales": {
+      "en": {
+        "title": "Foreign Ownership in Vietnam, Explained",
+        "excerpt": "How foreign nationals own apartments here, and where land rules differ.",
+        "bodyMarkdown": "## A considered introduction\n\nDa Nang rewards the patient buyer. The Han River sits where the mountains meet the sea, and the right home here is chosen for the life it offers, not the square metres it occupies.\n\n### What to look for\n\n- Proximity to the coast road and the beach\n- Title clarity and the building's foreign-ownership quota\n- The direction the district is growing\n\nWe guide you to the address that fits your goal. This is placeholder copy, held to the brand grade, ready to be replaced once the real guide is written.",
+        "metaTitle": "Foreign Property Ownership in Da Nang, Explained",
+        "metaDescription": "How foreign nationals own apartments here, and where land rules differ.",
+        "readingTime": 1
+      },
+      "vi": {
+        "title": "Quyền Sở Hữu Của Người Nước Ngoài",
+        "excerpt": "Cách người nước ngoài sở hữu căn hộ tại Việt Nam.",
+        "bodyMarkdown": "## A considered introduction\n\nDa Nang rewards the patient buyer. Sông Hàn sits where the mountains meet the sea, and the right home here is chosen for the life it offers, not the square metres it occupies.\n\n### What to look for\n\n- Proximity to the coast road and the beach\n- Title clarity and the building's foreign-ownership quota\n- The direction the district is growing\n\nWe guide you to the address that fits your goal. This is placeholder copy, held to the brand grade, ready to be replaced once the real guide is written.",
+        "metaTitle": "Quyền Sở Hữu Của Người Nước Ngoài",
+        "metaDescription": "Cách người nước ngoài sở hữu căn hộ tại Việt Nam.",
+        "readingTime": 1
+      }
+    }
+  },
+  {
+    "slug": "why-invest-in-da-nang",
+    "category": "Investment",
+    "coverImage": null,
+    "publishedDate": "2026-03-02",
+    "updatedDate": "2026-03-02",
+    "featured": false,
+    "author": "Toan Huy Hoang",
+    "locales": {
+      "en": {
+        "title": "Why Investors Are Watching Da Nang",
+        "excerpt": "A coastal city becoming an opportunity, and the districts leading it.",
+        "bodyMarkdown": "## A considered introduction\n\nDa Nang rewards the patient buyer. Da Nang sits where the mountains meet the sea, and the right home here is chosen for the life it offers, not the square metres it occupies.\n\n### What to look for\n\n- Proximity to the coast road and the beach\n- Title clarity and the building's foreign-ownership quota\n- The direction the district is growing\n\nWe guide you to the address that fits your goal. This is placeholder copy, held to the brand grade, ready to be replaced once the real guide is written.",
+        "metaTitle": "Why Investors Are Watching Da Nang",
+        "metaDescription": "A coastal city becoming an opportunity, and the districts leading it.",
+        "readingTime": 1
+      }
+    }
+  }
+]

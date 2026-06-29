@@ -6,9 +6,12 @@ import PropertyDetail from '@/pages/PropertyDetail'
 import Projects from '@/pages/Projects'
 import About from '@/pages/About'
 import Contact from '@/pages/Contact'
+import GuidesIndex from '@/pages/GuidesIndex'
+import GuideDetail from '@/pages/GuideDetail'
 import RootRedirect from '@/pages/RootRedirect'
-import { LOCALES } from '@/i18n'
+import { LOCALES, type Locale } from '@/i18n'
 import { getAllSlugs } from '@/data'
+import { getGuidesForLocale } from '@/data/guides'
 
 // Build the page set for one locale. Paths are relative to the Layout at '/'.
 function localeRoutes(locale: string): RouteRecord[] {
@@ -26,6 +29,15 @@ function localeRoutes(locale: string): RouteRecord[] {
       entry: 'src/pages/PropertyDetail.tsx',
       // One prerendered page per published listing per locale.
       getStaticPaths: () => getAllSlugs().map((slug) => `/${locale}/property/${slug}`),
+    },
+    { path: `/${locale}/guides`, Component: GuidesIndex, entry: 'src/pages/GuidesIndex.tsx' },
+    {
+      path: `/${locale}/guides/:slug`,
+      Component: GuideDetail,
+      entry: 'src/pages/GuideDetail.tsx',
+      // One prerendered page per guide, but only for locales that guide exists in.
+      getStaticPaths: () =>
+        getGuidesForLocale(locale as Locale).map((g) => `/${locale}/guides/${g.slug}`),
     },
   ]
 }

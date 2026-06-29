@@ -36,6 +36,7 @@ const vi: Dictionary = {
     },
   },
   nav: {
+    guides: 'Cẩm nang',
     buy: 'Mua',
     rent: 'Thuê',
     projects: 'Dự Án',
@@ -211,6 +212,24 @@ const vi: Dictionary = {
     office: 'Văn phòng',
     officeValue: 'Đà Nẵng, Việt Nam',
     sent: 'Email của bạn đã sẵn sàng. Vui lòng kiểm tra trong ứng dụng email và nhấn gửi. Nếu không có gì mở ra, hãy viết trực tiếp cho chúng tôi:',
+  },
+  guides: {
+    indexTitle: 'Cẩm nang',
+    indexIntro: 'Những ghi chép về mua, đầu tư và an cư tại Đà Nẵng.',
+    minRead: 'phút đọc',
+    by: 'Bởi',
+    related: 'Cẩm nang liên quan',
+    ctaTitle: 'Đang tìm một ngôi nhà, không chỉ một bài viết?',
+    ctaBody: 'Hãy cho chúng tôi biết bạn đang tìm gì ở Đà Nẵng.',
+    ctaButton: 'Liên hệ',
+    allCategories: 'Tất cả',
+    categories: {
+      neighborhood: 'Cẩm nang khu vực',
+      buying: 'Quy trình mua',
+      investment: 'Đầu tư',
+      lifestyle: 'Phong cách sống',
+      legal: 'Pháp lý',
+    },
   },
   footer: {
     tagline: 'Bất động sản cao cấp, Đà Nẵng.',

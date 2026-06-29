@@ -11,6 +11,12 @@ interface SeoProps {
   /** Override the canonical path (defaults to current path). */
   path?: string
   type?: 'website' | 'article'
+  /**
+   * Limit hreflang alternates to these locales (e.g. a guide that only exists
+   * in some languages). Defaults to all site locales. x-default points to EN if
+   * present, otherwise the first available locale.
+   */
+  locales?: Locale[]
 }
 
 const OG_LOCALE: Record<Locale, string> = { en: 'en_US', vi: 'vi_VN', ru: 'ru_RU', ko: 'ko_KR' }
@@ -20,12 +26,14 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_US', vi: 'vi_VN', ru: 'ru_RU
  * (each locale links to its twin plus x-default to EN). Rendered into static
  * HTML by vite-react-ssg so crawlers and answer engines read it directly.
  */
-export default function Seo({ title, description, image, path, type = 'website' }: SeoProps) {
+export default function Seo({ title, description, image, path, type = 'website', locales }: SeoProps) {
   const { pathname } = useLocation()
   const current = path ?? pathname
   const locale = localeFromPath(current)
   const url = SITE.url + current
   const img = SITE.url + (image ?? SITE.ogImage)
+  const alts = locales ?? LOCALES
+  const xDefault: Locale = alts.includes('en') ? 'en' : (alts[0] ?? 'en')
 
   return (
     <Head>
@@ -34,7 +42,7 @@ export default function Seo({ title, description, image, path, type = 'website' 
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
 
-      {LOCALES.map((l) => (
+      {alts.map((l) => (
         <link
           key={l}
           rel="alternate"
@@ -42,7 +50,7 @@ export default function Seo({ title, description, image, path, type = 'website' 
           href={SITE.url + swapLocaleInPath(current, l)}
         />
       ))}
-      <link rel="alternate" hrefLang="x-default" href={SITE.url + swapLocaleInPath(current, 'en')} />
+      <link rel="alternate" hrefLang="x-default" href={SITE.url + swapLocaleInPath(current, xDefault)} />
 
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content={SITE.name} />

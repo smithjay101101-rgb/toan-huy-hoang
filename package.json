@@ -6,8 +6,9 @@
   "description": "Toan Huy Hoang Luxury Real Estate, Da Nang. Dark cinematic brand experience.",
   "scripts": {
     "fetch:data": "node scripts/fetch-airtable.mjs",
+    "fetch:guides": "node scripts/fetch-guides.mjs",
     "dev": "vite-react-ssg dev",
-    "build": "npm run fetch:data && node scripts/gen-sitemap.mjs && vite-react-ssg build && node scripts/fix-ssg-hash.mjs",
+    "build": "npm run fetch:data && npm run fetch:guides && node scripts/gen-sitemap.mjs && vite-react-ssg build && node scripts/fix-ssg-hash.mjs",
     "preview": "vite preview --port 4173",
     "typecheck": "tsc --noEmit"
   },
@@ -17,10 +18,13 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^14.1.2",
+    "react-markdown": "^9.1.0",
     "react-router-dom": "^6.24.1",
+    "remark-gfm": "^4.0.1",
     "vite-react-ssg": "^0.7.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^20.19.43",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

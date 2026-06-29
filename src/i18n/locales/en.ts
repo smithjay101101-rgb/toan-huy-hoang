@@ -34,6 +34,7 @@ const en = {
     },
   },
   nav: {
+    guides: 'Guides',
     buy: 'Buy',
     rent: 'Rent',
     projects: 'Projects',
@@ -212,6 +213,24 @@ const en = {
     office: 'Office',
     officeValue: 'Da Nang, Vietnam',
     sent: 'Your email is ready to send. Please review it in your mail app and hit send. If nothing opened, write to us directly:',
+  },
+  guides: {
+    indexTitle: 'Guides',
+    indexIntro: 'Notes on buying, investing, and living well in Da Nang.',
+    minRead: 'min read',
+    by: 'By',
+    related: 'Related guides',
+    ctaTitle: 'Looking for a home, not just a guide?',
+    ctaBody: 'Tell us what you are looking for in Da Nang. We reply personally.',
+    ctaButton: 'Get in touch',
+    allCategories: 'All',
+    categories: {
+      neighborhood: 'Neighborhood Guides',
+      buying: 'Buying Process',
+      investment: 'Investment',
+      lifestyle: 'Lifestyle',
+      legal: 'Legal',
+    },
   },
   footer: {
     tagline: 'Luxury real estate, Da Nang.',

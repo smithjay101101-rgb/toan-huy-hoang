@@ -62,6 +62,17 @@ export function formatArea(area: number, locale: Locale): string {
   return `${area.toLocaleString(LOCALE_TAG[locale])} m²`
 }
 
+/** Locale-aware date, e.g. "10 May 2026". Used by guides. */
+export function formatDate(iso: string, locale: Locale): string {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return iso
+  try {
+    return d.toLocaleDateString(LOCALE_TAG[locale], { year: 'numeric', month: 'short', day: 'numeric' })
+  } catch {
+    return iso
+  }
+}
+
 export function pick<T>(value: { en: T; vi: T; ru?: T; ko?: T }, locale: Locale): T {
   // Listing data is en/vi; other locales (ru, ko) fall back to English content
   // unless the matching column is filled in Airtable.

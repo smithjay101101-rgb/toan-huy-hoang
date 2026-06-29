@@ -10,14 +10,15 @@ const ROOT = join(__dirname, '..')
 const SITE_URL = process.env.SITE_URL || 'https://smithjay101101-rgb.github.io'
 const LOCALES = ['en', 'vi', 'ru', 'ko']
 
-const STATIC = ['', 'buy', 'rent', 'projects', 'about', 'contact']
+const STATIC = ['', 'buy', 'rent', 'projects', 'guides', 'about', 'contact']
 
-function urlEntry(path, alternates) {
+function urlEntry(path, alternates, lastmod) {
   const links = alternates
     .map((a) => `    <xhtml:link rel="alternate" hreflang="${a.lang}" href="${SITE_URL}${a.path}"/>`)
     .join('\n')
+  const mod = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''
   return `  <url>
-    <loc>${SITE_URL}${path}</loc>
+    <loc>${SITE_URL}${path}</loc>${mod}
 ${links}
   </url>`
 }
@@ -45,6 +46,29 @@ async function main() {
         { lang: 'x-default', path: `/en${sub}` },
       ]
       entries.push(urlEntry(localized, alternates))
+    }
+  }
+
+  // Guides: one entry per guide per AVAILABLE locale only, with lastmod.
+  let guides = []
+  try {
+    const raw = await readFile(join(ROOT, 'src', 'data', 'guides.json'), 'utf8')
+    guides = JSON.parse(raw)
+  } catch {
+    // no guides data yet
+  }
+  for (const g of guides) {
+    const locs = Object.keys(g.locales || {})
+    if (locs.length === 0) continue
+    const xdef = locs.includes('en') ? 'en' : locs[0]
+    const lastmod = g.updatedDate || g.publishedDate
+    const sub = `/guides/${g.slug}`
+    for (const locale of locs) {
+      const alternates = [
+        ...locs.map((l) => ({ lang: l, path: `/${l}${sub}` })),
+        { lang: 'x-default', path: `/${xdef}${sub}` },
+      ]
+      entries.push(urlEntry(`/${locale}${sub}`, alternates, lastmod))
     }
   }
 

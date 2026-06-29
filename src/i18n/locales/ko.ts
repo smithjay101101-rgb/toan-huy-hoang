@@ -36,6 +36,7 @@ const ko: Dictionary = {
     },
   },
   nav: {
+    guides: '가이드',
     buy: '매매',
     rent: '임대',
     projects: '프로젝트',
@@ -212,6 +213,24 @@ const ko: Dictionary = {
     office: '오피스',
     officeValue: '베트남, 다낭',
     sent: '이메일이 발송 준비되었습니다. 메일 앱에서 확인 후 보내기를 눌러주세요. 아무것도 열리지 않으면 직접 연락 주세요:',
+  },
+  guides: {
+    indexTitle: '가이드',
+    indexIntro: '다낭에서의 구매, 투자, 그리고 삶에 대한 기록.',
+    minRead: '분 분량',
+    by: '작성',
+    related: '관련 가이드',
+    ctaTitle: '가이드가 아니라 집을 찾고 계신가요?',
+    ctaBody: '다낭에서 무엇을 찾고 계신지 알려주세요.',
+    ctaButton: '문의하기',
+    allCategories: '전체',
+    categories: {
+      neighborhood: '지역 가이드',
+      buying: '구매 절차',
+      investment: '투자',
+      lifestyle: '라이프스타일',
+      legal: '법률',
+    },
   },
   footer: {
     tagline: '럭셔리 부동산, 다낭.',

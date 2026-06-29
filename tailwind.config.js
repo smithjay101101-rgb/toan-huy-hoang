@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 // Brand tokens are locked. See design-system/toan-huy-hoang/MASTER.md.
+import typography from '@tailwindcss/typography'
+
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
@@ -46,7 +48,28 @@ export default {
         'lux-out': 'cubic-bezier(0.16, 1, 0.3, 1)',
         'lux-in': 'cubic-bezier(0.7, 0, 0.84, 0)',
       },
+      // Cream-surface prose theme for Guides article bodies (Markdown).
+      // Used via "prose prose-cream" so headings/links/text read on cream.
+      typography: {
+        cream: {
+          css: {
+            '--tw-prose-body': 'rgba(28,38,48,0.85)',
+            '--tw-prose-headings': '#1c2630',
+            '--tw-prose-links': '#8a6420',
+            '--tw-prose-bold': '#1c2630',
+            '--tw-prose-counters': 'rgba(28,38,48,0.6)',
+            '--tw-prose-bullets': 'rgba(201,162,75,0.55)',
+            '--tw-prose-hr': 'rgba(28,38,48,0.12)',
+            '--tw-prose-quotes': '#1c2630',
+            '--tw-prose-quote-borders': '#8a6420',
+            '--tw-prose-captions': 'rgba(28,38,48,0.6)',
+            '--tw-prose-code': '#1c2630',
+            '--tw-prose-th-borders': 'rgba(28,38,48,0.2)',
+            '--tw-prose-td-borders': 'rgba(28,38,48,0.12)',
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [typography],
 }

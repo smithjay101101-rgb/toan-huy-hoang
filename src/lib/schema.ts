@@ -1,7 +1,7 @@
 import { SITE } from '@/config/site'
 import { localePath } from '@/lib/locale'
 import { formatArea, pick } from '@/lib/format'
-import type { Listing } from '@/data/types'
+import type { Listing, Guide, GuideContent } from '@/data/types'
 import type { Locale } from '@/i18n'
 
 export function realEstateAgentSchema() {
@@ -91,6 +91,40 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
       name: item.name,
       item: SITE.url + item.path,
     })),
+  }
+}
+
+export function blogPostingSchema(guide: Guide, locale: Locale, content: GuideContent) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: content.title,
+    description: content.metaDescription || content.excerpt,
+    datePublished: guide.publishedDate,
+    dateModified: guide.updatedDate || guide.publishedDate,
+    inLanguage: locale,
+    author: { '@type': 'Person', name: guide.author },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE.legalName,
+      logo: { '@type': 'ImageObject', url: SITE.url + SITE.ogImage },
+    },
+    ...(guide.coverImage ? { image: SITE.url + (guide.coverImage.avif ?? guide.coverImage.src) } : {}),
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': SITE.url + localePath(locale, `guides/${guide.slug}`),
+    },
+  }
+}
+
+export function guidesIndexSchema(locale: Locale) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Guides',
+    url: SITE.url + localePath(locale, 'guides'),
+    inLanguage: locale,
+    publisher: { '@type': 'Organization', name: SITE.legalName, url: SITE.url },
   }
 }
 

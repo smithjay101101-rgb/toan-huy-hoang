@@ -129,6 +129,38 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/projects"/>
   </url>
   <url>
+    <loc>https://smithjay101101-rgb.github.io/en/guides</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/guides"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/guides"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/vi/guides</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/guides"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/guides"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/ru/guides</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/guides"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/guides"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/ko/guides</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/guides"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/guides"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides"/>
+  </url>
+  <url>
     <loc>https://smithjay101101-rgb.github.io/en/about</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/about"/>
     <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/about"/>
@@ -447,5 +479,61 @@
     <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/property/han-riverside-development"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/property/han-riverside-development"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/property/han-riverside-development"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide</loc>
+    <lastmod>2026-06-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/vi/guides/son-tra-neighborhood-guide</loc>
+    <lastmod>2026-06-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/ru/guides/son-tra-neighborhood-guide</loc>
+    <lastmod>2026-06-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/ko/guides/son-tra-neighborhood-guide</loc>
+    <lastmod>2026-06-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://smithjay101101-rgb.github.io/ru/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://smithjay101101-rgb.github.io/ko/guides/son-tra-neighborhood-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides/son-tra-neighborhood-guide"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/en/guides/foreign-ownership-explained</loc>
+    <lastmod>2026-04-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides/foreign-ownership-explained"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides/foreign-ownership-explained"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides/foreign-ownership-explained"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/vi/guides/foreign-ownership-explained</loc>
+    <lastmod>2026-04-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides/foreign-ownership-explained"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://smithjay101101-rgb.github.io/vi/guides/foreign-ownership-explained"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides/foreign-ownership-explained"/>
+  </url>
+  <url>
+    <loc>https://smithjay101101-rgb.github.io/en/guides/why-invest-in-da-nang</loc>
+    <lastmod>2026-03-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smithjay101101-rgb.github.io/en/guides/why-invest-in-da-nang"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smithjay101101-rgb.github.io/en/guides/why-invest-in-da-nang"/>
   </url>
 </urlset>
