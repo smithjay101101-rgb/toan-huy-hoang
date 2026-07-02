@@ -107,6 +107,12 @@ const en = {
     rentLead: 'Exceptional residences available to rent across Da Nang.',
     empty: 'New properties are being prepared. Please return shortly.',
     filterAll: 'All',
+    categoryNames: {
+      villa: 'Villa',
+      apartment: 'Apartment',
+      land: 'Land',
+      project: 'Project',
+    },
     from: 'From',
     perMonth: '/ month',
     beds: 'Beds',
@@ -126,6 +132,7 @@ const en = {
     anyLocation: 'All',
     anyBeds: 'Any',
     codePlaceholder: '#000',
+    noMatches: 'No properties match these filters.',
     result: 'result',
     results: 'results',
   },
@@ -139,6 +146,7 @@ const en = {
     area: 'Living Area',
     district: 'District',
     category: 'Type',
+    code: 'Code',
     inquireTitle: 'Arrange a private viewing',
     inquireBody:
       'Speak directly with Toan Huy Hoang. No pressure, no obligation. Only considered guidance.',

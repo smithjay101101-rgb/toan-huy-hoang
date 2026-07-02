@@ -54,7 +54,8 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
 
       <div className="p-6">
         <div className="text-[0.68rem] font-medium uppercase tracking-[0.26em] text-gold-ink">
-          {localizeDistrict(listing.district, locale)} · {listing.category}
+          {localizeDistrict(listing.district, locale)} ·{' '}
+          {t(`listings.categoryNames.${listing.category.toLowerCase()}`, { defaultValue: listing.category })}
         </div>
         <h3
           className="mt-3 font-display font-semibold text-ink transition-colors group-hover:text-gold-ink"

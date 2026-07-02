@@ -2,6 +2,7 @@
   {
     "id": "mock-1",
     "slug": "oceanfront-villa-non-nuoc",
+    "code": "TH-101",
     "title": {
       "en": "Oceanfront Villa, Non Nuoc",
       "vi": "Biệt Thự Ven Biển, Non Nước"
@@ -67,6 +68,7 @@
   {
     "id": "mock-2",
     "slug": "han-river-penthouse",
+    "code": "TH-102",
     "title": {
       "en": "Han River Penthouse",
       "vi": "Penthouse Sông Hàn"
@@ -132,6 +134,7 @@
   {
     "id": "mock-3",
     "slug": "son-tra-hillside-estate",
+    "code": "TH-103",
     "title": {
       "en": "Son Tra Hillside Estate",
       "vi": "Dinh Thự Sườn Đồi Sơn Trà"
@@ -197,6 +200,7 @@
   {
     "id": "mock-4",
     "slug": "my-khe-beach-residence",
+    "code": "TH-104",
     "title": {
       "en": "My Khe Beach Residence",
       "vi": "Căn Hộ Biển Mỹ Khê"
@@ -262,6 +266,7 @@
   {
     "id": "mock-5",
     "slug": "an-thuong-garden-villa",
+    "code": "TH-105",
     "title": {
       "en": "An Thuong Garden Villa",
       "vi": "Biệt Thự Vườn An Thượng"
@@ -327,6 +332,7 @@
   {
     "id": "mock-6",
     "slug": "coastal-land-nam-o",
+    "code": "TH-106",
     "title": {
       "en": "Coastal Land Parcel, Nam O",
       "vi": "Đất Ven Biển, Nam Ô"
@@ -392,6 +398,7 @@
   {
     "id": "mock-7",
     "slug": "marble-mountain-townhouse",
+    "code": "TH-107",
     "title": {
       "en": "Marble Mountain Townhouse",
       "vi": "Nhà Phố Ngũ Hành Sơn"
@@ -457,6 +464,7 @@
   {
     "id": "mock-8",
     "slug": "han-riverside-development",
+    "code": "TH-108",
     "title": {
       "en": "Han Riverside Development",
       "vi": "Dự Án Ven Sông Hàn"

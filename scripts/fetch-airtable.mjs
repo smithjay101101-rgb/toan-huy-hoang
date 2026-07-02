@@ -37,6 +37,35 @@ function slugify(s) {
     .replace(/(^-|-$)/g, '')
 }
 
+// Canonical filter values (keep in sync with src/data/locations.ts and the
+// Category type). The site filters by exact match, so rows typed with accents,
+// different casing, or stray spaces are normalized to these.
+const DISTRICTS = ['Hai Chau', 'Son Tra', 'Ngu Hanh Son', 'An Thuong', 'My An', 'Hoa Xuan', 'Nam Viet A', 'Lien Chieu', 'Thanh Khe', 'Cam Le', 'FPT City']
+const CATEGORIES = ['Villa', 'Apartment', 'Land', 'Project']
+
+function foldKey(s) {
+  return String(s)
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'd')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, ' ')
+}
+
+function canonicalDistrict(raw) {
+  if (!raw) return ''
+  const key = foldKey(raw)
+  return DISTRICTS.find((d) => foldKey(d) === key) ?? String(raw).trim()
+}
+
+function canonicalCategory(raw) {
+  if (!raw) return 'Villa'
+  const key = foldKey(raw)
+  return CATEGORIES.find((c) => foldKey(c) === key) ?? 'Villa'
+}
+
 async function fetchAirtableRecords() {
   const records = []
   let offset
@@ -135,50 +164,78 @@ async function buildFromAirtable() {
   const sharp = (await import('sharp')).default
   const records = await fetchAirtableRecords()
   const out = []
+  const usedSlugs = new Set()
   for (const rec of records) {
-    const f = rec.fields
-    const slug = f.slug ? slugify(f.slug) : slugify(f.title_en ?? rec.id)
-    const titleEn = f.title_en ?? 'Untitled'
-    const dir = join(PUBLIC_DIR, 'listings', slug)
-    let heroImage = null
-    const gallery = []
-    if (FAKE_IMAGES) {
-      heroImage = fakeAsset(slug, titleEn)
-    } else {
-      if (Array.isArray(f.hero_image) && f.hero_image[0]) {
-        heroImage = await optimizeImage(sharp, f.hero_image[0].url, dir, 'hero', titleEn)
+    // Each record is processed independently: one bad row or broken attachment
+    // skips that listing (with a log line), never the whole catalog.
+    try {
+      const f = rec.fields
+      let slug = f.slug ? slugify(f.slug) : slugify(f.title_en ?? rec.id)
+      if (usedSlugs.has(slug)) {
+        let i = 2
+        while (usedSlugs.has(`${slug}-${i}`)) i++
+        slug = `${slug}-${i}`
       }
-      if (Array.isArray(f.gallery)) {
-        for (let i = 0; i < f.gallery.length; i++) {
-          gallery.push(
-            await optimizeImage(sharp, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`),
-          )
+      usedSlugs.add(slug)
+      const titleEn = f.title_en ?? 'Untitled'
+      const dir = join(PUBLIC_DIR, 'listings', slug)
+      let heroImage = null
+      const gallery = []
+      if (FAKE_IMAGES) {
+        heroImage = fakeAsset(slug, titleEn)
+      } else {
+        if (Array.isArray(f.hero_image) && f.hero_image[0]) {
+          try {
+            heroImage = await optimizeImage(sharp, f.hero_image[0].url, dir, 'hero', titleEn)
+          } catch (err) {
+            console.error(`[data] ${slug}: hero image failed (${err.message}), using placeholder`)
+          }
+        }
+        if (Array.isArray(f.gallery)) {
+          for (let i = 0; i < f.gallery.length; i++) {
+            try {
+              gallery.push(
+                await optimizeImage(sharp, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`),
+              )
+            } catch (err) {
+              console.error(`[data] ${slug}: gallery image ${i + 1} failed (${err.message}), skipped`)
+            }
+          }
         }
       }
+      const longDesc = localized(f, 'long_desc')
+      out.push({
+        id: rec.id,
+        slug,
+        code: f.code ? String(f.code).trim() : null,
+        title: localized(f, 'title'),
+        dealType: (f.deal_type ?? 'Buy').toLowerCase() === 'rent' ? 'rent' : 'buy',
+        category: canonicalCategory(f.category),
+        district: canonicalDistrict(f.district),
+        price: Number(f.price ?? 0),
+        currency: f.currency ?? 'USD',
+        bedrooms: Number(f.bedrooms ?? 0),
+        bathrooms: Number(f.bathrooms ?? 0),
+        areaM2: Number(f.area_m2 ?? 0),
+        shortDesc: shortFromLong(longDesc),
+        longDesc,
+        heroImage: heroImage ?? gallery[0] ?? placeholderAsset(slug, titleEn),
+        gallery,
+        lat: f.lat != null ? Number(f.lat) : null,
+        lng: f.lng != null ? Number(f.lng) : null,
+        featured: Boolean(f.featured),
+        datePublished: f.date_published ?? new Date().toISOString().slice(0, 10),
+      })
+    } catch (err) {
+      console.error(`[data] Skipping listing ${rec.id} (${rec.fields?.title_en ?? 'untitled'}): ${err.message}`)
     }
-    const longDesc = localized(f, 'long_desc')
-    out.push({
-      id: rec.id,
-      slug,
-      title: localized(f, 'title'),
-      dealType: (f.deal_type ?? 'Buy').toLowerCase() === 'rent' ? 'rent' : 'buy',
-      category: f.category ?? 'Villa',
-      district: f.district ?? '',
-      price: Number(f.price ?? 0),
-      currency: f.currency ?? 'USD',
-      bedrooms: Number(f.bedrooms ?? 0),
-      bathrooms: Number(f.bathrooms ?? 0),
-      areaM2: Number(f.area_m2 ?? 0),
-      shortDesc: shortFromLong(longDesc),
-      longDesc,
-      heroImage: heroImage ?? gallery[0] ?? placeholderAsset(slug, titleEn),
-      gallery,
-      lat: f.lat != null ? Number(f.lat) : null,
-      lng: f.lng != null ? Number(f.lng) : null,
-      featured: Boolean(f.featured),
-      datePublished: f.date_published ?? new Date().toISOString().slice(0, 10),
-    })
   }
+  // Deterministic order: featured lead, then newest first.
+  out.sort((a, b) =>
+    a.featured !== b.featured
+      ? (a.featured ? -1 : 1)
+      : String(b.datePublished).localeCompare(String(a.datePublished)),
+  )
   await mkdir(join(DATA_FILE, '..'), { recursive: true })
   await writeFile(DATA_FILE, JSON.stringify(out, null, 2), 'utf8')
   return out.length

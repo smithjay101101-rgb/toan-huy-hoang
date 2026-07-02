@@ -106,6 +106,12 @@ const vi: Dictionary = {
     rentLead: 'Những căn nhà đặc biệt đang cho thuê tại Đà Nẵng.',
     empty: 'Các bất động sản mới đang được chuẩn bị. Vui lòng quay lại sau.',
     filterAll: 'Tất Cả',
+    categoryNames: {
+      villa: 'Biệt thự',
+      apartment: 'Căn hộ',
+      land: 'Đất',
+      project: 'Dự án',
+    },
     from: 'Từ',
     perMonth: '/ tháng',
     beds: 'Phòng ngủ',
@@ -125,6 +131,7 @@ const vi: Dictionary = {
     anyLocation: 'Tất cả',
     anyBeds: 'Bất kỳ',
     codePlaceholder: '#000',
+    noMatches: 'Không có bất động sản nào phù hợp với bộ lọc.',
     result: 'kết quả',
     results: 'kết quả',
   },
@@ -138,6 +145,7 @@ const vi: Dictionary = {
     area: 'Diện tích',
     district: 'Quận',
     category: 'Loại hình',
+    code: 'Mã',
     inquireTitle: 'Đặt lịch xem riêng',
     inquireBody:
       'Trao đổi trực tiếp với Toàn Huy Hoàng. Không áp lực, không ràng buộc. Chỉ có sự tư vấn tận tâm.',

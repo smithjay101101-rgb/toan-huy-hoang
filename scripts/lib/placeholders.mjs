@@ -188,6 +188,7 @@ export async function writeMockData({ publicDir, dataFile }) {
     out.push({
       id: `mock-${i + 1}`,
       slug: m.slug,
+      code: `TH-${101 + i}`,
       title: m.title,
       dealType: m.dealType,
       category: m.category,

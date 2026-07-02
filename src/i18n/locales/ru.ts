@@ -106,6 +106,12 @@ const ru: Dictionary = {
     rentLead: 'Исключительные резиденции, доступные для аренды по всему Данангу.',
     empty: 'Новые объекты готовятся. Пожалуйста, загляните позже.',
     filterAll: 'Все',
+    categoryNames: {
+      villa: 'Вилла',
+      apartment: 'Апартаменты',
+      land: 'Земля',
+      project: 'Проект',
+    },
     from: 'От',
     perMonth: '/ мес',
     beds: 'Спален',
@@ -125,6 +131,7 @@ const ru: Dictionary = {
     anyLocation: 'Все',
     anyBeds: 'Любое',
     codePlaceholder: '#000',
+    noMatches: 'Нет объектов, соответствующих этим фильтрам.',
     result: 'результат',
     results: 'результатов',
   },
@@ -138,6 +145,7 @@ const ru: Dictionary = {
     area: 'Жилая площадь',
     district: 'Район',
     category: 'Тип',
+    code: 'Код',
     inquireTitle: 'Организовать частный просмотр',
     inquireBody:
       'Поговорите напрямую с Toan Huy Hoang. Без давления, без обязательств. Только продуманное сопровождение.',

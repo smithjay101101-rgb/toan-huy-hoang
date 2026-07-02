@@ -30,6 +30,8 @@ export interface Localized {
 export interface Listing {
   id: string
   slug: string
+  /** Short property reference (e.g. "TH-101") the agent quotes to clients. */
+  code?: string | null
   title: Localized
   dealType: DealType
   category: Category

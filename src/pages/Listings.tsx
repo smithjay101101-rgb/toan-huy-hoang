@@ -1,23 +1,61 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLocale } from '@/lib/locale'
 import type { DealType } from '@/data/types'
 import { getListingsByDeal } from '@/data'
+import { LOCATIONS } from '@/data/locations'
 import { pick } from '@/lib/format'
 import Seo from '@/components/Seo'
 import PageHeader from '@/components/PageHeader'
 import PropertyCard from '@/components/PropertyCard'
-import ListingSearch, { EMPTY_FILTER, budgetRange, type ListingFilter } from '@/components/ListingSearch'
+import ListingSearch, { EMPTY_FILTER, budgetRange, budgetKeys, type ListingFilter } from '@/components/ListingSearch'
 import Reveal from '@/components/Reveal'
+
+const BEDROOM_KEYS = ['1', '2', '3', '4', '5']
 
 export default function Listings({ dealType }: { dealType: DealType }) {
   const { t } = useTranslation()
   const locale = useLocale()
   const all = getListingsByDeal(dealType)
   const resultsRef = useRef<HTMLDivElement | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const categories = useMemo(() => Array.from(new Set(all.map((l) => l.category))), [all])
   const [filter, setFilter] = useState<ListingFilter>(EMPTY_FILTER)
+
+  // Hydrate filters from the URL once after mount (not in the initial state, so
+  // the first client render matches the prerendered HTML). Invalid params are
+  // ignored. Makes filtered views shareable: /en/buy?location=My+An&beds=3
+  useEffect(() => {
+    const next: ListingFilter = { ...EMPTY_FILTER }
+    const type = searchParams.get('type')
+    if (type && categories.some((c) => c === type)) next.category = type
+    const loc = searchParams.get('location')
+    if (loc && LOCATIONS.some((l) => l.value === loc)) next.district = loc
+    const budget = searchParams.get('budget')
+    if (budget && budgetKeys(dealType).includes(budget)) next.budget = budget
+    const beds = searchParams.get('beds')
+    if (beds && BEDROOM_KEYS.includes(beds)) next.bedrooms = beds
+    const code = searchParams.get('q')
+    if (code) next.code = code
+    if (JSON.stringify(next) !== JSON.stringify(EMPTY_FILTER)) setFilter(next)
+    // Run once per page mount; later changes flow through updateFilter below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dealType])
+
+  // Single write path: update state and mirror non-default values into the URL
+  // (replace, not push, so typing in the code box does not spam history).
+  const updateFilter = (next: ListingFilter) => {
+    setFilter(next)
+    const p = new URLSearchParams()
+    if (next.category !== 'all') p.set('type', next.category)
+    if (next.district !== 'all') p.set('location', next.district)
+    if (next.budget !== 'any') p.set('budget', next.budget)
+    if (next.bedrooms !== 'any') p.set('beds', next.bedrooms)
+    if (next.code.trim()) p.set('q', next.code.trim())
+    setSearchParams(p, { replace: true })
+  }
 
   const shown = useMemo(() => {
     const [min, max] = budgetRange(dealType, filter.budget)
@@ -27,7 +65,14 @@ export default function Listings({ dealType }: { dealType: DealType }) {
       if (filter.district !== 'all' && l.district !== filter.district) return false
       if (filter.bedrooms !== 'any' && l.bedrooms < Number(filter.bedrooms)) return false
       if (l.price < min || l.price >= max) return false
-      if (code && !(l.slug.toLowerCase().includes(code) || pick(l.title, locale).toLowerCase().includes(code)))
+      if (
+        code &&
+        !(
+          (l.code ?? '').toLowerCase().includes(code) ||
+          l.slug.toLowerCase().includes(code) ||
+          pick(l.title, locale).toLowerCase().includes(code)
+        )
+      )
         return false
       return true
     })
@@ -76,7 +121,7 @@ export default function Listings({ dealType }: { dealType: DealType }) {
               locale={locale}
               categories={categories}
               value={filter}
-              onChange={setFilter}
+              onChange={updateFilter}
               onSearch={scrollToResults}
             />
           </div>
@@ -89,7 +134,7 @@ export default function Listings({ dealType }: { dealType: DealType }) {
               {isFiltered && (
                 <button
                   type="button"
-                  onClick={() => setFilter(EMPTY_FILTER)}
+                  onClick={() => updateFilter(EMPTY_FILTER)}
                   className="text-xs uppercase tracking-[0.18em] text-ink/70 transition-colors hover:text-gold-ink"
                 >
                   {t('search.clear')}
@@ -98,7 +143,21 @@ export default function Listings({ dealType }: { dealType: DealType }) {
             </div>
 
             {shown.length === 0 ? (
-              <p className="py-20 text-center text-ink/70">{t('listings.empty')}</p>
+              // Distinguish "filters exclude everything" from "no listings yet".
+              isFiltered ? (
+                <div className="py-20 text-center">
+                  <p className="text-ink/70">{t('search.noMatches')}</p>
+                  <button
+                    type="button"
+                    onClick={() => updateFilter(EMPTY_FILTER)}
+                    className="btn btn-slate mt-8"
+                  >
+                    {t('search.clear')}
+                  </button>
+                </div>
+              ) : (
+                <p className="py-20 text-center text-ink/70">{t('listings.empty')}</p>
+              )
             ) : (
               <Reveal stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {shown.map((l, i) => (

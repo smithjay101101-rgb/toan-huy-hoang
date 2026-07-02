@@ -107,6 +107,12 @@ const ko: Dictionary = {
     rentLead: '다낭 전역에서 임대 가능한 특별한 주택.',
     empty: '새로운 매물을 준비 중입니다. 잠시 후 다시 방문해 주세요.',
     filterAll: '전체',
+    categoryNames: {
+      villa: '빌라',
+      apartment: '아파트',
+      land: '토지',
+      project: '프로젝트',
+    },
     from: '시작가',
     perMonth: '/ 월',
     beds: '침실',
@@ -126,6 +132,7 @@ const ko: Dictionary = {
     anyLocation: '전체',
     anyBeds: '전체',
     codePlaceholder: '#000',
+    noMatches: '필터에 맞는 매물이 없습니다.',
     result: '개 결과',
     results: '개 결과',
   },
@@ -139,6 +146,7 @@ const ko: Dictionary = {
     area: '주거 면적',
     district: '지역',
     category: '유형',
+    code: '코드',
     inquireTitle: '프라이빗 투어 예약',
     inquireBody:
       '또안 후이 호앙과 직접 상담하세요. 부담도, 의무도 없습니다. 오직 사려 깊은 안내만 있습니다.',

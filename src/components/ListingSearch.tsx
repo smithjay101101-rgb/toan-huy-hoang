@@ -54,6 +54,11 @@ export function budgetRange(deal: DealType, key: string): [number, number] {
   return [b.min, b.max]
 }
 
+/** Valid budget keys for a deal type (used to validate URL filter params). */
+export function budgetKeys(deal: DealType): string[] {
+  return BUDGETS[deal].map((b) => b.key)
+}
+
 const controlCls =
   'w-full rounded-[2px] border border-ink/15 bg-[#faf8f3] px-4 text-sm text-ink outline-none transition-colors focus:border-gold-ink'
 
@@ -112,6 +117,8 @@ interface Props {
 export default function ListingSearch({ dealType, locale, categories, value, onChange, onSearch }: Props) {
   const { t } = useTranslation()
   const set = (patch: Partial<ListingFilter>) => onChange({ ...value, ...patch })
+  // Localized label for a category value; unknown values pass through as-is.
+  const catLabel = (c: string) => t(`listings.categoryNames.${c.toLowerCase()}`, { defaultValue: c })
 
   return (
     <div
@@ -128,7 +135,7 @@ export default function ListingSearch({ dealType, locale, categories, value, onC
           <option value="all">{t('search.anyType')}</option>
           {categories.map((c) => (
             <option key={c} value={c}>
-              {c}
+              {catLabel(c)}
             </option>
           ))}
         </Select>

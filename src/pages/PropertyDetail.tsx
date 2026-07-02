@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, BedDouble, Bath, Maximize, MapPin, MessageCircle } from 'lucide-react'
+import { ArrowLeft, BedDouble, Bath, Maximize, MapPin, MessageCircle, Hash } from 'lucide-react'
 import { useLocale } from '@/lib/locale'
 import { localePath } from '@/lib/locale'
 import { getListingBySlug } from '@/data'
@@ -37,12 +37,14 @@ export default function PropertyDetail() {
 
   const title = pick(listing.title, locale)
   const district = localizeDistrict(listing.district, locale)
+  const category = t(`listings.categoryNames.${listing.category.toLowerCase()}`, { defaultValue: listing.category })
   const isRent = listing.dealType === 'rent'
   const specs = [
     listing.bedrooms > 0 && { icon: BedDouble, label: t('detail.bedrooms'), value: String(listing.bedrooms) },
     listing.bathrooms > 0 && { icon: Bath, label: t('detail.bathrooms'), value: String(listing.bathrooms) },
     listing.areaM2 > 0 && { icon: Maximize, label: t('detail.area'), value: formatArea(listing.areaM2, locale) },
     { icon: MapPin, label: t('detail.district'), value: district },
+    !!listing.code && { icon: Hash, label: t('detail.code'), value: listing.code },
   ].filter(Boolean) as { icon: typeof BedDouble; label: string; value: string }[]
 
   return (
@@ -80,7 +82,7 @@ export default function PropertyDetail() {
           </Link>
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-[2px] border border-white/25 bg-black/30 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-white/90 backdrop-blur-sm">
-              {listing.category}
+              {category}
             </span>
             <span className="text-xs uppercase tracking-[0.2em] text-white/65">{district}</span>
           </div>
