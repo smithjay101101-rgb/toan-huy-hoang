@@ -53,9 +53,13 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
       </div>
 
       <div className="p-6">
-        <div className="text-[0.68rem] font-medium uppercase tracking-[0.26em] text-gold-ink">
-          {localizeDistrict(listing.district, locale)} ·{' '}
-          {t(`listings.categoryNames.${listing.category.toLowerCase()}`, { defaultValue: listing.category })}
+        <div className="flex items-baseline justify-between gap-3 text-[0.68rem] font-medium uppercase tracking-[0.26em] text-gold-ink">
+          <span>
+            {localizeDistrict(listing.district, locale)} ·{' '}
+            {t(`listings.categoryNames.${listing.category.toLowerCase()}`, { defaultValue: listing.category })}
+          </span>
+          {/* Property reference, searchable via the Code filter. */}
+          {listing.code && <span className="shrink-0 tracking-[0.14em] text-ink/45">#{listing.code}</span>}
         </div>
         <h3
           className="mt-3 font-display font-semibold text-ink transition-colors group-hover:text-gold-ink"

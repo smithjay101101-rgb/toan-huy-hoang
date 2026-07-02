@@ -66,6 +66,17 @@ function canonicalCategory(raw) {
   return CATEGORIES.find((c) => foldKey(c) === key) ?? 'Villa'
 }
 
+// Every listing gets a searchable property code. When the Airtable row has no
+// code, derive a stable one from the record id (same row keeps the same code
+// across rebuilds). Collisions bump to the next free number.
+function autoCode(recId, used) {
+  let h = 0
+  for (const c of String(recId)) h = (h * 31 + c.charCodeAt(0)) >>> 0
+  let n = 100 + (h % 900)
+  while (used.has(`TH-${n}`)) n = 100 + ((n - 99) % 900)
+  return `TH-${n}`
+}
+
 async function fetchAirtableRecords() {
   const records = []
   let offset
@@ -165,6 +176,7 @@ async function buildFromAirtable() {
   const records = await fetchAirtableRecords()
   const out = []
   const usedSlugs = new Set()
+  const usedCodes = new Set()
   for (const rec of records) {
     // Each record is processed independently: one bad row or broken attachment
     // skips that listing (with a log line), never the whole catalog.
@@ -204,10 +216,12 @@ async function buildFromAirtable() {
         }
       }
       const longDesc = localized(f, 'long_desc')
+      const code = f.code ? String(f.code).trim() : autoCode(rec.id, usedCodes)
+      usedCodes.add(code)
       out.push({
         id: rec.id,
         slug,
-        code: f.code ? String(f.code).trim() : null,
+        code,
         title: localized(f, 'title'),
         dealType: (f.deal_type ?? 'Buy').toLowerCase() === 'rent' ? 'rent' : 'buy',
         category: canonicalCategory(f.category),
