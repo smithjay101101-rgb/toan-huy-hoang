@@ -5,7 +5,7 @@ import { localePath } from '@/lib/locale'
 import { SITE, zaloLink, whatsappLink } from '@/config/site'
 import LanguageSwitcher from './LanguageSwitcher'
 
-const EXPLORE = ['buy', 'rent', 'projects', 'about'] as const
+const EXPLORE = ['buy', 'rent', 'projects', 'guides', 'about', 'contact'] as const
 
 const linkCls = 'cursor-pointer transition-colors duration-200 hover:text-gold-2'
 
@@ -107,11 +107,8 @@ export default function Footer({ locale }: { locale: Locale }) {
           <span>
             © {new Date().getFullYear()} {SITE.name}. {t('footer.rights')}
           </span>
-          <span className="flex items-center gap-6">
-            <span className={linkCls}>{t('footer.privacy')}</span>
-            <span className={linkCls}>{t('footer.terms')}</span>
-            <LanguageSwitcher current={locale} />
-          </span>
+          {/* Privacy/Terms links return when those pages exist; fake links erode trust. */}
+          <LanguageSwitcher current={locale} />
         </div>
       </div>
     </footer>
