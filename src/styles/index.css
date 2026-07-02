@@ -98,6 +98,39 @@
     }
   }
 
+  /* Brand text selection: gold wash, ink text. */
+  ::selection {
+    background: rgba(201, 162, 75, 0.85);
+    color: #10151b;
+  }
+
+  /* Soft page transition: route content fades in on navigation. */
+  .route-fade {
+    animation: routeFade 0.35s ease-out both;
+  }
+  @keyframes routeFade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Listing imagery eases in on mount (applied to non-priority images only,
+     so the LCP hero paints immediately). */
+  .img-soft {
+    animation: imgSoft 0.5s ease-out both;
+  }
+  @keyframes imgSoft {
+    from {
+      opacity: 0.001;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   img {
     display: block;
     max-width: 100%;

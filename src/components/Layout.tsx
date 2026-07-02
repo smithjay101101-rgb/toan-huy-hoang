@@ -28,7 +28,8 @@ export default function Layout() {
         Skip to content
       </a>
       <Nav locale={locale} />
-      <main id="main">
+      {/* Keyed by path so each page mounts fresh and fades in (route-fade). */}
+      <main id="main" key={pathname} className="route-fade">
         <Outlet />
       </main>
       <Footer locale={locale} />

@@ -85,8 +85,8 @@ export default function Listings({ dealType }: { dealType: DealType }) {
   const title = dealType === 'buy' ? t('listings.buyTitle') : t('listings.rentTitle')
   const lead = dealType === 'buy' ? t('listings.buyLead') : t('listings.rentLead')
 
-  // Full-bleed header photo per deal type: the Golden Bridge for rentals, the
-  // Da Nang skyline for sales.
+  // Full-bleed header photo per deal type: the Golden Bridge for rentals, a
+  // bright modern Da Nang villa for sales (distinct from the homepage skyline).
   const headerImage =
     dealType === 'rent'
       ? {
@@ -96,10 +96,10 @@ export default function Listings({ dealType }: { dealType: DealType }) {
           alt: 'The Golden Bridge at Ba Na Hills, Da Nang',
         }
       : {
-          avif: '/media/hero-city.avif',
-          webp: '/media/hero-city.webp',
-          jpg: '/media/hero-city.jpg',
-          alt: 'The Da Nang skyline along the coast',
+          avif: '/media/villa-buy.avif',
+          webp: '/media/villa-buy.webp',
+          jpg: '/media/villa-buy.jpg',
+          alt: 'A modern poolside villa in Da Nang in the afternoon sun',
         }
 
   return (

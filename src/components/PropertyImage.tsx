@@ -28,7 +28,7 @@ export default function PropertyImage({ image, className, priority = false, size
         decoding={priority ? 'sync' : 'async'}
         // lowercase attribute for cross-version React DOM compatibility
         {...{ fetchpriority: priority ? 'high' : 'auto' }}
-        className={className}
+        className={`${className ?? ''} ${priority ? '' : 'img-soft'}`.trim()}
         style={{ aspectRatio: aspect, objectFit: 'cover', width: '100%', height: '100%' }}
       />
     </picture>
