@@ -10,13 +10,14 @@ export default function LanguageSwitcher({ current }: { current: Locale }) {
         <span key={l} className="flex items-center gap-1">
           {i > 0 && <span className="text-text/30">/</span>}
           {l === current ? (
-            <span aria-current="true" className="text-gold">
+            <span aria-current="true" className="px-1 py-2.5 text-gold">
               {LOCALE_LABEL[l]}
             </span>
           ) : (
+            // Padded tap area: the visible label is small, the target is not.
             <Link
               to={swapLocaleInPath(pathname, l)}
-              className="text-text/55 transition-colors duration-200 hover:text-text"
+              className="px-1 py-2.5 text-text/55 transition-colors duration-200 hover:text-text"
               hrefLang={l}
             >
               {LOCALE_LABEL[l]}

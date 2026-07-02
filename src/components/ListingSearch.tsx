@@ -59,8 +59,10 @@ export function budgetKeys(deal: DealType): string[] {
   return BUDGETS[deal].map((b) => b.key)
 }
 
+// 16px on small screens (below md) so iOS Safari does not auto-zoom the page
+// when a control gains focus; the tighter 14px only applies on desktop.
 const controlCls =
-  'w-full rounded-[2px] border border-ink/15 bg-[#faf8f3] px-4 text-sm text-ink outline-none transition-colors focus:border-gold-ink'
+  'w-full rounded-[2px] border border-ink/15 bg-[#faf8f3] px-4 text-base md:text-sm text-ink outline-none transition-colors focus:border-gold-ink'
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (

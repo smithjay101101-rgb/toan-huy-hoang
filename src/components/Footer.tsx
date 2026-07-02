@@ -7,7 +7,8 @@ import LanguageSwitcher from './LanguageSwitcher'
 
 const EXPLORE = ['buy', 'rent', 'projects', 'guides', 'about', 'contact'] as const
 
-const linkCls = 'cursor-pointer transition-colors duration-200 hover:text-gold-2'
+// inline-block + vertical padding keeps footer tap areas comfortable on touch.
+const linkCls = 'inline-block cursor-pointer py-1 transition-colors duration-200 hover:text-gold-2'
 
 export default function Footer({ locale }: { locale: Locale }) {
   const { t } = useTranslation()
