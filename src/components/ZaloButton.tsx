@@ -12,8 +12,8 @@ export default function ZaloButton({ compact = false }: { compact?: boolean }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Zalo"
-      className="inline-flex items-center gap-2 rounded-[2px] border border-line px-3 text-text/80 transition-colors duration-200 hover:border-gold hover:text-text"
-      style={{ minHeight: 40 }}
+      className="inline-flex items-center gap-2 rounded-[2px] border border-white/35 px-3 text-text transition-colors duration-200 hover:border-gold hover:text-gold"
+      style={{ minHeight: 40, background: 'rgba(13,22,30,0.45)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
     >
       <MessageCircle size={16} strokeWidth={1.5} aria-hidden="true" />
       {!compact && (

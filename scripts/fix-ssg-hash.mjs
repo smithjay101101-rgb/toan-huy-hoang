@@ -42,7 +42,8 @@ const CSP = [
   'frame-src https://www.openstreetmap.org',
   "object-src 'none'",
   "base-uri 'self'",
-  "form-action 'self'",
+  // FormSubmit receives the contact form POST and emails it to the client.
+  "form-action 'self' https://formsubmit.co",
 ].join('; ')
 
 async function main() {

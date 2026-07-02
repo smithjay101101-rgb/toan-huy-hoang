@@ -47,7 +47,7 @@ export default function PageHeader({
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(180deg, rgba(13,26,36,0.5) 0%, rgba(13,26,36,0.08) 32%, rgba(13,26,36,0.78) 100%)',
+              'linear-gradient(180deg, rgba(13,26,36,0.62) 0%, rgba(13,26,36,0.16) 32%, rgba(13,26,36,0.82) 100%)',
           }}
           aria-hidden="true"
         />

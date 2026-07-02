@@ -70,28 +70,37 @@ export default function PropertyDetail() {
         <PropertyImage image={listing.heroImage} priority className="absolute inset-0" sizes="100vw" />
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(180deg, rgba(7,7,7,0.5) 0%, transparent 35%, rgba(7,7,7,0.9) 100%)' }}
+          style={{ background: 'linear-gradient(180deg, rgba(7,7,7,0.55) 0%, rgba(7,7,7,0.18) 35%, rgba(7,7,7,0.94) 100%)' }}
           aria-hidden="true"
         />
         <div className="container-lux relative z-10 flex min-h-[78vh] flex-col justify-end pb-16 pt-36">
           <Link
             to={localePath(locale, listing.dealType)}
-            className="mb-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white/70 transition-colors hover:text-white"
+            className="mb-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white/90 transition-colors hover:text-gold-2"
+            style={{ textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
           >
             <ArrowLeft size={16} strokeWidth={1.5} /> {t('detail.backTo')}
           </Link>
           <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-[2px] border border-white/25 bg-black/30 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-white/90 backdrop-blur-sm">
+            <span className="rounded-[2px] border border-white/30 bg-black/40 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-white backdrop-blur-sm">
               {category}
             </span>
-            <span className="text-xs uppercase tracking-[0.2em] text-white/65">{district}</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-white/90" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
+              {district}
+            </span>
           </div>
-          <h1 className="mt-4 max-w-[20ch] font-display text-white" style={{ fontSize: 'clamp(2.25rem, 1.6rem + 3.4vw, 4.5rem)', lineHeight: 1.04 }}>
+          <h1
+            className="mt-4 max-w-[20ch] font-display text-white"
+            style={{ fontSize: 'clamp(2.25rem, 1.6rem + 3.4vw, 4.5rem)', lineHeight: 1.04, textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 2px 12px rgba(0,0,0,0.45)' }}
+          >
             {title}
           </h1>
-          <div className="mt-4 font-display text-2xl text-gold-2 tabular-nums lg:text-3xl">
+          <div
+            className="mt-4 font-display font-semibold text-gold-2 tabular-nums"
+            style={{ fontSize: 'clamp(1.7rem, 1.3rem + 1.8vw, 2.6rem)', textShadow: '0 2px 18px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
+          >
             {formatPrice(listing, locale)}
-            {isRent && <span className="ml-2 text-sm text-white/70">{t('listings.perMonth')}</span>}
+            {isRent && <span className="ml-2 font-sans text-sm font-normal text-white/85">{t('listings.perMonth')}</span>}
           </div>
         </div>
       </section>

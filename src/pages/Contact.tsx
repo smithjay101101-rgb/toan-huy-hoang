@@ -1,33 +1,23 @@
-import { useState, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { MessageCircle, Mail, Phone, MapPin } from 'lucide-react'
+import { MessageCircle, Mail, Phone, MapPin, Check } from 'lucide-react'
 import Seo from '@/components/Seo'
 import PageHeader from '@/components/PageHeader'
+import { useLocale } from '@/lib/locale'
+import { localePath } from '@/lib/locale'
 import { SITE, zaloLink, whatsappLink } from '@/config/site'
 
 export default function Contact() {
   const { t } = useTranslation()
+  const locale = useLocale()
   const meta = t('meta.contact', { returnObjects: true }) as { title: string; description: string }
-  const [sent, setSent] = useState(false)
+  // No backend: the form POSTs to FormSubmit, which emails the message straight
+  // to Toan's inbox and redirects back here with ?sent=1 for the confirmation.
+  const [searchParams] = useSearchParams()
+  const sent = searchParams.get('sent') === '1'
+  const nextUrl = `${SITE.url}${localePath(locale, 'contact')}?sent=1`
 
-  // No backend: the form opens the visitor's email app with a message
-  // pre-addressed to Toan (mailto). Simple and reliable, nothing to host.
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget)
-    const name = String(data.get('name') ?? '').trim()
-    const email = String(data.get('email') ?? '').trim()
-    const phone = String(data.get('phone') ?? '').trim()
-    const message = String(data.get('message') ?? '').trim()
-
-    const subject = `Property inquiry from ${name || 'website'}`
-    const lines = [`Name: ${name}`, `Email: ${email}`]
-    if (phone) lines.push(`Phone: ${phone}`)
-    lines.push('', message)
-
-    window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`
-    setSent(true)
-  }
+  const promises = [t('contact.promise1'), t('contact.promise2'), t('contact.promise3')]
 
   return (
     <>
@@ -47,6 +37,16 @@ export default function Contact() {
         <div className="container-lux grid gap-14 pb-24 pt-20 lg:grid-cols-[1.2fr_1fr] lg:gap-24 lg:pb-32 lg:pt-28">
           {/* Form */}
           <div>
+            {/* Why write: three quiet promises above the form. */}
+            <ul className="mb-10 space-y-3">
+              {promises.map((p) => (
+                <li key={p} className="flex items-start gap-3 text-[15px] font-light text-ink/80">
+                  <Check size={16} strokeWidth={2} className="mt-1 shrink-0 text-gold-ink" aria-hidden="true" />
+                  {p}
+                </li>
+              ))}
+            </ul>
+
             {sent ? (
               <div className="rounded-[4px] border border-gold-ink/40 bg-white p-10 text-center">
                 <p className="font-display text-xl text-ink">{t('contact.sent')}</p>
@@ -58,7 +58,16 @@ export default function Contact() {
                 </a>
               </div>
             ) : (
-              <form onSubmit={onSubmit} className="space-y-6">
+              <form action={`https://formsubmit.co/${SITE.email}`} method="POST" className="space-y-6">
+                {/* FormSubmit config: subject line, readable table layout, no
+                    captcha page, then back to this page for the confirmation. */}
+                <input type="hidden" name="_subject" value="Website inquiry, toanhuyhoang" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value={nextUrl} />
+                {/* Honeypot: bots fill it, FormSubmit drops those messages. */}
+                <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+
                 <div className="grid gap-6 sm:grid-cols-2">
                   <Field id="name" label={t('contact.name')} required />
                   <Field id="email" label={t('contact.email')} type="email" required />
@@ -72,6 +81,7 @@ export default function Contact() {
                     id="message"
                     name="message"
                     rows={5}
+                    required
                     className="input-light resize-none"
                     placeholder={t('contact.messagePlaceholder')}
                   />
@@ -79,6 +89,12 @@ export default function Contact() {
                 <button type="submit" className="btn btn-slate">
                   {t('contact.send')}
                 </button>
+                <p className="text-sm font-light text-ink/70">
+                  {t('contact.writeDirect')}{' '}
+                  <a href={`mailto:${SITE.email}`} className="text-gold-ink underline-offset-4 hover:underline">
+                    {SITE.email}
+                  </a>
+                </p>
               </form>
             )}
           </div>
@@ -98,7 +114,7 @@ export default function Contact() {
                 href={zaloLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn border border-ink/25 text-ink transition-colors hover:border-gold-ink hover:text-gold-ink"
+                className="btn border border-ink/45 font-medium text-ink transition-colors hover:border-gold-ink hover:text-gold-ink"
               >
                 <MessageCircle size={16} strokeWidth={1.5} />
                 {t('contact.orZalo')}
@@ -107,7 +123,7 @@ export default function Contact() {
                 href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn border border-ink/25 text-ink transition-colors hover:border-gold-ink hover:text-gold-ink"
+                className="btn border border-ink/45 font-medium text-ink transition-colors hover:border-gold-ink hover:text-gold-ink"
               >
                 <MessageCircle size={16} strokeWidth={1.5} />
                 {t('contact.orWhatsApp')}
