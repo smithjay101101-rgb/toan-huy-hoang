@@ -4,6 +4,7 @@ import type { Listing, ImageAsset } from '@/data/types'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
 import { formatPriceParts, pick } from '@/lib/format'
+import { useCurrency } from '@/lib/currency'
 import { localizeDistrict } from '@/data/locations'
 import PropertyImage from './PropertyImage'
 
@@ -19,6 +20,10 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
   const { t } = useTranslation()
   const href = localePath(locale, `property/${listing.slug}`)
   const { usd, vnd } = formatPriceParts(listing, locale)
+  const { currency } = useCurrency()
+  // The toggled currency leads; the other stays as the small line below.
+  const primary = currency === 'vnd' && vnd ? vnd : usd
+  const secondary = currency === 'vnd' && vnd ? usd : vnd
   const isRent = listing.dealType === 'rent'
 
   // TEST ONLY: until real Airtable photos exist, swap placeholder hero images for
@@ -85,10 +90,10 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
         <div className="mt-5 flex items-end justify-between gap-3 border-t border-ink/12 pt-4">
           <div className="min-w-0">
             <div className="font-display text-lg text-ink tabular-nums whitespace-nowrap">
-              {usd}
+              {primary}
               {isRent && <span className="ml-1 font-sans text-xs text-ink/70">{t('listings.perMonth')}</span>}
             </div>
-            {vnd && <div className="mt-0.5 whitespace-nowrap text-xs text-ink/70 tabular-nums">{vnd}</div>}
+            {secondary && <div className="mt-0.5 whitespace-nowrap text-xs text-ink/70 tabular-nums">{secondary}</div>}
           </div>
           <span className="shrink-0 self-end text-[0.7rem] uppercase tracking-[0.2em] text-gold-ink transition-colors group-hover:text-ink">
             {t('sontra.viewListing')}

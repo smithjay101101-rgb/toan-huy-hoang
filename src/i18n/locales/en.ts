@@ -133,6 +133,8 @@ const en = {
     anyBeds: 'Any',
     codePlaceholder: '#000',
     noMatches: 'No properties match these filters.',
+    anyPrice: 'Any price',
+    under: 'Under {{amount}}',
     result: 'result',
     results: 'results',
   },

@@ -133,6 +133,8 @@ const ko: Dictionary = {
     anyBeds: '전체',
     codePlaceholder: '#000',
     noMatches: '필터에 맞는 매물이 없습니다.',
+    anyPrice: '모든 가격',
+    under: '{{amount}} 미만',
     result: '개 결과',
     results: '개 결과',
   },

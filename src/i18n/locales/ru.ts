@@ -132,6 +132,8 @@ const ru: Dictionary = {
     anyBeds: 'Любое',
     codePlaceholder: '#000',
     noMatches: 'Нет объектов, соответствующих этим фильтрам.',
+    anyPrice: 'Любая цена',
+    under: 'До {{amount}}',
     result: 'результат',
     results: 'результатов',
   },

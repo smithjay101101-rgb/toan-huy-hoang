@@ -132,6 +132,8 @@ const vi: Dictionary = {
     anyBeds: 'Bất kỳ',
     codePlaceholder: '#000',
     noMatches: 'Không có bất động sản nào phù hợp với bộ lọc.',
+    anyPrice: 'Tùy giá',
+    under: 'Dưới {{amount}}',
     result: 'kết quả',
     results: 'kết quả',
   },

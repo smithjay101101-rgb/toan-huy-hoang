@@ -17,7 +17,7 @@ function formatUsd(price: number): string {
 }
 
 /** Approximate dong, in Vietnamese short form: tỷ (billion), tr (million). */
-function formatVnd(usd: number): string {
+export function formatVnd(usd: number): string {
   const vnd = usd * USD_TO_VND
   if (vnd >= 1_000_000_000) {
     const ty = (vnd / 1_000_000_000).toFixed(1).replace(/\.0$/, '')
@@ -27,6 +27,21 @@ function formatVnd(usd: number): string {
     return `${Math.round(vnd / 1_000_000)}tr ₫`
   }
   return `${Math.round(vnd).toLocaleString('vi-VN')} ₫`
+}
+
+/** Compact USD for filter labels: $500, $250K, $1M. */
+export function formatUsdCompact(usd: number): string {
+  if (usd >= 1_000_000) {
+    const m = (usd / 1_000_000).toFixed(1).replace(/\.0$/, '')
+    return `$${m}M`
+  }
+  if (usd >= 1_000) return `$${Math.round(usd / 1_000)}K`
+  return `$${usd}`
+}
+
+/** A bracket bound in the active display currency. */
+export function formatBound(usd: number, currency: 'usd' | 'vnd'): string {
+  return currency === 'vnd' ? formatVnd(usd) : formatUsdCompact(usd)
 }
 
 /**

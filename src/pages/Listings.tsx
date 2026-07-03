@@ -9,8 +9,15 @@ import { pick } from '@/lib/format'
 import Seo from '@/components/Seo'
 import PageHeader from '@/components/PageHeader'
 import PropertyCard from '@/components/PropertyCard'
-import ListingSearch, { EMPTY_FILTER, budgetRange, budgetKeys, type ListingFilter } from '@/components/ListingSearch'
+import ListingSearch, {
+  EMPTY_FILTER,
+  budgetRange,
+  budgetKeys,
+  LISTING_CATEGORIES,
+  type ListingFilter,
+} from '@/components/ListingSearch'
 import Reveal from '@/components/Reveal'
+import { useCurrency } from '@/lib/currency'
 
 const BEDROOM_KEYS = ['1', '2', '3', '4', '5']
 
@@ -21,8 +28,11 @@ export default function Listings({ dealType }: { dealType: DealType }) {
   const resultsRef = useRef<HTMLDivElement | null>(null)
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const categories = useMemo(() => Array.from(new Set(all.map((l) => l.category))), [all])
+  // The full category set is always offered (not just what today's data holds),
+  // so buyers see Apartments and Land as searchable options from day one.
+  const categories = useMemo(() => [...LISTING_CATEGORIES], [])
   const [filter, setFilter] = useState<ListingFilter>(EMPTY_FILTER)
+  const { currency, setCurrency } = useCurrency()
 
   // Hydrate filters from the URL once after mount (not in the initial state, so
   // the first client render matches the prerendered HTML). Invalid params are
@@ -127,10 +137,29 @@ export default function Listings({ dealType }: { dealType: DealType }) {
           </div>
 
           <div ref={resultsRef} className="pt-16" style={{ scrollMarginTop: 96 }}>
-            <div className="mb-8 flex items-center justify-between border-b border-ink/12 pb-5">
+            <div className="mb-8 flex items-center justify-between gap-4 border-b border-ink/12 pb-5">
               <p className="text-sm text-ink/70">
                 {shown.length} {shown.length === 1 ? t('search.result') : t('search.results')}
               </p>
+              <div className="ml-auto flex items-center gap-1 text-xs font-medium tracking-[0.08em]" role="group" aria-label="Currency">
+                <button
+                  type="button"
+                  onClick={() => setCurrency('usd')}
+                  aria-pressed={currency === 'usd'}
+                  className={`px-1.5 py-2 transition-colors ${currency === 'usd' ? 'text-gold-ink' : 'text-ink/50 hover:text-ink'}`}
+                >
+                  $ USD
+                </button>
+                <span className="text-ink/30">/</span>
+                <button
+                  type="button"
+                  onClick={() => setCurrency('vnd')}
+                  aria-pressed={currency === 'vnd'}
+                  className={`px-1.5 py-2 transition-colors ${currency === 'vnd' ? 'text-gold-ink' : 'text-ink/50 hover:text-ink'}`}
+                >
+                  ₫ VND
+                </button>
+              </div>
               {isFiltered && (
                 <button
                   type="button"

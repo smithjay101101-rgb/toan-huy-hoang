@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useLocale } from '@/lib/locale'
+import { CurrencyProvider } from '@/lib/currency'
 import Nav from './Nav'
 import Footer from './Footer'
 import JsonLd from './JsonLd'
@@ -18,7 +19,7 @@ export default function Layout() {
   }, [pathname])
 
   return (
-    <>
+    <CurrencyProvider>
       {/* Site-wide structured data for search and answer engines. */}
       <JsonLd data={[realEstateAgentSchema(), organizationSchema()]} />
       <a
@@ -33,6 +34,6 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer locale={locale} />
-    </>
+    </CurrencyProvider>
   )
 }

@@ -4,7 +4,8 @@ import { ArrowLeft, BedDouble, Bath, Maximize, MapPin, Hash } from 'lucide-react
 import { useLocale } from '@/lib/locale'
 import { localePath } from '@/lib/locale'
 import { getListingBySlug } from '@/data'
-import { formatPrice, formatArea, pick } from '@/lib/format'
+import { formatPriceParts, formatArea, pick } from '@/lib/format'
+import { useCurrency } from '@/lib/currency'
 import { contactFor } from '@/config/site'
 import { ChannelIcon } from '@/components/icons'
 import { localizeDistrict } from '@/data/locations'
@@ -17,6 +18,7 @@ import { breadcrumbSchema, listingSchema } from '@/lib/schema'
 export default function PropertyDetail() {
   const { t } = useTranslation()
   const locale = useLocale()
+  const { currency } = useCurrency()
   const { slug } = useParams<{ slug: string }>()
   const listing = slug ? getListingBySlug(slug) : undefined
 
@@ -100,7 +102,12 @@ export default function PropertyDetail() {
             className="mt-4 font-display font-semibold text-gold-2 tabular-nums"
             style={{ fontSize: 'clamp(1.7rem, 1.3rem + 1.8vw, 2.6rem)', textShadow: '0 2px 18px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
           >
-            {formatPrice(listing, locale)}
+            {(() => {
+              const { usd, vnd } = formatPriceParts(listing, locale)
+              const main = currency === 'vnd' && vnd ? vnd : usd
+              const sub = currency === 'vnd' && vnd ? usd : vnd
+              return sub ? `${main} · ${sub}` : main
+            })()}
             {isRent && <span className="ml-2 font-sans text-sm font-normal text-white/85">{t('listings.perMonth')}</span>}
           </div>
         </div>
