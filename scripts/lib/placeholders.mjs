@@ -166,15 +166,6 @@ const MOCK = [
  * Used as the no-credentials fallback for the build pipeline.
  */
 export async function writeMockData({ publicDir, dataFile }) {
-  // Brand-level placeholders consumed directly by components.
-  await writePlaceholder(publicDir, 'placeholders/hero.svg', sceneSvg({ seed: 7, label: 'HERO . SWAP' }))
-  await writePlaceholder(publicDir, 'placeholders/founder.svg', sceneSvg({ w: 1200, h: 1500, seed: 99, label: 'PORTRAIT . SWAP' }))
-  // Cinema fallback scenes: bridge fog, along the bridge, coastline, skyline, descent.
-  const cinemaLabels = ['GOLDEN BRIDGE', 'THE BRIDGE', 'COASTLINE', 'SKYLINE', 'THE CITY']
-  for (let i = 0; i < cinemaLabels.length; i++) {
-    await writePlaceholder(publicDir, `placeholders/cinema-${i + 1}.svg`, sceneSvg({ seed: 20 + i * 13, label: cinemaLabels[i] }))
-  }
-
   const out = []
   for (let i = 0; i < MOCK.length; i++) {
     const m = MOCK[i]

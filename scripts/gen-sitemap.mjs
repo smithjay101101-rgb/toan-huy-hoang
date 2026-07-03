@@ -78,7 +78,12 @@ ${entries.join('\n')}
 </urlset>
 `
   await writeFile(join(ROOT, 'public', 'sitemap.xml'), xml, 'utf8')
-  console.log(`[sitemap] Wrote ${entries.length} URLs to public/sitemap.xml`)
+
+  // robots.txt is generated here so its sitemap pointer always matches the
+  // origin the site actually deploys to (same SITE_URL as everything else).
+  const robots = `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`
+  await writeFile(join(ROOT, 'public', 'robots.txt'), robots, 'utf8')
+  console.log(`[sitemap] Wrote ${entries.length} URLs to public/sitemap.xml and robots.txt`)
 }
 
 main()

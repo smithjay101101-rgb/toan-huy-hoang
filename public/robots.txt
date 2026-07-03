@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://toanhuyhoang.com/sitemap.xml
+Sitemap: https://smithjay101101-rgb.github.io/sitemap.xml
