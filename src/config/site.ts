@@ -32,6 +32,8 @@ export interface ContactChannel {
   /** Brand name, shown verbatim in every language. */
   label: string
   href: string
+  /** Small secondary text (e.g. the KakaoTalk ID when no web link exists). */
+  hint?: string
 }
 
 export interface LocaleContact {
@@ -42,10 +44,12 @@ export interface LocaleContact {
   channels: ContactChannel[]
 }
 
-// KakaoTalk open-profile link built from the client's username. If Kakao ever
-// reports the link unavailable, replace with the exact pf.kakao.com or
-// open.kakao.com URL from the client. Empty = falls back to a phone call link.
-export const KAKAO_CHANNEL_URL = 'https://open.kakao.com/me/danangluxury'
+// SWAP: a plain KakaoTalk username has no public web link (the guessed
+// open.kakao.com/me/danangluxury shows "chatroom no longer available"). Paste
+// the real link once the client creates an Open Profile or Kakao Channel in
+// the app. Empty = the button falls back to a phone call and shows the ID.
+export const KAKAO_CHANNEL_URL = ''
+export const KAKAO_ID = 'danangluxury'
 
 // The client's Telegram username (without @). Empty = fall back to the
 // phone-number deep link.
@@ -68,6 +72,7 @@ const KAKAO: LocaleContact = {
       kind: 'kakao',
       label: 'KakaoTalk',
       href: KAKAO_CHANNEL_URL || 'tel:+84943436888',
+      hint: KAKAO_CHANNEL_URL ? undefined : `ID: ${KAKAO_ID}`,
     },
   ],
 }
@@ -119,6 +124,7 @@ export function allChannels(message: string): ContactChannel[] {
       kind: 'kakao',
       label: 'KakaoTalk',
       href: KAKAO_CHANNEL_URL || 'tel:+84943436888',
+      hint: KAKAO_CHANNEL_URL ? undefined : `ID: ${KAKAO_ID}`,
     },
     {
       kind: 'telegram',

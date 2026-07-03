@@ -71,6 +71,7 @@ export default function Contact() {
               >
                 <ChannelIcon kind={ch.kind} size={17} />
                 {t('contact.orMessageOn', { channel: ch.label })}
+                {ch.hint && <span className="ml-auto font-light text-ink/70">{ch.hint}</span>}
               </a>
             ))}
             {PHONES.map((p) => (
