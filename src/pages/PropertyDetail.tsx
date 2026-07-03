@@ -1,11 +1,12 @@
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, BedDouble, Bath, Maximize, MapPin, MessageCircle, Hash } from 'lucide-react'
+import { ArrowLeft, BedDouble, Bath, Maximize, MapPin, Hash } from 'lucide-react'
 import { useLocale } from '@/lib/locale'
 import { localePath } from '@/lib/locale'
 import { getListingBySlug } from '@/data'
 import { formatPrice, formatArea, pick } from '@/lib/format'
-import { zaloLink, whatsappLink } from '@/config/site'
+import { contactFor } from '@/config/site'
+import { ChannelIcon } from '@/components/icons'
 import { localizeDistrict } from '@/data/locations'
 import Seo from '@/components/Seo'
 import JsonLd from '@/components/JsonLd'
@@ -157,19 +158,22 @@ export default function PropertyDetail() {
               <h2 className="font-display text-xl text-ink">{t('detail.inquireTitle')}</h2>
               <p className="mt-3 text-sm text-ink/70">{t('detail.inquireBody')}</p>
               <div className="mt-6 flex flex-col gap-3">
-                <a href={zaloLink()} target="_blank" rel="noopener noreferrer" className="btn btn-slate w-full">
-                  <MessageCircle size={16} strokeWidth={1.5} />
-                  {t('detail.inquireZalo')}
-                </a>
-                <a
-                  href={whatsappLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn w-full border border-ink/25 text-ink transition-colors hover:border-gold-ink hover:text-gold-ink"
-                >
-                  <MessageCircle size={16} strokeWidth={1.5} />
-                  {t('detail.inquireWhatsApp')}
-                </a>
+                {contactFor(locale).channels.map((ch, i) => (
+                  <a
+                    key={ch.kind}
+                    href={ch.href}
+                    target={ch.href.startsWith('http') ? '_blank' : undefined}
+                    rel={ch.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className={
+                      i === 0
+                        ? 'btn btn-slate w-full'
+                        : 'btn w-full border border-ink/45 font-medium text-ink transition-colors hover:border-gold-ink hover:text-gold-ink'
+                    }
+                  >
+                    <ChannelIcon kind={ch.kind} size={16} />
+                    {t('detail.inquireOn', { channel: ch.label })}
+                  </a>
+                ))}
                 <Link
                   to={localePath(locale, 'contact')}
                   className="mt-1 text-center text-sm text-gold-ink underline-offset-4 transition-colors hover:underline"

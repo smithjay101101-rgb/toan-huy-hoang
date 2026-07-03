@@ -1,4 +1,4 @@
-import { SITE } from '@/config/site'
+import { SITE, CONTACTS } from '@/config/site'
 import { localePath } from '@/lib/locale'
 import { formatArea, pick } from '@/lib/format'
 import type { Listing, Guide, GuideContent } from '@/data/types'
@@ -17,13 +17,14 @@ export function realEstateAgentSchema() {
     areaServed: { '@type': 'City', name: SITE.city },
     address: {
       '@type': 'PostalAddress',
+      streetAddress: SITE.streetAddress,
       addressLocality: SITE.city,
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
-    telephone: SITE.phone,
+    telephone: CONTACTS.en.phoneTel,
     email: SITE.email,
-    knowsLanguage: ['en', 'vi'],
+    knowsLanguage: ['en', 'vi', 'ru', 'ko'],
   }
 }
 

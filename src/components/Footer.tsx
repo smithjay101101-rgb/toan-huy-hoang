@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { MapPin } from 'lucide-react'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
-import { SITE, zaloLink, whatsappLink } from '@/config/site'
+import { SITE, contactFor } from '@/config/site'
 import LanguageSwitcher from './LanguageSwitcher'
+import { ChannelIcon } from './icons'
 
 const EXPLORE = ['buy', 'rent', 'projects', 'guides', 'about', 'contact'] as const
 
@@ -12,6 +14,7 @@ const linkCls = 'inline-block cursor-pointer py-1 transition-colors duration-200
 
 export default function Footer({ locale }: { locale: Locale }) {
   const { t } = useTranslation()
+  const contact = contactFor(locale)
   return (
     <footer className="bg-card" style={{ color: '#eef0f0', fontFamily: "'Jost', sans-serif" }}>
       <div className="mx-auto max-w-[1280px]" style={{ padding: '96px clamp(40px,6vw,96px) 0' }}>
@@ -67,24 +70,27 @@ export default function Footer({ locale }: { locale: Locale }) {
               {t('footer.contactTitle')}
             </div>
             <ul className="flex flex-col gap-[14px] text-[15px] font-light">
-              <li>
-                <a href={zaloLink()} target="_blank" rel="noopener noreferrer" className={linkCls}>
-                  {t('nav.zalo')}
-                </a>
-              </li>
-              <li>
-                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className={linkCls}>
-                  WhatsApp
-                </a>
-              </li>
+              {contact.channels.map((ch) => (
+                <li key={ch.kind}>
+                  <a
+                    href={ch.href}
+                    target={ch.href.startsWith('http') ? '_blank' : undefined}
+                    rel={ch.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className={`${linkCls} inline-flex items-center gap-2`}
+                  >
+                    <ChannelIcon kind={ch.kind} size={14} />
+                    {ch.label}
+                  </a>
+                </li>
+              ))}
               <li>
                 <a href={`mailto:${SITE.email}`} className={linkCls}>
                   {SITE.email}
                 </a>
               </li>
               <li>
-                <a href={`tel:${SITE.phone.replace(/\s/g, '')}`} style={{ color: 'rgba(238,240,240,0.7)' }} className="transition-colors duration-200 hover:text-gold-2">
-                  {SITE.phone}
+                <a href={`tel:${contact.phoneTel}`} style={{ color: 'rgba(238,240,240,0.7)' }} className="inline-block py-1 transition-colors duration-200 hover:text-gold-2">
+                  {contact.phoneDisplay}
                 </a>
               </li>
             </ul>
@@ -94,8 +100,9 @@ export default function Footer({ locale }: { locale: Locale }) {
             <div className="text-[12px] uppercase" style={{ letterSpacing: '0.24em', color: 'var(--gold-2)', marginBottom: 20 }}>
               {t('footer.officeTitle')}
             </div>
-            <p className="text-[15px] font-light leading-[1.7]" style={{ color: 'rgba(238,240,240,0.85)' }}>
-              {t('footer.officeValue')}
+            <p className="flex gap-2.5 text-[15px] font-light leading-[1.7]" style={{ color: 'rgba(238,240,240,0.85)' }}>
+              <MapPin size={16} strokeWidth={1.5} className="mt-1 shrink-0" style={{ color: 'var(--gold-2)' }} aria-hidden="true" />
+              <span>{t('footer.officeValue')}</span>
             </p>
           </div>
         </div>

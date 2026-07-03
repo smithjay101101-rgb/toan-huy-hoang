@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Menu, X } from 'lucide-react'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
+import { contactFor } from '@/config/site'
 import LanguageSwitcher from './LanguageSwitcher'
-import ZaloButton from './ZaloButton'
-import WhatsAppButton from './WhatsAppButton'
+import ChannelButton from './ChannelButton'
 
 const ITEMS = [
   { key: 'buy', sub: 'buy' },
@@ -102,8 +102,9 @@ export default function Nav({ locale }: { locale: Locale }) {
           </ul>
           <span className="h-4 w-px bg-line" aria-hidden="true" />
           <LanguageSwitcher current={locale} />
-          <ZaloButton />
-          <WhatsAppButton />
+          {contactFor(locale).channels.map((ch) => (
+            <ChannelButton key={ch.kind} channel={ch} />
+          ))}
         </div>
 
         {/* Mobile trigger */}
@@ -151,8 +152,9 @@ export default function Nav({ locale }: { locale: Locale }) {
             <div className="flex items-center justify-between border-t border-line pt-6">
               <LanguageSwitcher current={locale} />
               <div className="flex items-center gap-3">
-                <ZaloButton />
-                <WhatsAppButton />
+                {contactFor(locale).channels.map((ch) => (
+                  <ChannelButton key={ch.kind} channel={ch} />
+                ))}
               </div>
             </div>
           </div>
