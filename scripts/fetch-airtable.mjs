@@ -40,7 +40,7 @@ function slugify(s) {
 // Canonical filter values (keep in sync with src/data/locations.ts and the
 // Category type). The site filters by exact match, so rows typed with accents,
 // different casing, or stray spaces are normalized to these.
-const DISTRICTS = ['Hai Chau', 'Son Tra', 'Ngu Hanh Son', 'An Thuong', 'My An', 'Hoa Xuan', 'Nam Viet A', 'Lien Chieu', 'Thanh Khe', 'Cam Le', 'FPT City']
+const DISTRICTS = ['Hai Chau', 'Son Tra', 'Ngu Hanh Son', 'An Thuong', 'Hoa Xuan', 'Lien Chieu', 'Thanh Khe', 'Cam Le', 'Hoi An', 'FPT City']
 const CATEGORIES = ['Villa', 'Apartment', 'Land', 'Project']
 
 function foldKey(s) {

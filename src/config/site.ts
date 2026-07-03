@@ -64,10 +64,12 @@ const ZALO_WHATSAPP: LocaleContact = {
   ],
 }
 
-const KAKAO: LocaleContact = {
+// Korean audience: Zalo plus KakaoTalk (per the client).
+const KO_CHANNELS: LocaleContact = {
   phoneDisplay: '0943 436 888',
   phoneTel: '+84943436888',
   channels: [
+    { kind: 'zalo', label: 'Zalo', href: 'https://zalo.me/0917112855' },
     {
       kind: 'kakao',
       label: 'KakaoTalk',
@@ -96,7 +98,7 @@ const RU_CHANNELS: LocaleContact = {
 export const CONTACTS: Record<Locale, LocaleContact> = {
   en: ZALO_WHATSAPP,
   vi: ZALO_WHATSAPP,
-  ko: KAKAO,
+  ko: KO_CHANNELS,
   ru: RU_CHANNELS,
 }
 

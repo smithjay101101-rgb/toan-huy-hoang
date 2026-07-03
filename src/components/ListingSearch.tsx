@@ -45,8 +45,9 @@ const BUDGETS: Record<DealType, Bracket[]> = {
     { key: 'any', min: 0, max: Infinity },
     { key: 'u500', min: 0, max: 500 },
     { key: '500to1000', min: 500, max: 1_000 },
-    { key: '1000to2500', min: 1_000, max: 2_500 },
-    { key: '2500plus', min: 2_500, max: Infinity },
+    { key: '1000to2000', min: 1_000, max: 2_000 },
+    { key: '2000to3000', min: 2_000, max: 3_000 },
+    { key: '3000plus', min: 3_000, max: Infinity },
   ],
 }
 

@@ -19,12 +19,11 @@ export const LOCATIONS: LocationOption[] = [
   { value: 'Son Tra', en: 'Son Tra', vi: 'Sơn Trà', ru: 'Сон Тра', ko: '손트라' },
   { value: 'Ngu Hanh Son', en: 'Ngu Hanh Son', vi: 'Ngũ Hành Sơn', ru: 'Нгу Хань Шон', ko: '응우한선' },
   { value: 'An Thuong', en: 'An Thuong', vi: 'An Thượng', ru: 'Ан Тхыонг', ko: '안트엉' },
-  { value: 'My An', en: 'My An', vi: 'Mỹ An', ru: 'Ми Ан', ko: '미안' },
   { value: 'Hoa Xuan', en: 'Hoa Xuan', vi: 'Hòa Xuân', ru: 'Хоа Суан', ko: '호아쑤언' },
-  { value: 'Nam Viet A', en: 'Nam Viet A', vi: 'Nam Việt Á', ru: 'Нам Вьет А', ko: '남비엣아' },
   { value: 'Lien Chieu', en: 'Lien Chieu', vi: 'Liên Chiểu', ru: 'Льен Чьеу', ko: '리엔찌에우' },
   { value: 'Thanh Khe', en: 'Thanh Khe', vi: 'Thanh Khê', ru: 'Тхань Кхе', ko: '탄케' },
   { value: 'Cam Le', en: 'Cam Le', vi: 'Cẩm Lệ', ru: 'Кам Ле', ko: '깜레' },
+  { value: 'Hoi An', en: 'Hoi An', vi: 'Hội An', ru: 'Хойан', ko: '호이안' },
   { value: 'FPT City', en: 'FPT City', vi: 'FPT City', ru: 'FPT City', ko: 'FPT 시티' },
 ]
 
