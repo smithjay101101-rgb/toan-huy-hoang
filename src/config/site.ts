@@ -72,10 +72,12 @@ const KAKAO: LocaleContact = {
   ],
 }
 
-const TELEGRAM: LocaleContact = {
+// Russian audience: WhatsApp (on the 0917 number) plus Telegram.
+const RU_CHANNELS: LocaleContact = {
   phoneDisplay: '0943 436 888',
   phoneTel: '+84943436888',
   channels: [
+    { kind: 'whatsapp', label: 'WhatsApp', href: 'https://wa.me/84917112855' },
     {
       kind: 'telegram',
       label: 'Telegram',
@@ -90,7 +92,7 @@ export const CONTACTS: Record<Locale, LocaleContact> = {
   en: ZALO_WHATSAPP,
   vi: ZALO_WHATSAPP,
   ko: KAKAO,
-  ru: TELEGRAM,
+  ru: RU_CHANNELS,
 }
 
 export function contactFor(locale: Locale): LocaleContact {
