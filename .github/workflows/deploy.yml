@@ -8,6 +8,11 @@ on:
   # when a listing is published (event_type: airtable-publish).
   repository_dispatch:
     types: [airtable-publish]
+  # Automatic refresh: rebuild every 20 minutes so Airtable edits go live on
+  # their own, no button pressing. GitHub Pages allows ~10 builds/hour, so 3 is
+  # comfortably inside the limit.
+  schedule:
+    - cron: '*/20 * * * *'
 
 # Don't pile up deploys; keep only the latest.
 concurrency:
@@ -17,8 +22,26 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # contents:write lets the keep-alive step below push its empty commit.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+
+      # GitHub silently disables scheduled workflows after 60 days without
+      # commits. When the last commit is older than 50 days, push an empty one
+      # so the automatic rebuilds keep running unattended.
+      - name: Keep scheduled rebuilds alive
+        if: github.event_name == 'schedule'
+        run: |
+          last=$(git log -1 --format=%ct)
+          age_days=$(( ( $(date +%s) - last ) / 86400 ))
+          if [ "$age_days" -gt 50 ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "Keep scheduled rebuilds active"
+            git push
+          fi
 
       - uses: actions/setup-node@v4
         with:
