@@ -56,9 +56,6 @@ jobs:
           AIRTABLE_BASE_ID: appZ9wP5ZlerVW3z8
           AIRTABLE_TABLE_LISTINGS: Listings
           SITE_URL: https://smithjay101101-rgb.github.io
-          # Temporary stand-in images until real listing photos are uploaded to
-          # Airtable. Delete this line to switch to the real attachments.
-          FAKE_IMAGES: '1'
         run: npm run build
 
       - name: Prepare static host files (root redirect + no Jekyll)
