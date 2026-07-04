@@ -16,9 +16,12 @@ Airtable (edit + set status Published)
    -> GitHub Pages serves it (1 to 3 min end to end)
 ```
 
-Rebuilds trigger on: every push to `main`, the Actions "Run workflow" button,
-or an Airtable automation POSTing `{"event_type":"airtable-publish"}` to the
-GitHub dispatches API (see `AIRTABLE-GUIDES.md` for the copy-paste script).
+Publishing is automatic: the workflow polls Airtable **every 5 minutes** and
+deploys only when content actually changed (fingerprint check), so edits go
+live in roughly 5 to 8 minutes with no button pressing. Rebuilds also trigger
+on every push to `main`, the Actions "Run workflow" button, and (optional,
+needs Airtable's Business plan for the script action) an Airtable automation
+POSTing `{"event_type":"airtable-publish"}` to the GitHub dispatches API.
 
 ### Listings (Airtable table `Listings`, base `appZ9wP5ZlerVW3z8`)
 

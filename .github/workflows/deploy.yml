@@ -4,15 +4,15 @@ on:
   push:
     branches: [main]
   workflow_dispatch: {}
-  # Airtable automation can hit the GitHub "dispatch" API to trigger a rebuild
-  # when a listing is published (event_type: airtable-publish).
+  # Kept for the future: an Airtable automation (needs their Business plan) can
+  # hit the GitHub "dispatch" API for instant rebuilds (event_type: airtable-publish).
   repository_dispatch:
     types: [airtable-publish]
-  # Automatic refresh: rebuild every 20 minutes so Airtable edits go live on
-  # their own, no button pressing. GitHub Pages allows ~10 builds/hour, so 3 is
-  # comfortably inside the limit.
+  # Automatic publishing: poll Airtable every 5 minutes. The freshness check
+  # below skips the expensive build and deploy when nothing changed, so actual
+  # Pages deployments stay rare and inside the ~10 builds/hour service limit.
   schedule:
-    - cron: '*/20 * * * *'
+    - cron: '*/5 * * * *'
 
 # Don't pile up deploys; keep only the latest.
 concurrency:
@@ -50,20 +50,54 @@ jobs:
 
       - run: npm ci
 
-      - name: Build (pulls Airtable data when secrets are set)
+      - name: Fetch Airtable content
+        id: data
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           AIRTABLE_BASE_ID: appZ9wP5ZlerVW3z8
           AIRTABLE_TABLE_LISTINGS: Listings
-          SITE_URL: https://smithjay101101-rgb.github.io
-        run: npm run build
+        run: |
+          npm run fetch:data
+          npm run fetch:guides
+          # Fingerprint the content: listing/guide data plus the downloaded
+          # photo bytes, so a swapped photo (same filename) still counts as a change.
+          HASH=$( { cat src/data/listings.json src/data/guides.json 2>/dev/null; \
+                    find public/listings public/guides -type f 2>/dev/null | sort | xargs -r sha256sum; } \
+                  | sha256sum | cut -d' ' -f1 )
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
 
-      - name: Prepare static host files (root redirect + no Jekyll)
+      # Scheduled polls only: compare against the fingerprint the live site is
+      # serving and stop early when Airtable content is identical.
+      - name: Check whether content changed
+        id: fresh
+        if: github.event_name == 'schedule'
+        run: |
+          OLD=$(curl -sf https://smithjay101101-rgb.github.io/data-hash.txt || echo none)
+          if [ "${{ steps.data.outputs.hash }}" = "$OLD" ]; then
+            echo "changed=no" >> "$GITHUB_OUTPUT"
+            echo "Content unchanged, skipping deploy."
+          else
+            echo "changed=yes" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        if: ${{ !(github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no') }}
+        env:
+          SITE_URL: https://smithjay101101-rgb.github.io
+        run: |
+          node scripts/gen-sitemap.mjs
+          npx vite-react-ssg build
+          node scripts/fix-ssg-hash.mjs
+
+      - name: Prepare static host files
+        if: ${{ !(github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no') }}
         run: |
           touch dist/.nojekyll
+          echo "${{ steps.data.outputs.hash }}" > dist/data-hash.txt
           node -e 'const fs=require("fs");const p="dist/index.html";let h=fs.readFileSync(p,"utf8");if(!h.includes("0; url=/en")){h=h.replace(/<head>/i,"<head>\n<meta http-equiv=\"refresh\" content=\"0; url=/en\">");fs.writeFileSync(p,h)}'
 
       - name: Publish to the live site repo
+        if: ${{ !(github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no') }}
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.DEPLOY_TOKEN }}
