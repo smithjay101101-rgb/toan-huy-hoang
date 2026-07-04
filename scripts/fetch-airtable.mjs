@@ -216,6 +216,16 @@ async function buildFromAirtable() {
         }
       }
       const longDesc = localized(f, 'long_desc')
+      // Prices may be entered in USD or VND; the site works in USD internally
+      // (filters, dual display), so VND rows are converted here.
+      // Keep the rate in sync with USD_TO_VND in src/lib/format.ts.
+      const USD_TO_VND = 25_400
+      let price = Number(f.price ?? 0)
+      let currency = String(f.currency ?? 'USD').toUpperCase()
+      if (currency === 'VND') {
+        price = Math.round(price / USD_TO_VND)
+        currency = 'USD'
+      }
       const code = f.code ? String(f.code).trim() : autoCode(rec.id, usedCodes)
       usedCodes.add(code)
       out.push({
@@ -226,8 +236,8 @@ async function buildFromAirtable() {
         dealType: (f.deal_type ?? 'Buy').toLowerCase() === 'rent' ? 'rent' : 'buy',
         category: canonicalCategory(f.category),
         district: canonicalDistrict(f.district),
-        price: Number(f.price ?? 0),
-        currency: f.currency ?? 'USD',
+        price,
+        currency,
         bedrooms: Number(f.bedrooms ?? 0),
         bathrooms: Number(f.bathrooms ?? 0),
         areaM2: Number(f.area_m2 ?? 0),

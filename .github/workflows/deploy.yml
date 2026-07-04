@@ -66,14 +66,20 @@ jobs:
                   | sha256sum | cut -d' ' -f1 )
           echo "hash=$HASH" >> "$GITHUB_OUTPUT"
 
-      # Scheduled polls only: compare against the fingerprint the live site is
-      # serving and stop early when Airtable content is identical.
+      # Scheduled polls only: compare against the fingerprint of the content we
+      # LAST PUSHED (read from the live repo, not the served site). Serving can
+      # lag behind pushes when the Pages publisher has a bad day; comparing
+      # against the push target means we never re-push identical content in a
+      # loop, which is what triggers Pages rate limiting and failure email spam.
       - name: Check whether content changed
         id: fresh
         if: github.event_name == 'schedule'
         run: |
-          OLD=$(curl -sf https://smithjay101101-rgb.github.io/data-hash.txt || echo none)
-          if [ "${{ steps.data.outputs.hash }}" = "$OLD" ]; then
+          OLD=$(curl -sf https://raw.githubusercontent.com/smithjay101101-rgb/smithjay101101-rgb.github.io/main/data-hash.txt || echo unreachable)
+          if [ "$OLD" = "unreachable" ]; then
+            echo "changed=no" >> "$GITHUB_OUTPUT"
+            echo "Previous fingerprint unreachable; skipping this poll rather than risking a deploy storm."
+          elif [ "${{ steps.data.outputs.hash }}" = "$OLD" ]; then
             echo "changed=no" >> "$GITHUB_OUTPUT"
             echo "Content unchanged, skipping deploy."
           else
