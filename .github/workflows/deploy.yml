@@ -17,10 +17,13 @@ on:
   schedule:
     - cron: '6,21,36,51 * * * *'
 
-# Don't pile up deploys; keep only the latest.
+# Don't pile up deploys. Real deploy events (push, manual, instant hook) may
+# cancel an in-flight run; fingerprint-gated polls must never cancel one (a
+# poll skips when content is unchanged, so letting it cancel a code deploy
+# would strand that code until the next content edit).
 concurrency:
   group: deploy
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event.action == 'airtable-publish' }}
 
 jobs:
   deploy:
