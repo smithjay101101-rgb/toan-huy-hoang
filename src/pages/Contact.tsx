@@ -69,7 +69,7 @@ export default function Contact() {
                 rel={ch.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                 className={rowCls}
               >
-                <ChannelIcon kind={ch.kind} size={17} />
+                <ChannelIcon kind={ch.kind} size={17} className="shrink-0" />
                 {t('contact.orMessageOn', { channel: ch.label })}
                 {ch.hint && <span className="ml-auto font-light text-ink/70">{ch.hint}</span>}
               </a>

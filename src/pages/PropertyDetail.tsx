@@ -177,7 +177,7 @@ export default function PropertyDetail() {
                         : 'btn w-full border border-ink/45 font-medium text-ink transition-colors hover:border-gold-ink hover:text-gold-ink'
                     }
                   >
-                    <ChannelIcon kind={ch.kind} size={16} />
+                    <ChannelIcon kind={ch.kind} size={16} className="shrink-0" />
                     {t('detail.inquireOn', { channel: ch.label })}
                   </a>
                 ))}

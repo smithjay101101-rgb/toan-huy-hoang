@@ -1,5 +1,6 @@
 // Monochrome brand glyphs for the contact channels, matching the existing
 // icon treatment (16px default, currentColor, aria-hidden). SVG only.
+import { useId } from 'react'
 import type { ChannelKind } from '@/config/site'
 
 interface IconProps {
@@ -42,11 +43,34 @@ export function WhatsAppIcon({ size = 16, className }: IconProps) {
   )
 }
 
-/** KakaoTalk: the Kakao speech bubble (simple-icons path). */
+/**
+ * KakaoTalk: the Kakao speech bubble with TALK inside, like the app icon but
+ * monochrome. The letters are masked out of the filled bubble so they show
+ * whatever surface is underneath.
+ */
 export function KakaoIcon({ size = 16, className }: IconProps) {
+  // Unique per instance: the icon appears several times per page, and a mask
+  // must not depend on a def inside some other (possibly display:none) svg.
+  const maskId = useId()
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 3c-5.799 0-10.5 3.664-10.5 8.185 0 2.882 1.912 5.414 4.797 6.86-.212.795-.767 2.87-.878 3.316-.136.55.2.542.423.395.174-.116 2.774-1.883 3.896-2.65.734.108 1.49.164 2.262.164 5.799 0 10.5-3.664 10.5-8.185S17.799 3 12 3" />
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <mask id={maskId}>
+        <path
+          d="M12 3c-5.799 0-10.5 3.664-10.5 8.185 0 2.882 1.912 5.414 4.797 6.86-.212.795-.767 2.87-.878 3.316-.136.55.2.542.423.395.174-.116 2.774-1.883 3.896-2.65.734.108 1.49.164 2.262.164 5.799 0 10.5-3.664 10.5-8.185S17.799 3 12 3"
+          fill="#fff"
+        />
+        <g stroke="#000" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" fill="none">
+          <path d="M4.6 8.8h2.8M6 8.8v4" />
+          <path d="M9.2 12.8l1.2-4 1.2 4M9.7 11.5h1.5" />
+          <path d="M13.4 8.8v4h1.9" />
+          <path d="M16.8 8.8v4M19.4 8.8l-2.6 2.1 2.7 1.9" />
+        </g>
+      </mask>
+      <path
+        d="M12 3c-5.799 0-10.5 3.664-10.5 8.185 0 2.882 1.912 5.414 4.797 6.86-.212.795-.767 2.87-.878 3.316-.136.55.2.542.423.395.174-.116 2.774-1.883 3.896-2.65.734.108 1.49.164 2.262.164 5.799 0 10.5-3.664 10.5-8.185S17.799 3 12 3"
+        fill="currentColor"
+        mask={`url(#${maskId})`}
+      />
     </svg>
   )
 }
