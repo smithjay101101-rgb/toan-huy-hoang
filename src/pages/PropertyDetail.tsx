@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ReactMarkdown from 'react-markdown'
@@ -15,6 +16,7 @@ import { localizeDistrict } from '@/data/locations'
 import Seo from '@/components/Seo'
 import JsonLd from '@/components/JsonLd'
 import PropertyImage from '@/components/PropertyImage'
+import Lightbox from '@/components/Lightbox'
 import Reveal from '@/components/Reveal'
 import { breadcrumbSchema, listingSchema } from '@/lib/schema'
 
@@ -24,6 +26,7 @@ export default function PropertyDetail() {
   const { currency } = useCurrency()
   const { slug } = useParams<{ slug: string }>()
   const listing = slug ? getListingBySlug(slug) : undefined
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   if (!listing) {
     return (
@@ -97,10 +100,9 @@ export default function PropertyDetail() {
         <div className="container-lux relative z-10 flex min-h-[78vh] flex-col justify-end pb-16 pt-36">
           <Link
             to={localePath(locale, listing.dealType)}
-            className="mb-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white/90 transition-colors hover:text-gold-2"
-            style={{ textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
+            className="mb-8 inline-flex items-center gap-2.5 self-start rounded-[2px] border border-white/55 bg-black/25 px-5 py-3 text-[0.8rem] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm transition-colors hover:border-gold-2 hover:text-gold-2"
           >
-            <ArrowLeft size={16} strokeWidth={1.5} /> {t('detail.backTo')}
+            <ArrowLeft size={17} strokeWidth={1.5} /> {t('detail.backTo')}
           </Link>
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-[2px] border border-white/30 bg-black/40 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-white backdrop-blur-sm">
@@ -186,9 +188,20 @@ export default function PropertyDetail() {
                 <p className="eyebrow-ink">{isProject ? t('detail.masterplan') : t('detail.gallery')}</p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   {listing.gallery.map((img, i) => (
-                    <div key={i} className="overflow-hidden rounded-[4px] border border-ink/10" style={{ aspectRatio: '3 / 2' }}>
-                      <PropertyImage image={img} sizes="(min-width: 640px) 50vw, 100vw" />
-                    </div>
+                    <button
+                      key={i}
+                      type="button"
+                      aria-label={`${t('detail.gallery')} ${i + 1}`}
+                      onClick={() => setLightboxIndex(i)}
+                      className="group cursor-zoom-in overflow-hidden rounded-[4px] border border-ink/10 transition-[border-color] hover:border-gold-ink/50"
+                      style={{ aspectRatio: '3 / 2' }}
+                    >
+                      <PropertyImage
+                        image={img}
+                        sizes="(min-width: 640px) 50vw, 100vw"
+                        className="transition-transform duration-500 ease-lux-out group-hover:scale-[1.03]"
+                      />
+                    </button>
                   ))}
                 </div>
               </Reveal>
@@ -260,6 +273,16 @@ export default function PropertyDetail() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Click-to-zoom carousel over the gallery. */}
+        {lightboxIndex != null && (
+          <Lightbox
+            images={listing.gallery}
+            index={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+            onNavigate={setLightboxIndex}
+          />
         )}
 
         {/* Other developments, like the reference's featured-projects block. */}
