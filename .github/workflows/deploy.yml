@@ -4,15 +4,18 @@ on:
   push:
     branches: [main]
   workflow_dispatch: {}
-  # Kept for the future: an Airtable automation (needs their Business plan) can
-  # hit the GitHub "dispatch" API for instant rebuilds (event_type: airtable-publish).
   repository_dispatch:
-    types: [airtable-publish]
-  # Automatic publishing: poll Airtable every 5 minutes. The freshness check
-  # below skips the expensive build and deploy when nothing changed, so actual
-  # Pages deployments stay rare and inside the ~10 builds/hour service limit.
+    types:
+      # Always deploys (legacy instant hook; needs Airtable Business plan).
+      - airtable-publish
+      # Fingerprint-gated poll, fired by the Cloudflare Worker every 5 minutes
+      # (their cron is punctual; GitHub throttles */5 schedules to ~hourly) and
+      # by the "Update website" button in Airtable for on-demand publishes.
+      - airtable-poll
+  # Backup poll on GitHub's own cron, at off-peak minutes which get much
+  # better treatment than */5. The Cloudflare Worker is the primary driver.
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '6,21,36,51 * * * *'
 
 # Don't pile up deploys; keep only the latest.
 concurrency:
@@ -73,7 +76,7 @@ jobs:
       # loop, which is what triggers Pages rate limiting and failure email spam.
       - name: Check whether content changed
         id: fresh
-        if: github.event_name == 'schedule'
+        if: (github.event_name == 'schedule' || github.event.action == 'airtable-poll')
         run: |
           OLD=$(curl -sf https://raw.githubusercontent.com/smithjay101101-rgb/smithjay101101-rgb.github.io/main/data-hash.txt || echo unreachable)
           if [ "$OLD" = "unreachable" ]; then
@@ -87,7 +90,7 @@ jobs:
           fi
 
       - name: Build
-        if: ${{ !(github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no') }}
+        if: ${{ !((github.event_name == 'schedule' || github.event.action == 'airtable-poll') && steps.fresh.outputs.changed == 'no') }}
         env:
           SITE_URL: https://smithjay101101-rgb.github.io
         run: |
@@ -96,14 +99,14 @@ jobs:
           node scripts/fix-ssg-hash.mjs
 
       - name: Prepare static host files
-        if: ${{ !(github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no') }}
+        if: ${{ !((github.event_name == 'schedule' || github.event.action == 'airtable-poll') && steps.fresh.outputs.changed == 'no') }}
         run: |
           touch dist/.nojekyll
           echo "${{ steps.data.outputs.hash }}" > dist/data-hash.txt
           node -e 'const fs=require("fs");const p="dist/index.html";let h=fs.readFileSync(p,"utf8");if(!h.includes("0; url=/en")){h=h.replace(/<head>/i,"<head>\n<meta http-equiv=\"refresh\" content=\"0; url=/en\">");fs.writeFileSync(p,h)}'
 
       - name: Publish to the live site repo
-        if: ${{ !(github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no') }}
+        if: ${{ !((github.event_name == 'schedule' || github.event.action == 'airtable-poll') && steps.fresh.outputs.changed == 'no') }}
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.DEPLOY_TOKEN }}
@@ -118,7 +121,7 @@ jobs:
       # automatically: watch the publish land and nudge it when it errors.
       # Bounded (6 checks, 75s apart) and never fails this workflow.
       - name: Make sure Pages actually published
-        if: ${{ !(github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no') }}
+        if: ${{ !((github.event_name == 'schedule' || github.event.action == 'airtable-poll') && steps.fresh.outputs.changed == 'no') }}
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         run: |
@@ -140,7 +143,7 @@ jobs:
       # the publisher is stuck in errored, so it recovers within minutes even
       # when no content is changing.
       - name: Nudge a stuck publisher
-        if: ${{ github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no' }}
+        if: ${{ (github.event_name == 'schedule' || github.event.action == 'airtable-poll') && steps.fresh.outputs.changed == 'no' }}
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         run: |
