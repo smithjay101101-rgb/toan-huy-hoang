@@ -107,33 +107,21 @@ export function contactFor(locale: Locale): LocaleContact {
 }
 
 // ---------------------------------------------------------------------------
-// The contact page shows EVERY channel regardless of locale, each opening a
-// chat with a prefilled inquiry the visitor can personalize. Only WhatsApp,
-// Telegram and mail support prefill; Zalo and Kakao open the chat directly.
+// The contact page shows the locale's own channel group (EN/VI on the 0917
+// number, KO/RU on the 0943 number), each opening a chat with a prefilled
+// inquiry where the platform supports it (WhatsApp, Telegram; Zalo and Kakao
+// open the chat directly).
 // ---------------------------------------------------------------------------
 
-export const PHONES = [
-  { display: '0917 112 855', tel: '+84917112855' },
-  { display: '0943 436 888', tel: '+84943436888' },
-] as const
-
-export function allChannels(message: string): ContactChannel[] {
+export function channelsFor(locale: Locale, message: string): ContactChannel[] {
   const text = encodeURIComponent(message)
-  return [
-    { kind: 'zalo', label: 'Zalo', href: 'https://zalo.me/0917112855' },
-    { kind: 'whatsapp', label: 'WhatsApp', href: `https://wa.me/84917112855?text=${text}` },
-    {
-      kind: 'kakao',
-      label: 'KakaoTalk',
-      href: KAKAO_CHANNEL_URL || 'tel:+84943436888',
-      hint: KAKAO_CHANNEL_URL ? undefined : `ID: ${KAKAO_ID}`,
-    },
-    {
-      kind: 'telegram',
-      label: 'Telegram',
-      href: TELEGRAM_USERNAME
-        ? `https://t.me/${TELEGRAM_USERNAME}?text=${text}`
-        : 'https://t.me/+84943436888',
-    },
-  ]
+  return contactFor(locale).channels.map((ch) => {
+    if (ch.kind === 'whatsapp' && ch.href.startsWith('https://wa.me/')) {
+      return { ...ch, href: `${ch.href}?text=${text}` }
+    }
+    if (ch.kind === 'telegram' && TELEGRAM_USERNAME && ch.href.includes(`t.me/${TELEGRAM_USERNAME}`)) {
+      return { ...ch, href: `${ch.href}?text=${text}` }
+    }
+    return ch
+  })
 }

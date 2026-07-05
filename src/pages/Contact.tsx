@@ -3,7 +3,8 @@ import { Mail, Phone, MapPin, Check } from 'lucide-react'
 import Seo from '@/components/Seo'
 import PageHeader from '@/components/PageHeader'
 import { ChannelIcon } from '@/components/icons'
-import { SITE, PHONES, allChannels } from '@/config/site'
+import { useLocale } from '@/lib/locale'
+import { SITE, contactFor, channelsFor } from '@/config/site'
 
 /**
  * Contact page. No form: one tap opens the visitor's channel of choice with a
@@ -14,8 +15,12 @@ export default function Contact() {
   const { t } = useTranslation()
   const meta = t('meta.contact', { returnObjects: true }) as { title: string; description: string }
 
+  const locale = useLocale()
   const prefill = t('contact.prefill')
-  const channels = allChannels(prefill)
+  // The locale's own channel group: EN/VI ride the 0917 number with Zalo and
+  // WhatsApp; KO/RU ride the 0943 number with their preferred apps.
+  const channels = channelsFor(locale, prefill)
+  const phone = contactFor(locale)
   const mailHref = `mailto:${SITE.email}?subject=${encodeURIComponent('Property inquiry')}&body=${encodeURIComponent(prefill)}`
   const promises = [t('contact.promise1'), t('contact.promise2'), t('contact.promise3')]
 
@@ -74,13 +79,11 @@ export default function Contact() {
                 {ch.hint && <span className="ml-auto font-light text-ink/70">{ch.hint}</span>}
               </a>
             ))}
-            {PHONES.map((p) => (
-              <a key={p.tel} href={`tel:${p.tel}`} className={rowCls}>
-                <Phone size={17} strokeWidth={1.5} />
-                {t('contact.phone')}
-                <span className="ml-auto font-light tabular-nums text-ink/70">{p.display}</span>
-              </a>
-            ))}
+            <a href={`tel:${phone.phoneTel}`} className={rowCls}>
+              <Phone size={17} strokeWidth={1.5} />
+              {t('contact.phone')}
+              <span className="ml-auto font-light tabular-nums text-ink/70">{phone.phoneDisplay}</span>
+            </a>
             <a href={mailHref} className={rowCls}>
               <Mail size={17} strokeWidth={1.5} />
               {t('contact.email')}
