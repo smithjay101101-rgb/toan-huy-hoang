@@ -59,6 +59,7 @@ jobs:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           AIRTABLE_BASE_ID: appZ9wP5ZlerVW3z8
           AIRTABLE_TABLE_LISTINGS: Listings
+          AIRTABLE_TABLE_PROJECTS: Projects
         run: |
           npm run fetch:data
           npm run fetch:guides

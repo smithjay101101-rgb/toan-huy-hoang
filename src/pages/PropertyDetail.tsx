@@ -83,7 +83,10 @@ export default function PropertyDetail() {
         data={[
           listingSchema(listing, locale),
           breadcrumbSchema([
-            { name: t('nav.' + listing.dealType), path: localePath(locale, listing.dealType) },
+            {
+              name: t(isProject ? 'nav.projects' : 'nav.' + listing.dealType),
+              path: localePath(locale, isProject ? 'projects' : listing.dealType),
+            },
             { name: title, path: localePath(locale, `property/${listing.slug}`) },
           ]),
         ]}
@@ -99,7 +102,7 @@ export default function PropertyDetail() {
         />
         <div className="container-lux relative z-10 flex min-h-[78vh] flex-col justify-end pb-16 pt-36">
           <Link
-            to={localePath(locale, listing.dealType)}
+            to={localePath(locale, isProject ? 'projects' : listing.dealType)}
             className="mb-8 inline-flex items-center gap-2.5 self-start rounded-[2px] border border-white/55 bg-black/25 px-5 py-3 text-[0.8rem] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm transition-colors hover:border-gold-2 hover:text-gold-2"
           >
             <ArrowLeft size={17} strokeWidth={1.5} /> {t('detail.backTo')}

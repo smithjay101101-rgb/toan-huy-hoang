@@ -23,6 +23,9 @@ const {
   AIRTABLE_API_KEY,
   AIRTABLE_BASE_ID,
   AIRTABLE_TABLE_LISTINGS,
+  // Developments live in their own table (less clutter for the client); its
+  // rows merge into the same catalog with category forced to Project.
+  AIRTABLE_TABLE_PROJECTS = 'Projects',
   // Temporary: when '1', use the site's existing photos as listing images
   // instead of the Airtable attachments (until real photos are uploaded).
   FAKE_IMAGES,
@@ -77,10 +80,10 @@ function autoCode(recId, used) {
   return `TH-${n}`
 }
 
-async function fetchAirtableRecords() {
+async function fetchAirtableRecords(table) {
   const records = []
   let offset
-  const base = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_LISTINGS)}`
+  const base = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(table)}`
   do {
     const url = new URL(base)
     url.searchParams.set('filterByFormula', "{status}='Published'")
@@ -173,11 +176,22 @@ function shortFromLong(longDesc) {
 
 async function buildFromAirtable() {
   const sharp = (await import('sharp')).default
-  const records = await fetchAirtableRecords()
+  const listingRecords = await fetchAirtableRecords(AIRTABLE_TABLE_LISTINGS)
+  // The Projects table is optional: until it exists, the catalog is listings only.
+  let projectRecords = []
+  try {
+    projectRecords = await fetchAirtableRecords(AIRTABLE_TABLE_PROJECTS)
+  } catch (err) {
+    console.log(`[data] Projects table not readable (${err.message.slice(0, 60)}...), continuing without it`)
+  }
+  const records = [
+    ...listingRecords.map((rec) => ({ rec, fromProjects: false })),
+    ...projectRecords.map((rec) => ({ rec, fromProjects: true })),
+  ]
   const out = []
   const usedSlugs = new Set()
   const usedCodes = new Set()
-  for (const rec of records) {
+  for (const { rec, fromProjects } of records) {
     // Each record is processed independently: one bad row or broken attachment
     // skips that listing (with a log line), never the whole catalog.
     try {
@@ -233,13 +247,13 @@ async function buildFromAirtable() {
         slug,
         code,
         title: localized(f, 'title'),
-        dealType: (f.deal_type ?? 'Buy').toLowerCase() === 'rent' ? 'rent' : 'buy',
-        category: canonicalCategory(f.category),
+        dealType: fromProjects ? 'buy' : (f.deal_type ?? 'Buy').toLowerCase() === 'rent' ? 'rent' : 'buy',
+        category: fromProjects ? 'Project' : canonicalCategory(f.category),
         district: canonicalDistrict(f.district),
         price,
         currency,
-        bedrooms: Number(f.bedrooms ?? 0),
-        bathrooms: Number(f.bathrooms ?? 0),
+        bedrooms: fromProjects ? 0 : Number(f.bedrooms ?? 0),
+        bathrooms: fromProjects ? 0 : Number(f.bathrooms ?? 0),
         areaM2: Number(f.area_m2 ?? 0),
         shortDesc: shortFromLong(longDesc),
         longDesc,
