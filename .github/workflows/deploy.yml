@@ -128,15 +128,20 @@ jobs:
           R=smithjay101101-rgb/smithjay101101-rgb.github.io
           for i in 1 2 3 4 5 6; do
             sleep 75
-            ST=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages" | grep -o '"status": *"[a-z]*"' | head -1 | grep -o '[a-z]*"$' | tr -d '"')
-            echo "[$i] pages: ${ST:-unknown}"
+            RESP=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages/builds/latest" || true)
+            ST=$(echo "$RESP" | grep -o '"status": *"[a-z]*"' | head -1 | grep -o '[a-z]*"$' | tr -d '"')
+            CREATED=$(echo "$RESP" | grep -o '"created_at": *"[^"]*"' | head -1 | cut -d'"' -f4)
+            AGE=$(( ( $(date +%s) - $(date -d "$CREATED" +%s 2>/dev/null || date +%s) ) / 60 ))
+            echo "[$i] pages build: ${ST:-unknown} (${AGE} min old)"
             [ "$ST" = "built" ] && exit 0
-            if [ "$ST" = "errored" ]; then
-              echo "publisher errored, requesting a fresh build"
+            # errored, or a zombie stuck in "building" for over 8 minutes: kick it
+            if [ "$ST" = "errored" ] || { [ "$ST" = "building" ] && [ "$AGE" -gt 8 ]; }; then
+              echo "publisher stuck ($ST), requesting a fresh build"
               curl -sf -X POST -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages/builds" >/dev/null || true
+              sleep 20
             fi
           done
-          echo "Publisher still settling; the 5-minute health nudge below will finish the job."
+          echo "Publisher still settling; the health nudges on later polls will finish the job."
           exit 0
 
       # Self-healing tick: quiet scheduled polls still give a single nudge if
@@ -148,9 +153,12 @@ jobs:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         run: |
           R=smithjay101101-rgb/smithjay101101-rgb.github.io
-          ST=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages" | grep -o '"status": *"[a-z]*"' | head -1 | grep -o '[a-z]*"$' | tr -d '"')
-          echo "pages: ${ST:-unknown}"
-          if [ "$ST" = "errored" ]; then
-            echo "requesting a fresh build"
+          RESP=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages/builds/latest" || true)
+          ST=$(echo "$RESP" | grep -o '"status": *"[a-z]*"' | head -1 | grep -o '[a-z]*"$' | tr -d '"')
+          CREATED=$(echo "$RESP" | grep -o '"created_at": *"[^"]*"' | head -1 | cut -d'"' -f4)
+          AGE=$(( ( $(date +%s) - $(date -d "$CREATED" +%s 2>/dev/null || date +%s) ) / 60 ))
+          echo "pages build: ${ST:-unknown} (${AGE} min old)"
+          if [ "$ST" = "errored" ] || { [ "$ST" = "building" ] && [ "$AGE" -gt 8 ]; }; then
+            echo "publisher stuck ($ST), requesting a fresh build"
             curl -sf -X POST -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages/builds" >/dev/null || true
           fi
