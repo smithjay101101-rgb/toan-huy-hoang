@@ -112,3 +112,42 @@ jobs:
           publish_dir: ./dist
           force_orphan: true
           commit_message: "Deploy from toan-huy-hoang@${{ github.sha }}"
+
+      # GitHub Pages' branch publisher flakes with "Deployment failed, try
+      # again later". A re-requested build has always cured it, so cure it
+      # automatically: watch the publish land and nudge it when it errors.
+      # Bounded (6 checks, 75s apart) and never fails this workflow.
+      - name: Make sure Pages actually published
+        if: ${{ !(github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no') }}
+        env:
+          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          R=smithjay101101-rgb/smithjay101101-rgb.github.io
+          for i in 1 2 3 4 5 6; do
+            sleep 75
+            ST=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages" | grep -o '"status": *"[a-z]*"' | head -1 | grep -o '[a-z]*"$' | tr -d '"')
+            echo "[$i] pages: ${ST:-unknown}"
+            [ "$ST" = "built" ] && exit 0
+            if [ "$ST" = "errored" ]; then
+              echo "publisher errored, requesting a fresh build"
+              curl -sf -X POST -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages/builds" >/dev/null || true
+            fi
+          done
+          echo "Publisher still settling; the 5-minute health nudge below will finish the job."
+          exit 0
+
+      # Self-healing tick: quiet scheduled polls still give a single nudge if
+      # the publisher is stuck in errored, so it recovers within minutes even
+      # when no content is changing.
+      - name: Nudge a stuck publisher
+        if: ${{ github.event_name == 'schedule' && steps.fresh.outputs.changed == 'no' }}
+        env:
+          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          R=smithjay101101-rgb/smithjay101101-rgb.github.io
+          ST=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages" | grep -o '"status": *"[a-z]*"' | head -1 | grep -o '[a-z]*"$' | tr -d '"')
+          echo "pages: ${ST:-unknown}"
+          if [ "$ST" = "errored" ]; then
+            echo "requesting a fresh build"
+            curl -sf -X POST -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$R/pages/builds" >/dev/null || true
+          fi
