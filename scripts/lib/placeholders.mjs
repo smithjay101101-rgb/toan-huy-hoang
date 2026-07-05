@@ -152,12 +152,21 @@ const MOCK = [
     slug: 'han-riverside-development',
     title: { en: 'Han Riverside Development', vi: 'Dự Án Ven Sông Hàn' },
     dealType: 'buy', category: 'Project', district: 'Hai Chau',
-    price: 320000, currency: 'USD', bedrooms: 1, bathrooms: 1, areaM2: 65,
+    price: 320000, currency: 'USD', bedrooms: 1, bathrooms: 1, areaM2: 11200,
     short: {
       en: 'Early release residences in a landmark riverside tower.',
       vi: 'Những căn hộ mở bán sớm trong tòa tháp ven sông biểu tượng.',
     },
     featured: false, lat: 16.0721, lng: 108.2256,
+    developer: 'Song Han Development JSC',
+    units: '800 residences',
+    floors: '25 to 29 floors, 3 basements',
+    handover: 'Q4 2027',
+    address: 'A20 Vo Van Kiet, An Hai Ward, Da Nang',
+    longDesc: {
+      en: '## A golden position on the Han River\n\nThe tower rises where Vo Van Kiet meets the river, minutes from the Dragon Bridge and My Khe beach. Residences face the water on one side and the city skyline on the other.\n\n## Designed for living and yield\n\nA mix of one to three bedroom residences, serviced apartments and a hotel podium. Owners join a managed rental program with international operators.\n\n## Amenities\n\nInfinity pool on the 25th floor, riverside promenade, wellness floor, and a private residents lounge overlooking the Dragon Bridge.',
+      vi: '## Vị trí vàng bên sông Hàn\n\nTòa tháp vươn lên nơi Võ Văn Kiệt gặp dòng sông, vài phút tới cầu Rồng và biển Mỹ Khê. Căn hộ hướng sông một mặt và đường chân trời thành phố mặt còn lại.\n\n## Thiết kế để ở và sinh lời\n\nCác căn một tới ba phòng ngủ, căn hộ dịch vụ và khối đế khách sạn. Chủ sở hữu tham gia chương trình cho thuê được quản lý bởi các đơn vị quốc tế.\n\n## Tiện ích\n\nHồ bơi vô cực tầng 25, đường dạo ven sông, tầng chăm sóc sức khỏe và lounge riêng nhìn về cầu Rồng.',
+    },
   },
 ]
 
@@ -190,10 +199,15 @@ export async function writeMockData({ publicDir, dataFile }) {
       bathrooms: m.bathrooms,
       areaM2: m.areaM2,
       shortDesc: m.short,
-      longDesc: {
+      longDesc: m.longDesc ?? {
         en: `${m.short.en} ${m.title.en} sits within ${m.district}, one of Da Nang most considered locations. This is placeholder copy held to the brand grade and ready to be replaced with the final description once photography and details are confirmed.`,
         vi: `${m.short.vi} ${m.title.vi} tọa lạc tại ${m.district}, một trong những vị trí được cân nhắc kỹ lưỡng nhất Đà Nẵng. Đây là nội dung mẫu giữ đúng chuẩn thương hiệu, sẵn sàng thay thế bằng mô tả cuối cùng khi hình ảnh và chi tiết được xác nhận.`,
       },
+      developer: m.developer ?? null,
+      units: m.units ?? null,
+      floors: m.floors ?? null,
+      handover: m.handover ?? null,
+      address: m.address ?? null,
       heroImage: asset(heroSrc, 1600, 1067, m.title.en),
       gallery,
       lat: m.lat,

@@ -90,6 +90,9 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
         <div className="mt-5 flex items-end justify-between gap-3 border-t border-ink/12 pt-4">
           <div className="min-w-0">
             <div className="font-display text-lg text-ink tabular-nums whitespace-nowrap">
+              {listing.category === 'Project' && listing.price > 0 && (
+                <span className="mr-1 font-sans text-xs uppercase tracking-[0.1em] text-ink/60">{t('listings.from')}</span>
+              )}
               {primary}
               {isRent && <span className="ml-1 font-sans text-xs text-ink/70">{t('listings.perMonth')}</span>}
             </div>

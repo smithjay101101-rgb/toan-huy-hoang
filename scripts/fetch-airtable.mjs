@@ -249,6 +249,12 @@ async function buildFromAirtable() {
         lng: f.lng != null ? Number(f.lng) : null,
         featured: Boolean(f.featured),
         datePublished: f.date_published ?? new Date().toISOString().slice(0, 10),
+        // Development facts (optional columns; used when category = Project).
+        developer: f.developer ? String(f.developer).trim() : null,
+        units: f.units ? String(f.units).trim() : null,
+        floors: f.floors ? String(f.floors).trim() : null,
+        handover: f.handover ? String(f.handover).trim() : null,
+        address: f.address ? String(f.address).trim() : null,
       })
     } catch (err) {
       console.error(`[data] Skipping listing ${rec.id} (${rec.fields?.title_en ?? 'untitled'}): ${err.message}`)

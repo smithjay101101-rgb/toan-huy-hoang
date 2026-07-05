@@ -49,6 +49,15 @@ export interface Listing {
   lng: number | null
   featured: boolean
   datePublished: string
+  /**
+   * Development-only facts (category = Project), all optional; the overview
+   * table on the project page shows only the rows that are filled.
+   */
+  developer?: string | null
+  units?: string | null
+  floors?: string | null
+  handover?: string | null
+  address?: string | null
 }
 
 // Guides (blog) are produced at build time by scripts/fetch-guides.mjs from a

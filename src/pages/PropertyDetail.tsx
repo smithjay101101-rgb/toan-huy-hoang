@@ -1,9 +1,12 @@
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { ArrowLeft, BedDouble, Bath, Maximize, MapPin, Hash } from 'lucide-react'
 import { useLocale } from '@/lib/locale'
 import { localePath } from '@/lib/locale'
-import { getListingBySlug } from '@/data'
+import { getListingBySlug, getListings } from '@/data'
+import PropertyCard from '@/components/PropertyCard'
 import { formatPriceParts, formatArea, pick } from '@/lib/format'
 import { useCurrency } from '@/lib/currency'
 import { contactFor } from '@/config/site'
@@ -42,6 +45,21 @@ export default function PropertyDetail() {
   const district = localizeDistrict(listing.district, locale)
   const category = t(`listings.categoryNames.${listing.category.toLowerCase()}`, { defaultValue: listing.category })
   const isRent = listing.dealType === 'rent'
+  const isProject = listing.category === 'Project'
+  // Reference-style development overview (Tổng quan dự án): only filled rows show.
+  const facts = isProject
+    ? ([
+        [t('detail.address'), listing.address ?? district],
+        [t('detail.developer'), listing.developer],
+        [t('detail.units'), listing.units],
+        [t('detail.floors'), listing.floors],
+        listing.areaM2 > 0 ? [t('detail.landArea'), formatArea(listing.areaM2, locale)] : null,
+        [t('detail.handover'), listing.handover],
+      ].filter((r): r is [string, string] => !!r && !!r[1]))
+    : []
+  const relatedProjects = isProject
+    ? getListings().filter((l) => l.category === 'Project' && l.slug !== listing.slug).slice(0, 3)
+    : []
   const specs = [
     listing.bedrooms > 0 && { icon: BedDouble, label: t('detail.bedrooms'), value: String(listing.bedrooms) },
     listing.bathrooms > 0 && { icon: Bath, label: t('detail.bathrooms'), value: String(listing.bathrooms) },
@@ -102,6 +120,11 @@ export default function PropertyDetail() {
             className="mt-4 font-display font-semibold text-gold-2 tabular-nums"
             style={{ fontSize: 'clamp(1.7rem, 1.3rem + 1.8vw, 2.6rem)', textShadow: '0 2px 18px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
           >
+            {isProject && listing.price > 0 && (
+              <span className="mr-2 font-sans text-sm font-normal uppercase tracking-[0.14em] text-white/85">
+                {t('listings.from')}
+              </span>
+            )}
             {(() => {
               const { usd, vnd } = formatPriceParts(listing, locale)
               const main = currency === 'vnd' && vnd ? vnd : usd
@@ -117,23 +140,50 @@ export default function PropertyDetail() {
       <section className="bg-cream text-ink">
         <div className="container-lux grid gap-14 py-20 lg:grid-cols-[1.6fr_1fr] lg:gap-20 lg:py-28">
           <div>
+            {/* Development facts table, in the spirit of the classic Vietnamese
+                project page (Tổng quan dự án). */}
+            {facts.length > 0 && (
+              <Reveal className="mb-14">
+                <p className="eyebrow-ink">{t('detail.projectOverview')}</p>
+                <div className="mt-6 overflow-hidden rounded-[4px] border border-ink/10 bg-white">
+                  <dl>
+                    {facts.map(([label, value], i) => (
+                      <div
+                        key={label}
+                        className={`grid grid-cols-[38%_1fr] gap-4 px-6 py-4 ${i > 0 ? 'border-t border-ink/8' : ''}`}
+                      >
+                        <dt className="text-[0.72rem] uppercase tracking-[0.16em] text-ink/60 self-center">{label}</dt>
+                        <dd className="text-[15px] text-ink">{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </Reveal>
+            )}
+
             <Reveal>
               <p className="eyebrow-ink">{t('detail.overview')}</p>
-              <div className="mt-6 space-y-5 text-lg leading-relaxed text-ink/80">
-                {pick(listing.longDesc, locale)
-                  .split('\n')
-                  .map((para, i) => (
-                    <p key={i} className="max-w-prose">
-                      {para}
-                    </p>
-                  ))}
-              </div>
+              {isProject ? (
+                <div className="prose prose-cream prose-headings:font-display mt-6 max-w-none">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{pick(listing.longDesc, locale)}</ReactMarkdown>
+                </div>
+              ) : (
+                <div className="mt-6 space-y-5 text-lg leading-relaxed text-ink/80">
+                  {pick(listing.longDesc, locale)
+                    .split('\n')
+                    .map((para, i) => (
+                      <p key={i} className="max-w-prose">
+                        {para}
+                      </p>
+                    ))}
+                </div>
+              )}
             </Reveal>
 
-            {/* Gallery */}
+            {/* Gallery (master plan on developments) */}
             {listing.gallery.length > 0 && (
               <Reveal className="mt-16">
-                <p className="eyebrow-ink">{t('detail.gallery')}</p>
+                <p className="eyebrow-ink">{isProject ? t('detail.masterplan') : t('detail.gallery')}</p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   {listing.gallery.map((img, i) => (
                     <div key={i} className="overflow-hidden rounded-[4px] border border-ink/10" style={{ aspectRatio: '3 / 2' }}>
@@ -207,6 +257,20 @@ export default function PropertyDetail() {
                   sandbox="allow-scripts allow-same-origin allow-popups"
                   src={`https://www.openstreetmap.org/export/embed.html?bbox=${listing.lng - 0.01}%2C${listing.lat - 0.008}%2C${listing.lng + 0.01}%2C${listing.lat + 0.008}&layer=mapnik&marker=${listing.lat}%2C${listing.lng}`}
                 />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Other developments, like the reference's featured-projects block. */}
+        {relatedProjects.length > 0 && (
+          <div className="border-t border-ink/10">
+            <div className="container-lux py-16">
+              <p className="eyebrow-ink">{t('detail.relatedProjects')}</p>
+              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedProjects.map((l) => (
+                  <PropertyCard key={l.id} listing={l} locale={locale} />
+                ))}
               </div>
             </div>
           </div>
