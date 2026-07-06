@@ -78,7 +78,7 @@ export default function Nav({ locale }: { locale: Locale }) {
       >
         <Link
           to={localePath(locale)}
-          className="font-display text-[1.05rem] font-semibold uppercase tracking-[0.28em] text-text"
+          className="whitespace-nowrap font-display text-[1.05rem] font-semibold uppercase tracking-[0.28em] text-text"
           aria-label={t('footer.signature')}
         >
           Toan Huy Hoang
@@ -101,7 +101,7 @@ export default function Nav({ locale }: { locale: Locale }) {
             ))}
           </ul>
           <span className="h-4 w-px bg-line" aria-hidden="true" />
-          <LanguageSwitcher current={locale} />
+          <LanguageSwitcher current={locale} compact />
           {contactFor(locale).channels.map((ch) => (
             <ChannelButton key={ch.kind} channel={ch} />
           ))}
