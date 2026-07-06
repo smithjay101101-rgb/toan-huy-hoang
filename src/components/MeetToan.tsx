@@ -72,7 +72,7 @@ export default function MeetToan({ locale }: { locale: Locale }) {
             </div>
             <div>
               <div className="font-display font-semibold" style={{ fontSize: 44, lineHeight: 1 }}>
-                300<span style={{ color: 'var(--gold-ink)' }}>+</span>
+                1,000<span style={{ color: 'var(--gold-ink)' }}>+</span>
               </div>
               <div className="text-[12px] uppercase" style={{ letterSpacing: '0.2em', color: 'var(--cream-faint)', marginTop: 8 }}>
                 {t('meet.statHomes')}
