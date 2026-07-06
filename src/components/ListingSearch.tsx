@@ -30,14 +30,14 @@ interface Bracket {
 }
 
 // Budget brackets per deal type, sized for the Da Nang market (most sales fall
-// between $100K and $1M). Bounds are USD; labels render in the active display
+// between $200K and $1M). Bounds are USD; labels render in the active display
 // currency. Ranges are inclusive of min, exclusive of max.
 const BUDGETS: Record<DealType, Bracket[]> = {
   buy: [
     { key: 'any', min: 0, max: Infinity },
-    { key: 'u100k', min: 0, max: 100_000 },
-    { key: '100to250k', min: 100_000, max: 250_000 },
-    { key: '250to500k', min: 250_000, max: 500_000 },
+    { key: 'u200k', min: 0, max: 200_000 },
+    { key: '200to350k', min: 200_000, max: 350_000 },
+    { key: '350to500k', min: 350_000, max: 500_000 },
     { key: '500kto1m', min: 500_000, max: 1_000_000 },
     { key: '1mplus', min: 1_000_000, max: Infinity },
   ],
