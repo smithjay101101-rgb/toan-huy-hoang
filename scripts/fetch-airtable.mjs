@@ -24,6 +24,13 @@ const DATA_FILE = join(ROOT, 'src', 'data', 'listings.json')
 // used so placeholder/fake assets also carry responsive srcsets.
 const MEDIA_VARIANTS = loadMediaVariants(ROOT)
 
+// RULE: every real listing photo (hero + gallery) ships with this brand line
+// baked into its pixels at build time, so other agents can't lift the photos.
+// The mark is a single subtle centered line (see watermarkSvg in lib/images.mjs)
+// that scales with the photo — it does not degrade the image. Placeholders and
+// the site's own scenery photos stay clean. Set to '' to disable.
+const WATERMARK_TEXT = 'TOAN HUY HOANG REALTY COMPANY'
+
 const {
   AIRTABLE_API_KEY,
   AIRTABLE_BASE_ID,
@@ -216,7 +223,7 @@ async function buildFromAirtable() {
       } else {
         if (Array.isArray(f.hero_image) && f.hero_image[0]) {
           try {
-            heroImage = await optimizeImage(sharp, PUBLIC_DIR, f.hero_image[0].url, dir, 'hero', titleEn)
+            heroImage = await optimizeImage(sharp, PUBLIC_DIR, f.hero_image[0].url, dir, 'hero', titleEn, { watermark: WATERMARK_TEXT })
           } catch (err) {
             console.error(`[data] ${slug}: hero image failed (${err.message}), using placeholder`)
           }
@@ -225,7 +232,7 @@ async function buildFromAirtable() {
           for (let i = 0; i < f.gallery.length; i++) {
             try {
               gallery.push(
-                await optimizeImage(sharp, PUBLIC_DIR, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`),
+                await optimizeImage(sharp, PUBLIC_DIR, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`, { watermark: WATERMARK_TEXT }),
               )
             } catch (err) {
               console.error(`[data] ${slug}: gallery image ${i + 1} failed (${err.message}), skipped`)
