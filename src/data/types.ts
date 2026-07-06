@@ -12,6 +12,13 @@ export interface ImageAsset {
   /** Optimized modern formats, present only after the build image pipeline runs. */
   avif?: string
   webp?: string
+  /**
+   * Width-descriptor srcsets ("…-400.avif 400w, …") when the pipeline generated
+   * a width ladder; preferred over the single avif/webp so phones fetch a
+   * viewport-sized candidate instead of the full-size photo.
+   */
+  avifSet?: string
+  webpSet?: string
   width: number
   height: number
   alt: string

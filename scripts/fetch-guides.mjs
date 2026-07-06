@@ -11,11 +11,13 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
+import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const PUBLIC_DIR = join(ROOT, 'public')
 const DATA_FILE = join(ROOT, 'src', 'data', 'guides.json')
+const MEDIA_VARIANTS = loadMediaVariants(ROOT)
 
 const { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, AIRTABLE_GUIDES_BASE_ID, AIRTABLE_GUIDES_TABLE } = process.env
 const BASE_ID = AIRTABLE_GUIDES_BASE_ID || AIRTABLE_BASE_ID
@@ -63,20 +65,6 @@ async function fetchRecords() {
   return records
 }
 
-async function optimizeImage(sharp, url, outDir, name, alt) {
-  await mkdir(outDir, { recursive: true })
-  const res = await fetch(url)
-  const buf = Buffer.from(await res.arrayBuffer())
-  const img = sharp(buf)
-  const meta = await img.metadata()
-  const width = meta.width ?? 1600
-  const height = meta.height ?? 1067
-  const rel = outDir.slice(PUBLIC_DIR.length).split('\\').join('/')
-  await img.clone().avif({ quality: 60 }).toFile(join(outDir, `${name}.avif`))
-  await img.clone().webp({ quality: 74 }).toFile(join(outDir, `${name}.webp`))
-  return { src: `${rel}/${name}.webp`, avif: `${rel}/${name}.avif`, webp: `${rel}/${name}.webp`, width, height, alt }
-}
-
 /** Build the locales map, including only fully translated locales. */
 function buildLocales(f) {
   const out = {}
@@ -117,7 +105,7 @@ async function buildFromAirtable() {
     let coverImage = null
     if (Array.isArray(f.Cover_Image) && f.Cover_Image[0]) {
       const alt = locales.en?.title ?? Object.values(locales)[0].title
-      coverImage = await optimizeImage(sharp, f.Cover_Image[0].url, join(PUBLIC_DIR, 'guides', slug), 'cover', alt)
+      coverImage = await optimizeImage(sharp, PUBLIC_DIR, f.Cover_Image[0].url, join(PUBLIC_DIR, 'guides', slug), 'cover', alt)
     }
     const published = f.Published_Date ?? new Date().toISOString().slice(0, 10)
     out.push({
@@ -147,6 +135,8 @@ function mockGuides() {
     src: '/media/coast-cove.webp',
     avif: '/media/coast-cove.avif',
     webp: '/media/coast-cove.webp',
+    avifSet: staticSrcSet(MEDIA_VARIANTS, '/media/coast-cove', 'avif'),
+    webpSet: staticSrcSet(MEDIA_VARIANTS, '/media/coast-cove', 'webp'),
     width: 2200,
     height: 1238,
     alt: 'The Son Tra coastline, Da Nang',

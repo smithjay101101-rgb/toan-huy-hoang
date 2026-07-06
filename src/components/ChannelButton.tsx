@@ -14,11 +14,11 @@ export default function ChannelButton({ channel, compact = false }: { channel: C
       rel={external ? 'noopener noreferrer' : undefined}
       aria-label={channel.label}
       className="inline-flex items-center gap-2 rounded-[2px] border border-line px-3 text-text/80 transition-colors duration-200 hover:border-gold hover:text-text"
-      style={{ minHeight: 40 }}
+      style={{ minHeight: 44 }}
     >
       <ChannelIcon kind={channel.kind} size={16} />
       {!compact && (
-        <span className="text-[0.7rem] font-medium uppercase tracking-[0.18em]">{channel.label}</span>
+        <span className="text-[0.72rem] font-medium uppercase tracking-[0.18em]">{channel.label}</span>
       )}
     </a>
   )

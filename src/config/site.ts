@@ -44,11 +44,12 @@ export interface LocaleContact {
   channels: ContactChannel[]
 }
 
-// SWAP: a plain KakaoTalk username has no public web link (the guessed
-// open.kakao.com/me/danangluxury shows "chatroom no longer available"). Paste
-// the real link once the client creates an Open Profile or Kakao Channel in
-// the app. Empty = the button falls back to a phone call and shows the ID.
-export const KAKAO_CHANNEL_URL = ''
+// KakaoTalk Open Profile link for the ID below. LAUNCH ITEM: the client must
+// create the Open Profile inside the KakaoTalk app (Profile -> Open Profile ->
+// search handle "danangluxury") — Kakao offers no way to create it from
+// outside the app. Until that exists, this URL shows Kakao's "profile not
+// found" page. Set to '' to fall back to a phone call showing the ID.
+export const KAKAO_CHANNEL_URL = 'https://open.kakao.com/me/danangluxury'
 export const KAKAO_ID = 'danangluxury'
 
 // The client's Telegram username (without @). Empty = fall back to the
@@ -119,9 +120,8 @@ export function channelsFor(locale: Locale, message: string): ContactChannel[] {
     if (ch.kind === 'whatsapp' && ch.href.startsWith('https://wa.me/')) {
       return { ...ch, href: `${ch.href}?text=${text}` }
     }
-    if (ch.kind === 'telegram' && TELEGRAM_USERNAME && ch.href.includes(`t.me/${TELEGRAM_USERNAME}`)) {
-      return { ...ch, href: `${ch.href}?text=${text}` }
-    }
+    // Telegram: t.me/<username> profile links ignore ?text= (only share and
+    // bot links prefill), so the chat opens without a draft. No param added.
     return ch
   })
 }

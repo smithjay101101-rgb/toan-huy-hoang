@@ -5,6 +5,7 @@ import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
 import { formatPriceParts, pick } from '@/lib/format'
 import { useCurrency } from '@/lib/currency'
+import { mediaSrcSet } from '@/lib/media'
 import { localizeDistrict } from '@/data/locations'
 import PropertyImage from './PropertyImage'
 
@@ -34,7 +35,16 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
         let h = 0
         for (const c of listing.slug) h = (h * 31 + c.charCodeAt(0)) >>> 0
         const base = `/media/placeholders/prop-${(h % 8) + 1}`
-        return { src: `${base}.jpg`, avif: `${base}.avif`, webp: `${base}.webp`, width: 800, height: 600, alt: pick(listing.title, locale) }
+        return {
+          src: `${base}.jpg`,
+          avif: `${base}.avif`,
+          webp: `${base}.webp`,
+          avifSet: mediaSrcSet(base, 'avif'),
+          webpSet: mediaSrcSet(base, 'webp'),
+          width: 800,
+          height: 600,
+          alt: pick(listing.title, locale),
+        }
       })()
     : listing.heroImage
 
@@ -51,20 +61,20 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
           className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
         />
         {listing.featured && (
-          <span className="absolute left-4 top-4 rounded-[2px] bg-ink/55 px-3 py-1 text-[0.6rem] uppercase tracking-[0.24em] text-gold-2 backdrop-blur-sm">
+          <span className="absolute left-4 top-4 rounded-[2px] bg-ink/55 px-3 py-1 text-[0.72rem] uppercase tracking-[0.24em] text-gold-2 backdrop-blur-sm">
             {t('showcase.featured')}
           </span>
         )}
       </div>
 
       <div className="p-6">
-        <div className="flex items-baseline justify-between gap-3 text-[0.68rem] font-medium uppercase tracking-[0.26em] text-gold-ink">
+        <div className="flex items-baseline justify-between gap-3 text-[0.72rem] font-medium uppercase tracking-[0.26em] text-gold-ink">
           <span>
             {localizeDistrict(listing.district, locale)} ·{' '}
             {t(`listings.categoryNames.${listing.category.toLowerCase()}`, { defaultValue: listing.category })}
           </span>
           {/* Property reference, searchable via the Code filter. */}
-          {listing.code && <span className="shrink-0 tracking-[0.14em] text-ink/45">#{listing.code}</span>}
+          {listing.code && <span className="shrink-0 tracking-[0.14em] text-ink/70">#{listing.code}</span>}
         </div>
         <h3
           className="mt-3 font-display font-semibold text-ink transition-colors group-hover:text-gold-ink"
@@ -74,7 +84,7 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
         </h3>
 
         {listing.category !== 'Land' && (
-          <div className="mt-3 flex items-center gap-3 text-[0.82rem] font-light text-ink/70">
+          <div className="mt-3 flex items-center gap-3 text-sm text-ink/70">
             <span>
               {listing.bedrooms} {t('listings.beds')}
             </span>
@@ -87,18 +97,33 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
           </div>
         )}
 
-        <div className="mt-5 flex items-end justify-between gap-3 border-t border-ink/12 pt-4">
+        {/* Price row. flex-wrap + ml-auto: the view-listing label drops to its
+            own right-aligned line when a long translation (RU) runs out of
+            room, so it can never squeeze or clip the price. */}
+        <div className="mt-5 flex flex-wrap items-end justify-between gap-x-3 gap-y-2 border-t border-ink/12 pt-4">
           <div className="min-w-0">
-            <div className="font-display text-lg text-ink tabular-nums whitespace-nowrap">
-              {listing.category === 'Project' && listing.price > 0 && (
-                <span className="mr-1 font-sans text-xs uppercase tracking-[0.1em] text-ink/60">{t('listings.from')}</span>
-              )}
-              {primary}
-              {isRent && <span className="ml-1 font-sans text-xs text-ink/70">{t('listings.perMonth')}</span>}
-            </div>
-            {secondary && <div className="mt-0.5 whitespace-nowrap text-xs text-ink/70 tabular-nums">{secondary}</div>}
+            {listing.price > 0 ? (
+              <>
+                <div className="font-display text-2xl font-semibold text-ink tabular-nums whitespace-nowrap">
+                  {listing.category === 'Project' && (
+                    <span className="mr-1.5 font-sans text-xs font-normal uppercase tracking-[0.1em] text-ink/70">
+                      {t('listings.from')}
+                    </span>
+                  )}
+                  {primary}
+                  {isRent && (
+                    <span className="ml-1 font-sans text-sm font-normal text-ink/80">{t('listings.perMonth')}</span>
+                  )}
+                </div>
+                {secondary && (
+                  <div className="mt-0.5 whitespace-nowrap text-sm text-ink/70 tabular-nums">{secondary}</div>
+                )}
+              </>
+            ) : (
+              <div className="font-display text-xl font-semibold text-ink">{t('listings.priceOnRequest')}</div>
+            )}
           </div>
-          <span className="shrink-0 self-end text-[0.7rem] uppercase tracking-[0.2em] text-gold-ink transition-colors group-hover:text-ink">
+          <span className="ml-auto text-[0.72rem] uppercase tracking-[0.2em] text-gold-ink transition-colors group-hover:text-ink">
             {t('sontra.viewListing')}
           </span>
         </div>

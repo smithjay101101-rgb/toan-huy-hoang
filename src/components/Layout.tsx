@@ -4,6 +4,7 @@ import { useLocale } from '@/lib/locale'
 import { CurrencyProvider } from '@/lib/currency'
 import Nav from './Nav'
 import Footer from './Footer'
+import ContactFab from './ContactFab'
 import JsonLd from './JsonLd'
 import { organizationSchema, realEstateAgentSchema } from '@/lib/schema'
 
@@ -34,6 +35,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer locale={locale} />
+      <ContactFab locale={locale} />
     </CurrencyProvider>
   )
 }

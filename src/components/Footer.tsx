@@ -9,8 +9,9 @@ import { ChannelIcon } from './icons'
 
 const EXPLORE = ['buy', 'rent', 'projects', 'guides', 'about', 'contact'] as const
 
-// inline-block + vertical padding keeps footer tap areas comfortable on touch.
-const linkCls = 'inline-block cursor-pointer py-1 transition-colors duration-200 hover:text-gold-2'
+// inline-block + vertical padding keeps footer tap areas comfortable on touch
+// (py-2 + the 14px row gap ≈ a 44px rhythm between adjacent links).
+const linkCls = 'inline-block cursor-pointer py-2 transition-colors duration-200 hover:text-gold-2'
 
 export default function Footer({ locale }: { locale: Locale }) {
   const { t } = useTranslation()
@@ -89,7 +90,7 @@ export default function Footer({ locale }: { locale: Locale }) {
                 </a>
               </li>
               <li>
-                <a href={`tel:${contact.phoneTel}`} style={{ color: 'rgba(238,240,240,0.7)' }} className="inline-block py-1 transition-colors duration-200 hover:text-gold-2">
+                <a href={`tel:${contact.phoneTel}`} style={{ color: 'rgba(238,240,240,0.7)' }} className="inline-block py-2 transition-colors duration-200 hover:text-gold-2">
                   {contact.phoneDisplay}
                 </a>
               </li>

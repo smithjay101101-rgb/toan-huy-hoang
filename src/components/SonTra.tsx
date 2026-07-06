@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next'
 import type { Locale } from '@/i18n'
 import { listings } from '@/data'
 import { localePath } from '@/lib/locale'
-import { pick } from '@/lib/format'
+import { formatPriceParts, pick } from '@/lib/format'
+import { useCurrency } from '@/lib/currency'
+import { mediaSrcSet } from '@/lib/media'
 import { localizeDistrict } from '@/data/locations'
 import PropertyImage from './PropertyImage'
 
@@ -90,6 +92,11 @@ export default function SonTra({ locale }: { locale: Locale }) {
   }, [])
 
   const href = localePath(locale, `property/${listing.slug}`)
+  // The featured card leads with its price (toggled currency first).
+  const { currency } = useCurrency()
+  const { usd, vnd } = formatPriceParts(listing, locale)
+  const cardPrice =
+    listing.price > 0 ? (currency === 'vnd' && vnd ? vnd : usd) : t('listings.priceOnRequest')
 
   return (
     <section
@@ -99,14 +106,14 @@ export default function SonTra({ locale }: { locale: Locale }) {
       aria-label={t('coast.eyebrow')}
     >
       <picture>
-        <source srcSet="/media/coast-cove.avif" type="image/avif" />
-        <source srcSet="/media/coast-cove.webp" type="image/webp" />
+        <source srcSet={mediaSrcSet('/media/coast-cove', 'avif')} type="image/avif" sizes="100vw" />
+        <source srcSet={mediaSrcSet('/media/coast-cove', 'webp')} type="image/webp" sizes="100vw" />
         <img
           ref={imgRef}
           src="/media/coast-cove.jpg"
           alt="The Son Tra peninsula coastline, Da Nang, at golden hour"
-          width={2200}
-          height={1238}
+          width={1760}
+          height={990}
           loading="lazy"
           decoding="async"
           className="absolute inset-0 h-full w-full object-cover"
@@ -175,18 +182,25 @@ export default function SonTra({ locale }: { locale: Locale }) {
           </div>
           <div className="px-6 pb-6 pt-5">
             <div
-              className="mb-3 text-[11px] font-medium uppercase tracking-[0.3em]"
+              className="mb-3 text-[12px] font-medium uppercase tracking-[0.3em]"
               style={{ color: '#f4d488', textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
             >
               {t('sontra.cardEyebrow')} · {localizeDistrict(listing.district, locale)}
             </div>
             <div
-              className="mb-3 font-display text-[2rem] font-semibold leading-[1.04]"
+              className="mb-2 font-display text-[2rem] font-semibold leading-[1.04]"
               style={{ textShadow: '0 2px 16px rgba(0,0,0,0.4)' }}
             >
               {pick(listing.title, locale)}
             </div>
-            <div className="mb-4 flex gap-3 text-[13px] font-light text-white/90">
+            {/* Price up front (user-visible pricing everywhere a listing shows). */}
+            <div
+              className="mb-3 font-display text-[1.55rem] font-semibold tabular-nums"
+              style={{ color: '#f4d488', textShadow: '0 2px 14px rgba(0,0,0,0.55)' }}
+            >
+              {cardPrice}
+            </div>
+            <div className="mb-4 flex gap-3 text-[14px] font-light text-white/90">
               <span>
                 {listing.bedrooms} {t('listings.beds')}
               </span>
@@ -197,13 +211,13 @@ export default function SonTra({ locale }: { locale: Locale }) {
               <span className="opacity-40">·</span>
               <span>{listing.areaM2} m²</span>
             </div>
-            <p className="mb-5 text-[13px] font-light leading-[1.6] text-white/80">
+            <p className="mb-5 text-[14px] font-light leading-[1.6] text-white/80">
               {pick(listing.shortDesc, locale)}
             </p>
             <div className="flex items-center justify-end border-t border-white/25 pt-4">
               <span
                 className="text-[12px] tracking-[0.22em] transition-colors group-hover:text-white"
-                style={{ color: '#e0c074' }}
+                style={{ color: '#f4d488' }}
               >
                 {t('sontra.viewListing')}
               </span>

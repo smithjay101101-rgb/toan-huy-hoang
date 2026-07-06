@@ -87,7 +87,11 @@ export default function Contact() {
             <a href={mailHref} className={rowCls}>
               <Mail size={17} strokeWidth={1.5} />
               {t('contact.email')}
-              <span className="ml-auto truncate font-light text-ink/70">{SITE.email}</span>
+              {/* break-all, not truncate: the full address must be readable at
+                  375px even if it wraps to a second line. */}
+              <span className="ml-auto break-all text-right font-light normal-case tracking-normal text-ink/70">
+                {SITE.email}
+              </span>
             </a>
           </div>
         </div>

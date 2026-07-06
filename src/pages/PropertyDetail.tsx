@@ -71,6 +71,14 @@ export default function PropertyDetail() {
     !!listing.code && { icon: Hash, label: t('detail.code'), value: listing.code },
   ].filter(Boolean) as { icon: typeof BedDouble; label: string; value: string }[]
 
+  // One price computation for the hero and the mobile inquiry bar. The toggled
+  // currency leads; zero-priced rows show "price on request" instead of $0.
+  const { usd, vnd } = formatPriceParts(listing, locale)
+  const priceMain = currency === 'vnd' && vnd ? vnd : usd
+  const priceSub = currency === 'vnd' && vnd ? usd : vnd
+  const hasPrice = listing.price > 0
+  const primaryChannel = contactFor(locale).channels[0]
+
   return (
     <>
       <Seo
@@ -125,18 +133,15 @@ export default function PropertyDetail() {
             className="mt-4 font-display font-semibold text-gold-2 tabular-nums"
             style={{ fontSize: 'clamp(1.7rem, 1.3rem + 1.8vw, 2.6rem)', textShadow: '0 2px 18px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
           >
-            {isProject && listing.price > 0 && (
+            {isProject && hasPrice && (
               <span className="mr-2 font-sans text-sm font-normal uppercase tracking-[0.14em] text-white/85">
                 {t('listings.from')}
               </span>
             )}
-            {(() => {
-              const { usd, vnd } = formatPriceParts(listing, locale)
-              const main = currency === 'vnd' && vnd ? vnd : usd
-              const sub = currency === 'vnd' && vnd ? usd : vnd
-              return sub ? `${main} · ${sub}` : main
-            })()}
-            {isRent && <span className="ml-2 font-sans text-sm font-normal text-white/85">{t('listings.perMonth')}</span>}
+            {hasPrice ? (priceSub ? `${priceMain} · ${priceSub}` : priceMain) : t('listings.priceOnRequest')}
+            {hasPrice && isRent && (
+              <span className="ml-2 font-sans text-sm font-normal text-white/85">{t('listings.perMonth')}</span>
+            )}
           </div>
         </div>
       </section>
@@ -157,7 +162,7 @@ export default function PropertyDetail() {
                         key={label}
                         className={`grid grid-cols-[38%_1fr] gap-4 px-6 py-4 ${i > 0 ? 'border-t border-ink/8' : ''}`}
                       >
-                        <dt className="text-[0.72rem] uppercase tracking-[0.16em] text-ink/60 self-center">{label}</dt>
+                        <dt className="text-[0.72rem] uppercase tracking-[0.16em] text-ink/70 self-center">{label}</dt>
                         <dd className="text-[15px] text-ink">{value}</dd>
                       </div>
                     ))}
@@ -301,7 +306,47 @@ export default function PropertyDetail() {
             </div>
           </div>
         )}
+
+        {/* Clearance for the fixed inquiry bar so the last content and most of
+            the footer scroll fully above it on phones. */}
+        <div className="h-16 lg:hidden" aria-hidden="true" />
       </section>
+
+      {/* Mobile inquiry bar: the price and a one-tap chat stay in the thumb
+          zone the whole visit — no scrolling past the gallery to inquire. */}
+      <div
+        className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-gold/40 px-5 lg:hidden"
+        style={{
+          background: 'rgba(13,26,36,0.96)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          paddingTop: 10,
+          paddingBottom: 'calc(10px + env(safe-area-inset-bottom))',
+        }}
+      >
+        <div className="min-w-0">
+          <div className="truncate font-display text-xl font-semibold text-gold-2 tabular-nums">
+            {hasPrice ? priceMain : t('listings.priceOnRequest')}
+            {hasPrice && isRent && (
+              <span className="ml-1 font-sans text-xs font-normal text-white/80">{t('listings.perMonth')}</span>
+            )}
+          </div>
+          {hasPrice && priceSub && (
+            <div className="truncate text-xs tabular-nums text-white/70">{priceSub}</div>
+          )}
+        </div>
+        <a
+          href={primaryChannel.href}
+          target={primaryChannel.href.startsWith('http') ? '_blank' : undefined}
+          rel={primaryChannel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          aria-label={t('detail.inquireOn', { channel: primaryChannel.label })}
+          className="btn btn-primary shrink-0"
+          style={{ minHeight: 44, padding: '12px 22px' }}
+        >
+          <ChannelIcon kind={primaryChannel.kind} size={16} />
+          {primaryChannel.label}
+        </a>
+      </div>
     </>
   )
 }

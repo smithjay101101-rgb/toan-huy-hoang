@@ -17,8 +17,14 @@ export default function PropertyImage({ image, className, priority = false, size
   const aspect = `${image.width} / ${image.height}`
   return (
     <picture>
-      {image.avif && <source srcSet={image.avif} type="image/avif" sizes={sizes} />}
-      {image.webp && <source srcSet={image.webp} type="image/webp" sizes={sizes} />}
+      {/* The *Set strings carry w descriptors so `sizes` actually selects a
+          width; the single-URL fields remain the fallback. */}
+      {(image.avifSet ?? image.avif) && (
+        <source srcSet={image.avifSet ?? image.avif} type="image/avif" sizes={sizes} />
+      )}
+      {(image.webpSet ?? image.webp) && (
+        <source srcSet={image.webpSet ?? image.webp} type="image/webp" sizes={sizes} />
+      )}
       <img
         src={image.src}
         alt={image.alt}

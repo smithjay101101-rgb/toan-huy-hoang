@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { mediaSrcSet } from '@/lib/media'
 
 export interface HeaderImage {
   jpg: string
@@ -26,6 +27,9 @@ export default function PageHeader({
   image?: HeaderImage
   children?: ReactNode
 }) {
+  // All header photos follow the "/media/<name>.<ext>" convention, so the
+  // responsive variants (when generated) share the jpg's basename.
+  const base = image?.jpg.replace(/\.(jpe?g|png)$/, '') ?? ''
   if (image) {
     return (
       <header
@@ -33,14 +37,16 @@ export default function PageHeader({
         style={{ minHeight: 'clamp(440px, 62vh, 620px)', background: 'var(--bg)' }}
       >
         <picture>
-          {image.avif && <source srcSet={image.avif} type="image/avif" />}
-          {image.webp && <source srcSet={image.webp} type="image/webp" />}
+          {image.avif && <source srcSet={mediaSrcSet(base, 'avif')} type="image/avif" sizes="100vw" />}
+          {image.webp && <source srcSet={mediaSrcSet(base, 'webp')} type="image/webp" sizes="100vw" />}
           <img
             src={image.jpg}
             alt={image.alt ?? ''}
             aria-hidden={image.alt ? undefined : 'true'}
             className="absolute inset-0 h-full w-full object-cover"
             decoding="async"
+            // This header photo is the LCP element on the pages that use it.
+            {...{ fetchpriority: 'high' }}
           />
         </picture>
         <div

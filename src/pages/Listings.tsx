@@ -141,12 +141,12 @@ export default function Listings({ dealType }: { dealType: DealType }) {
               <p className="text-sm text-ink/70">
                 {shown.length} {shown.length === 1 ? t('search.result') : t('search.results')}
               </p>
-              <div className="ml-auto flex items-center gap-1 text-xs font-medium tracking-[0.08em]" role="group" aria-label="Currency">
+              <div className="ml-auto flex items-center gap-2 text-xs font-medium tracking-[0.08em]" role="group" aria-label="Currency">
                 <button
                   type="button"
                   onClick={() => setCurrency('usd')}
                   aria-pressed={currency === 'usd'}
-                  className={`px-1.5 py-2 transition-colors ${currency === 'usd' ? 'text-gold-ink' : 'text-ink/50 hover:text-ink'}`}
+                  className={`min-h-[44px] px-2.5 transition-colors ${currency === 'usd' ? 'text-gold-ink' : 'text-ink/60 hover:text-ink'}`}
                 >
                   $ USD
                 </button>
@@ -155,7 +155,7 @@ export default function Listings({ dealType }: { dealType: DealType }) {
                   type="button"
                   onClick={() => setCurrency('vnd')}
                   aria-pressed={currency === 'vnd'}
-                  className={`px-1.5 py-2 transition-colors ${currency === 'vnd' ? 'text-gold-ink' : 'text-ink/50 hover:text-ink'}`}
+                  className={`min-h-[44px] px-2.5 transition-colors ${currency === 'vnd' ? 'text-gold-ink' : 'text-ink/60 hover:text-ink'}`}
                 >
                   ₫ VND
                 </button>
@@ -164,7 +164,7 @@ export default function Listings({ dealType }: { dealType: DealType }) {
                 <button
                   type="button"
                   onClick={() => updateFilter(EMPTY_FILTER)}
-                  className="text-xs uppercase tracking-[0.18em] text-ink/70 transition-colors hover:text-gold-ink"
+                  className="min-h-[44px] px-2 text-xs uppercase tracking-[0.18em] text-ink/70 transition-colors hover:text-gold-ink"
                 >
                   {t('search.clear')}
                 </button>

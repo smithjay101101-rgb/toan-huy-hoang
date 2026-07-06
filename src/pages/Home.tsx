@@ -1,6 +1,7 @@
 import { Head } from 'vite-react-ssg'
 import { useTranslation } from 'react-i18next'
 import { useLocale } from '@/lib/locale'
+import { mediaSrcSet } from '@/lib/media'
 import Seo from '@/components/Seo'
 import Hero from '@/components/Hero'
 import SonTra from '@/components/SonTra'
@@ -18,13 +19,19 @@ export default function Home() {
       <Seo title={t('meta.home.title')} description={t('meta.home.description')} />
       <Head>
         {/* Preload the hero poster (the LCP element) so the fetch starts before
-            the body is parsed. AVIF only — supported by all modern browsers. */}
+            the body is parsed. AVIF only — supported by all modern browsers.
+            imagesrcset/imagesizes make the preload pick the same viewport-sized
+            candidate the <picture> will request (no double download). */}
         <link
           rel="preload"
           as="image"
           href="/media/hero-city.avif"
           type="image/avif"
-          {...{ fetchpriority: 'high' }}
+          {...{
+            fetchpriority: 'high',
+            imagesrcset: mediaSrcSet('/media/hero-city', 'avif'),
+            imagesizes: '100vw',
+          }}
         />
       </Head>
       <Hero locale={locale} />

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ArrowDown } from 'lucide-react'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
+import { mediaSrcSet } from '@/lib/media'
 
 /**
  * Full viewport hero. The poster still is the LCP element: it is eager, painted
@@ -18,26 +19,27 @@ export default function Hero({ locale }: { locale: Locale }) {
     >
       {/* Poster / LCP. Da Nang beachfront skyline (Higgsfield, 4K), ~3pm grade. */}
       <picture>
-        <source srcSet="/media/hero-city.avif" type="image/avif" />
-        <source srcSet="/media/hero-city.webp" type="image/webp" />
+        <source srcSet={mediaSrcSet('/media/hero-city', 'avif')} type="image/avif" sizes="100vw" />
+        <source srcSet={mediaSrcSet('/media/hero-city', 'webp')} type="image/webp" sizes="100vw" />
         <img
           src="/media/hero-city.jpg"
           alt=""
           aria-hidden="true"
-          width={2600}
-          height={1463}
+          width={1800}
+          height={1013}
           {...{ fetchpriority: 'high' }}
           decoding="sync"
           className="absolute inset-0 h-full w-full object-cover"
         />
       </picture>
-      {/* Vertical readability scrim. Keeps the bright daytime image bright;
-          legibility comes mostly from the text shadows below. */}
+      {/* Vertical readability scrim. The content is top-anchored, so the middle
+          band stays dark enough for the white subhead to hold WCAG AA in
+          daylight; text shadows below do the rest. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(180deg, rgba(8,16,24,0.55) 0%, rgba(8,16,24,0.15) 35%, rgba(8,16,24,0.35) 100%)',
+            'linear-gradient(180deg, rgba(8,16,24,0.6) 0%, rgba(8,16,24,0.32) 45%, rgba(8,16,24,0.42) 100%)',
           pointerEvents: 'none',
         }}
         aria-hidden="true"
@@ -51,7 +53,9 @@ export default function Hero({ locale }: { locale: Locale }) {
           className="font-display font-semibold text-text"
           style={{
             fontSize: 'clamp(64px, 9vw, 148px)',
-            lineHeight: 0.96,
+            // 1.03, not tighter: Vietnamese stacked diacritics (Đà Nẵng) and
+            // Korean glyphs clip against the line above below ~1.0.
+            lineHeight: 1.03,
             letterSpacing: '0.01em',
             textShadow: '0 4px 40px rgba(0,0,0,0.45)',
           }}

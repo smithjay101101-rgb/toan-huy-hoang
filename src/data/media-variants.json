@@ -1,0 +1,128 @@
+{
+  "/media/hero-city": {
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "avifW": 2600,
+    "webpW": 2600,
+    "w": 1800,
+    "h": 1013
+  },
+  "/media/coast-cove": {
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "avifW": 2200,
+    "webpW": 2200,
+    "w": 1760,
+    "h": 990
+  },
+  "/media/golden-bridge": {
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "avifW": 1920,
+    "webpW": 1920,
+    "w": 1920,
+    "h": 1072
+  },
+  "/media/villa-buy": {
+    "widths": [
+      640,
+      960,
+      1280
+    ],
+    "avifW": 1376,
+    "webpW": 1376,
+    "w": 1376,
+    "h": 768
+  },
+  "/media/toan-portrait": {
+    "widths": [
+      480,
+      768
+    ],
+    "avifW": 1066,
+    "webpW": 1066,
+    "w": 1066,
+    "h": 1600
+  },
+  "/media/placeholders/prop-1": {
+    "widths": [
+      400
+    ],
+    "avifW": 800,
+    "webpW": 800,
+    "w": 800,
+    "h": 600
+  },
+  "/media/placeholders/prop-2": {
+    "widths": [
+      400
+    ],
+    "avifW": 800,
+    "webpW": 800,
+    "w": 800,
+    "h": 600
+  },
+  "/media/placeholders/prop-3": {
+    "widths": [
+      400
+    ],
+    "avifW": 800,
+    "webpW": 800,
+    "w": 800,
+    "h": 600
+  },
+  "/media/placeholders/prop-4": {
+    "widths": [
+      400
+    ],
+    "avifW": 800,
+    "webpW": 800,
+    "w": 800,
+    "h": 600
+  },
+  "/media/placeholders/prop-5": {
+    "widths": [
+      400
+    ],
+    "avifW": 800,
+    "webpW": 800,
+    "w": 800,
+    "h": 600
+  },
+  "/media/placeholders/prop-6": {
+    "widths": [
+      400
+    ],
+    "avifW": 800,
+    "webpW": 800,
+    "w": 800,
+    "h": 600
+  },
+  "/media/placeholders/prop-7": {
+    "widths": [
+      400
+    ],
+    "avifW": 800,
+    "webpW": 800,
+    "w": 800,
+    "h": 600
+  },
+  "/media/placeholders/prop-8": {
+    "widths": [
+      400
+    ],
+    "avifW": 800,
+    "webpW": 800,
+    "w": 800,
+    "h": 600
+  }
+}

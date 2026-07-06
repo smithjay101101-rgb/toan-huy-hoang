@@ -13,11 +13,16 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { writeMockData } from './lib/placeholders.mjs'
+import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const PUBLIC_DIR = join(ROOT, 'public')
 const DATA_FILE = join(ROOT, 'src', 'data', 'listings.json')
+
+// Width variants of the static /media images (see scripts/gen-media-variants.mjs),
+// used so placeholder/fake assets also carry responsive srcsets.
+const MEDIA_VARIANTS = loadMediaVariants(ROOT)
 
 const {
   AIRTABLE_API_KEY,
@@ -100,27 +105,6 @@ async function fetchAirtableRecords(table) {
   return records
 }
 
-async function optimizeImage(sharp, url, outDir, name, alt) {
-  await mkdir(outDir, { recursive: true })
-  const res = await fetch(url)
-  const buf = Buffer.from(await res.arrayBuffer())
-  const img = sharp(buf)
-  const meta = await img.metadata()
-  const width = meta.width ?? 1600
-  const height = meta.height ?? 1067
-  const rel = outDir.slice(PUBLIC_DIR.length).split('\\').join('/')
-  await img.clone().avif({ quality: 60 }).toFile(join(outDir, `${name}.avif`))
-  await img.clone().webp({ quality: 74 }).toFile(join(outDir, `${name}.webp`))
-  return {
-    src: `${rel}/${name}.webp`,
-    avif: `${rel}/${name}.avif`,
-    webp: `${rel}/${name}.webp`,
-    width,
-    height,
-    alt,
-  }
-}
-
 function localized(fields, base) {
   const en = fields[`${base}_en`] ?? ''
   return {
@@ -139,7 +123,17 @@ function placeholderAsset(slug, alt) {
   let h = 0
   for (const c of String(slug)) h = (h * 31 + c.charCodeAt(0)) >>> 0
   const base = `/media/placeholders/prop-${(h % 8) + 1}`
-  return { src: `${base}.jpg`, avif: `${base}.avif`, webp: `${base}.webp`, width: 800, height: 600, alt, placeholder: true }
+  return {
+    src: `${base}.jpg`,
+    avif: `${base}.avif`,
+    webp: `${base}.webp`,
+    avifSet: staticSrcSet(MEDIA_VARIANTS, base, 'avif'),
+    webpSet: staticSrcSet(MEDIA_VARIANTS, base, 'webp'),
+    width: 800,
+    height: 600,
+    alt,
+    placeholder: true,
+  }
 }
 
 // Stand-in imagery: deterministically reuse one of the site's existing Da Nang
@@ -150,7 +144,17 @@ function fakeAsset(slug, alt) {
   let h = 0
   for (const c of String(slug)) h = (h * 31 + c.charCodeAt(0)) >>> 0
   const base = `/media/${FAKE_PHOTOS[h % FAKE_PHOTOS.length]}`
-  return { src: `${base}.jpg`, avif: `${base}.avif`, webp: `${base}.webp`, width: 1600, height: 1067, alt }
+  const m = MEDIA_VARIANTS[base]
+  return {
+    src: `${base}.jpg`,
+    avif: `${base}.avif`,
+    webp: `${base}.webp`,
+    avifSet: staticSrcSet(MEDIA_VARIANTS, base, 'avif'),
+    webpSet: staticSrcSet(MEDIA_VARIANTS, base, 'webp'),
+    width: m?.w ?? 1600,
+    height: m?.h ?? 1067,
+    alt,
+  }
 }
 
 // The client maintains only the long description per locale. The short version
@@ -212,7 +216,7 @@ async function buildFromAirtable() {
       } else {
         if (Array.isArray(f.hero_image) && f.hero_image[0]) {
           try {
-            heroImage = await optimizeImage(sharp, f.hero_image[0].url, dir, 'hero', titleEn)
+            heroImage = await optimizeImage(sharp, PUBLIC_DIR, f.hero_image[0].url, dir, 'hero', titleEn)
           } catch (err) {
             console.error(`[data] ${slug}: hero image failed (${err.message}), using placeholder`)
           }
@@ -221,7 +225,7 @@ async function buildFromAirtable() {
           for (let i = 0; i < f.gallery.length; i++) {
             try {
               gallery.push(
-                await optimizeImage(sharp, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`),
+                await optimizeImage(sharp, PUBLIC_DIR, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`),
               )
             } catch (err) {
               console.error(`[data] ${slug}: gallery image ${i + 1} failed (${err.message}), skipped`)

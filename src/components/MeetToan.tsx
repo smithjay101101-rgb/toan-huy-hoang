@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
+import { mediaSrcSet } from '@/lib/media'
 
 /**
  * Section 3 — "Meet Toan". A cream, light-on-dark-relief tonal break between the
@@ -13,20 +14,29 @@ export default function MeetToan({ locale }: { locale: Locale }) {
   return (
     <section className="bg-cream text-ink" style={{ fontFamily: "'Jost', sans-serif" }}>
       <div className="grid items-start lg:grid-cols-2">
-        {/* Founder portrait (Toan). The box matches the photo's 4:5 ratio so the
-            full image fills it edge to edge, with no frame or crop. */}
+        {/* Founder portrait (Toan). The 2:3 studio portrait is center-cropped by
+            object-cover to fill the section's fixed ratio box; the subject sits
+            centered with headroom, so no face or hands are lost in the crop. */}
         <div className="relative w-full overflow-hidden" style={{ aspectRatio: '120 / 149', background: '#e7ddcb' }}>
           <picture>
-            <source srcSet="/media/toan-portrait.avif" type="image/avif" />
-            <source srcSet="/media/toan-portrait.webp" type="image/webp" />
+            <source
+              srcSet={mediaSrcSet('/media/toan-portrait', 'avif')}
+              type="image/avif"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+            />
+            <source
+              srcSet={mediaSrcSet('/media/toan-portrait', 'webp')}
+              type="image/webp"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+            />
             <img
               src="/media/toan-portrait.jpg"
               alt={t('meet.name')}
-              width={1200}
-              height={1490}
+              width={1066}
+              height={1600}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover object-top"
             />
           </picture>
         </div>

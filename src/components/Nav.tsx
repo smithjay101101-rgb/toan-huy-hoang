@@ -149,9 +149,11 @@ export default function Nav({ locale }: { locale: Locale }) {
                 </li>
               ))}
             </ul>
-            <div className="flex items-center justify-between border-t border-line pt-6">
+            {/* Stacked rows: the 44px language boxes plus two labeled channel
+                pills do not fit side by side at 375px. */}
+            <div className="flex flex-col gap-4 border-t border-line pt-6">
               <LanguageSwitcher current={locale} />
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 {contactFor(locale).channels.map((ch) => (
                   <ChannelButton key={ch.kind} channel={ch} />
                 ))}

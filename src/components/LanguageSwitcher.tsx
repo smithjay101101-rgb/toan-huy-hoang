@@ -15,20 +15,22 @@ export default function LanguageSwitcher({ current }: { current: Locale }) {
   const guide = guideSlug ? getGuideBySlug(guideSlug) : undefined
   const hrefFor = (l: Locale) =>
     guide && !guide.locales[l] ? localePath(l, 'guides') : swapLocaleInPath(pathname, l)
+  // 44x44 minimum tap boxes with an 8px gap between them: the visible label is
+  // small, the target is not.
+  const boxCls = 'flex min-h-[44px] min-w-[44px] items-center justify-center px-1'
   return (
-    <div className="flex items-center gap-1 text-[0.7rem] font-medium tracking-[0.18em]" aria-label="Language">
+    <div className="flex items-center gap-2 text-[0.72rem] font-medium tracking-[0.18em]" aria-label="Language">
       {LOCALES.map((l, i) => (
-        <span key={l} className="flex items-center gap-1">
+        <span key={l} className="flex items-center gap-2">
           {i > 0 && <span className="text-text/30">/</span>}
           {l === current ? (
-            <span aria-current="true" className="px-1 py-2.5 text-gold">
+            <span aria-current="true" className={`${boxCls} text-gold`}>
               {LOCALE_LABEL[l]}
             </span>
           ) : (
-            // Padded tap area: the visible label is small, the target is not.
             <Link
               to={hrefFor(l)}
-              className="px-1 py-2.5 text-text/55 transition-colors duration-200 hover:text-text"
+              className={`${boxCls} text-text/55 transition-colors duration-200 hover:text-text`}
               hrefLang={l}
             >
               {LOCALE_LABEL[l]}

@@ -58,8 +58,12 @@ export default function Lightbox({ images, index, onClose, onNavigate }: Props) 
     >
       {/* Image (clicks on it do not close) */}
       <picture onClick={(e) => e.stopPropagation()}>
-        {img.avif && <source srcSet={img.avif} type="image/avif" />}
-        {img.webp && <source srcSet={img.webp} type="image/webp" />}
+        {(img.avifSet ?? img.avif) && (
+          <source srcSet={img.avifSet ?? img.avif} type="image/avif" sizes="92vw" />
+        )}
+        {(img.webpSet ?? img.webp) && (
+          <source srcSet={img.webpSet ?? img.webp} type="image/webp" sizes="92vw" />
+        )}
         <img
           src={img.src}
           alt={img.alt}

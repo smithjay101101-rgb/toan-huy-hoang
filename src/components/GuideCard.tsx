@@ -33,7 +33,7 @@ export default function GuideCard({ guide, locale }: { guide: Guide; locale: Loc
         </div>
       )}
       <div className="flex flex-1 flex-col p-6">
-        <div className="text-[0.66rem] font-medium uppercase tracking-[0.26em] text-gold-ink">
+        <div className="text-[0.72rem] font-medium uppercase tracking-[0.26em] text-gold-ink">
           {category}
         </div>
         <h3
