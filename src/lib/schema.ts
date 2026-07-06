@@ -1,4 +1,4 @@
-import { SITE, CONTACTS } from '@/config/site'
+import { SITE, CONTACTS, YOUTUBE_URL } from '@/config/site'
 import { localePath } from '@/lib/locale'
 import { formatArea, pick } from '@/lib/format'
 import type { Listing, Guide, GuideContent } from '@/data/types'
@@ -25,6 +25,7 @@ export function realEstateAgentSchema() {
     telephone: CONTACTS.en.phoneTel,
     email: SITE.email,
     knowsLanguage: ['en', 'vi', 'ru', 'ko'],
+    sameAs: [YOUTUBE_URL],
   }
 }
 
@@ -36,6 +37,7 @@ export function organizationSchema() {
     name: SITE.legalName,
     url: SITE.url,
     logo: SITE.url + SITE.ogImage,
+    sameAs: [YOUTUBE_URL],
   }
 }
 

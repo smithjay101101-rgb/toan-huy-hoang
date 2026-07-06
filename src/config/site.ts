@@ -19,6 +19,10 @@ export const SITE = {
   ogImage: '/og/og-default.jpg',
 } as const
 
+// Toan's YouTube channel: linked from the Meet Toan section and the footer,
+// and listed as sameAs in the structured data.
+export const YOUTUBE_URL = 'https://www.youtube.com/channel/UCga6gXWL6YcDrefxO2t43Kg'
+
 // ---------------------------------------------------------------------------
 // Per-locale contact channels. VI and EN share the Zalo/WhatsApp number; the
 // Korean audience gets KakaoTalk and the Russian audience gets Telegram, each

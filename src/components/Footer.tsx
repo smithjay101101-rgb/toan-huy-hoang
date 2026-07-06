@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { MapPin } from 'lucide-react'
+import { MapPin, Youtube } from 'lucide-react'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
-import { SITE, contactFor } from '@/config/site'
+import { SITE, YOUTUBE_URL, contactFor } from '@/config/site'
 import LanguageSwitcher from './LanguageSwitcher'
 import { ChannelIcon } from './icons'
 
@@ -84,6 +84,17 @@ export default function Footer({ locale }: { locale: Locale }) {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href={YOUTUBE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${linkCls} inline-flex items-center gap-2`}
+                >
+                  <Youtube size={14} strokeWidth={1.5} />
+                  YouTube
+                </a>
+              </li>
               <li>
                 <a href={`mailto:${SITE.email}`} className={linkCls}>
                   {SITE.email}

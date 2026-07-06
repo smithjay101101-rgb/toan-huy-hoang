@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Youtube } from 'lucide-react'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
 import { mediaSrcSet } from '@/lib/media'
+import { YOUTUBE_URL } from '@/config/site'
 
 /**
  * Section 3 — "Meet Toan". A cream, light-on-dark-relief tonal break between the
@@ -80,12 +82,24 @@ export default function MeetToan({ locale }: { locale: Locale }) {
             </div>
           </div>
 
-          <Link
-            to={localePath(locale, 'contact')}
-            className="mt-[52px] inline-flex items-center gap-3 self-start bg-ink px-[38px] py-[17px] text-[13px] font-medium uppercase tracking-[0.22em] text-white transition-colors duration-200 hover:bg-gold-ink"
-          >
-            {t('meet.cta')}
-          </Link>
+          <div className="mt-[52px] flex items-center gap-4 self-start">
+            <Link
+              to={localePath(locale, 'contact')}
+              className="inline-flex items-center gap-3 bg-ink px-[38px] py-[17px] text-[13px] font-medium uppercase tracking-[0.22em] text-white transition-colors duration-200 hover:bg-gold-ink"
+            >
+              {t('meet.cta')}
+            </Link>
+            {/* Toan's channel: quiet outlined icon, same height as the CTA. */}
+            <a
+              href={YOUTUBE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              className="flex h-[52px] w-[52px] items-center justify-center border border-ink/30 text-ink transition-colors duration-200 hover:border-gold-ink hover:text-gold-ink"
+            >
+              <Youtube size={22} strokeWidth={1.5} />
+            </a>
+          </div>
         </div>
       </div>
     </section>
