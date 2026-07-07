@@ -11,6 +11,7 @@ import PropertyCard from '@/components/PropertyCard'
 import { formatPriceParts, formatArea, pick } from '@/lib/format'
 import { useCurrency } from '@/lib/currency'
 import { contactFor } from '@/config/site'
+import { youtubeEmbedUrl } from '@/lib/media'
 import { ChannelIcon } from '@/components/icons'
 import { localizeDistrict } from '@/data/locations'
 import Seo from '@/components/Seo'
@@ -78,6 +79,8 @@ export default function PropertyDetail() {
   const priceSub = currency === 'vnd' && vnd ? usd : vnd
   const hasPrice = listing.price > 0
   const primaryChannel = contactFor(locale).channels[0]
+  // Video tour, only for listings whose Airtable row carries a valid link.
+  const videoEmbed = listing.youtubeUrl ? youtubeEmbedUrl(listing.youtubeUrl) : null
 
   return (
     <>
@@ -189,6 +192,29 @@ export default function PropertyDetail() {
                 </div>
               )}
             </Reveal>
+
+            {/* Video tour (only when the row has a valid YouTube link). Lazy
+                iframe: the player loads only when scrolled near. */}
+            {videoEmbed && (
+              <Reveal className="mt-16">
+                <p className="eyebrow-ink">{t('detail.videoTour')}</p>
+                <div
+                  className="mt-6 overflow-hidden rounded-[4px] border border-ink/10 bg-ink/5"
+                  style={{ aspectRatio: '16 / 9' }}
+                >
+                  <iframe
+                    src={videoEmbed}
+                    title={`${title} — ${t('detail.videoTour')}`}
+                    loading="lazy"
+                    className="h-full w-full"
+                    style={{ border: 0 }}
+                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+              </Reveal>
+            )}
 
             {/* Gallery (master plan on developments) */}
             {listing.gallery.length > 0 && (

@@ -144,6 +144,7 @@ const ko: Dictionary = {
     specifications: '상세 정보',
     location: '위치',
     gallery: '갤러리',
+    videoTour: '영상 투어',
     bedrooms: '침실',
     bathrooms: '욕실',
     area: '주거 면적',

@@ -39,7 +39,8 @@ const CSP = [
   "style-src 'self' 'unsafe-inline'",
   "script-src 'self' 'unsafe-inline'",
   "connect-src 'self'",
-  'frame-src https://www.openstreetmap.org',
+  // Map embed + per-listing YouTube video tours (privacy-enhanced host).
+  'frame-src https://www.openstreetmap.org https://www.youtube-nocookie.com',
   "object-src 'none'",
   "base-uri 'self'",
   // FormSubmit receives the contact form POST and emails it to the client.

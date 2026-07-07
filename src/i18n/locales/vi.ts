@@ -143,6 +143,7 @@ const vi: Dictionary = {
     specifications: 'Thông Số',
     location: 'Vị Trí',
     gallery: 'Thư Viện',
+    videoTour: 'Video Thực Tế',
     bedrooms: 'Phòng ngủ',
     bathrooms: 'Phòng tắm',
     area: 'Diện tích',

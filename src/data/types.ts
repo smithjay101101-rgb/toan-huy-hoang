@@ -57,6 +57,11 @@ export interface Listing {
   featured: boolean
   datePublished: string
   /**
+   * Optional YouTube video tour (Airtable column `youtube_url`). The detail
+   * page shows a video section only when this parses to a real video link.
+   */
+  youtubeUrl?: string | null
+  /**
    * Development-only facts (category = Project), all optional; the overview
    * table on the project page shows only the rows that are filled.
    */

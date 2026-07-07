@@ -143,6 +143,7 @@ const ru: Dictionary = {
     specifications: 'Характеристики',
     location: 'Расположение',
     gallery: 'Галерея',
+    videoTour: 'Видеотур',
     bedrooms: 'Спальни',
     bathrooms: 'Ванные',
     area: 'Жилая площадь',

@@ -144,6 +144,7 @@ const en = {
     specifications: 'Specifications',
     location: 'Location',
     gallery: 'Gallery',
+    videoTour: 'Video Tour',
     bedrooms: 'Bedrooms',
     bathrooms: 'Bathrooms',
     area: 'Living Area',

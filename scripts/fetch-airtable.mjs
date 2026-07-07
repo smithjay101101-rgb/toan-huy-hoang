@@ -253,6 +253,16 @@ async function buildFromAirtable() {
       }
       const code = f.code ? String(f.code).trim() : autoCode(rec.id, usedCodes)
       usedCodes.add(code)
+      // Optional video tour (column: youtube_url). Stored raw; the site shows
+      // the section only when the link parses to a video id, so warn loudly
+      // here when a filled cell would silently not render.
+      const youtubeUrl = f.youtube_url ? String(f.youtube_url).trim() : null
+      if (
+        youtubeUrl &&
+        !/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))[A-Za-z0-9_-]{11}/.test(youtubeUrl)
+      ) {
+        console.warn(`[data] ${slug}: youtube_url is not a recognizable video link, video section will not show: ${youtubeUrl}`)
+      }
       out.push({
         id: rec.id,
         slug,
@@ -274,6 +284,7 @@ async function buildFromAirtable() {
         lng: f.lng != null ? Number(f.lng) : null,
         featured: Boolean(f.featured),
         datePublished: f.date_published ?? new Date().toISOString().slice(0, 10),
+        youtubeUrl,
         // Development facts (optional columns; used when category = Project).
         developer: f.developer ? String(f.developer).trim() : null,
         units: f.units ? String(f.units).trim() : null,
