@@ -153,7 +153,7 @@ export default function SonTra({ locale }: { locale: Locale }) {
             willChange: 'transform, opacity',
             maxWidth: '18ch',
             paddingRight: 24,
-            fontSize: 'clamp(34px, 6.5vw, 104px)',
+            fontSize: 'clamp(37px, 7vw, 114px)',
             lineHeight: 1.04,
             letterSpacing: '0.01em',
             textWrap: 'balance',
