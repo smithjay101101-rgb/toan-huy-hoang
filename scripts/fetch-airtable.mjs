@@ -253,15 +253,12 @@ async function buildFromAirtable() {
       }
       const code = f.code ? String(f.code).trim() : autoCode(rec.id, usedCodes)
       usedCodes.add(code)
-      // Optional video tour (column: youtube_url). Stored raw; the site shows
-      // the section only when the link parses to a video id, so warn loudly
-      // here when a filled cell would silently not render.
+      // Optional video tour link (column: youtube_url), rendered as a plain
+      // hyperlink on the property page. Warn when a filled cell is clearly
+      // not a YouTube address (typo protection; the link still ships).
       const youtubeUrl = f.youtube_url ? String(f.youtube_url).trim() : null
-      if (
-        youtubeUrl &&
-        !/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))[A-Za-z0-9_-]{11}/.test(youtubeUrl)
-      ) {
-        console.warn(`[data] ${slug}: youtube_url is not a recognizable video link, video section will not show: ${youtubeUrl}`)
+      if (youtubeUrl && !/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(youtubeUrl)) {
+        console.warn(`[data] ${slug}: youtube_url does not look like a YouTube link: ${youtubeUrl}`)
       }
       out.push({
         id: rec.id,
