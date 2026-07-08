@@ -119,10 +119,13 @@ export default function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* Bottom bar. The big mobile bottom padding is clearance for the
+            floating contact button / property inquiry bar (both fixed at the
+            viewport bottom), so the language switcher stays visible and
+            tappable at full scroll instead of sitting under them. */}
         <div
-          className="flex flex-wrap items-center justify-between gap-4 border-t py-7 text-[13px] font-light"
-          style={{ borderColor: 'rgba(255,255,255,0.14)', color: 'rgba(238,240,240,0.6)', paddingBottom: 40 }}
+          className="flex flex-wrap items-center justify-between gap-4 border-t pt-7 pb-[calc(env(safe-area-inset-bottom)+110px)] text-[13px] font-light lg:pb-10"
+          style={{ borderColor: 'rgba(255,255,255,0.14)', color: 'rgba(238,240,240,0.6)' }}
         >
           <span>
             © {new Date().getFullYear()} {SITE.name}. {t('footer.rights')}
