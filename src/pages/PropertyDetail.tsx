@@ -117,6 +117,11 @@ export default function PropertyDetail() {
             <ArrowLeft size={17} strokeWidth={1.5} /> {t('detail.backTo')}
           </Link>
           <div className="flex flex-wrap items-center gap-3">
+            {listing.availability && (
+              <span className="rounded-[2px] bg-white/90 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink">
+                {t(`listings.${listing.availability}`)}
+              </span>
+            )}
             <span className="rounded-[2px] border border-white/30 bg-black/40 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-white backdrop-blur-sm">
               {category}
             </span>

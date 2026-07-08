@@ -116,6 +116,8 @@ const ko: Dictionary = {
     from: '시작가',
     perMonth: '/ 월',
     priceOnRequest: '가격 문의',
+    rented: '임대 완료',
+    sold: '판매 완료',
     beds: '침실',
     baths: '욕실',
     area: '면적',

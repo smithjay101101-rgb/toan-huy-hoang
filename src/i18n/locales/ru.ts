@@ -115,6 +115,8 @@ const ru: Dictionary = {
     from: 'От',
     perMonth: '/ мес',
     priceOnRequest: 'Цена по запросу',
+    rented: 'Сдано',
+    sold: 'Продано',
     beds: 'Спален',
     baths: 'Ванных',
     area: 'Площадь',

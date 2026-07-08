@@ -58,11 +58,19 @@ export default function PropertyCard({ listing, locale, feature = false, priorit
           image={hero}
           priority={priority}
           sizes={feature ? '100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
-          className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
+          className={`transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05] ${
+            listing.availability ? 'opacity-90 grayscale-[0.5]' : ''
+          }`}
         />
-        {listing.featured && (
+        {listing.featured && !listing.availability && (
           <span className="absolute left-4 top-4 rounded-[2px] bg-ink/55 px-3 py-1 text-[0.72rem] uppercase tracking-[0.24em] text-gold-2 backdrop-blur-sm">
             {t('showcase.featured')}
+          </span>
+        )}
+        {/* Off-market ribbon: one Airtable cell, localized in every language. */}
+        {listing.availability && (
+          <span className="absolute left-4 top-4 rounded-[2px] bg-ink/85 px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.24em] text-cream backdrop-blur-sm">
+            {t(`listings.${listing.availability}`)}
           </span>
         )}
       </div>

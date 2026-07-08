@@ -267,6 +267,11 @@ async function buildFromAirtable() {
       }
       const code = f.code ? String(f.code).trim() : autoCode(rec.id, usedCodes)
       usedCodes.add(code)
+      // Off-market state (single select `availability`: Available/Rented/Sold).
+      // One cell drives the localized badge in all four languages; anything
+      // unrecognized (or Available/empty) means normally available.
+      const availabilityRaw = foldKey(f.availability ?? '')
+      const availability = availabilityRaw === 'rented' || availabilityRaw === 'sold' ? availabilityRaw : null
       // Optional video tour link (column: youtube_url), rendered as a plain
       // hyperlink on the property page. Warn when a filled cell is clearly
       // not a YouTube address (typo protection; the link still ships).
@@ -297,6 +302,7 @@ async function buildFromAirtable() {
         lng: f.lng != null ? Number(f.lng) : null,
         featured: Boolean(f.featured),
         datePublished: f.date_published ?? new Date().toISOString().slice(0, 10),
+        availability,
         youtubeUrl,
         // Development facts (optional columns; used when category = Project).
         developer: f.developer ? String(f.developer).trim() : null,

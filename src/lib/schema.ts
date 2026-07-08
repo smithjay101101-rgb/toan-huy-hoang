@@ -54,7 +54,9 @@ export function listingSchema(listing: Listing, locale: Locale) {
       '@type': 'Offer',
       price: listing.price,
       priceCurrency: listing.currency,
-      availability: 'https://schema.org/InStock',
+      availability: listing.availability
+        ? 'https://schema.org/SoldOut'
+        : 'https://schema.org/InStock',
     },
     about: {
       '@type': 'Residence',

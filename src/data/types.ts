@@ -5,6 +5,8 @@ import type { Locale } from '@/i18n'
 
 export type DealType = 'buy' | 'rent'
 export type Category = 'Villa' | 'Apartment' | 'Land' | 'Project'
+/** Off-market states (Airtable `availability` column); absent = available. */
+export type Availability = 'rented' | 'sold'
 
 export interface ImageAsset {
   /** Default source. Always present. May be an SVG placeholder. */
@@ -63,6 +65,12 @@ export interface Listing {
   lng: number | null
   featured: boolean
   datePublished: string
+  /**
+   * 'rented' | 'sold' shows a localized badge, sinks the card to the end of
+   * the grid, excludes it from the featured pick, and marks the offer
+   * SoldOut for search engines. Null/absent = available (normal display).
+   */
+  availability?: Availability | null
   /**
    * Optional YouTube video tour (Airtable column `youtube_url`). The detail
    * page shows a video section only when this parses to a real video link.

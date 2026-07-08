@@ -29,8 +29,10 @@ export default function SonTra({ locale }: { locale: Locale }) {
   // The hero listing for the card: always the single most expensive property
   // site-wide (developments excluded). Auto-selected by price, no manual flag.
   const listing = useMemo(() => {
-    const houses = listings.filter((l) => l.category !== 'Project')
-    const pool = houses.length ? houses : listings
+    // Rented/sold properties never headline the homepage.
+    const active = listings.filter((l) => !l.availability)
+    const houses = active.filter((l) => l.category !== 'Project')
+    const pool = houses.length ? houses : active.length ? active : listings
     return [...pool].sort((a, b) => b.price - a.price)[0]
   }, [])
 

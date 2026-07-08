@@ -116,6 +116,8 @@ const en = {
     from: 'From',
     perMonth: '/ month',
     priceOnRequest: 'Price on request',
+    rented: 'Rented',
+    sold: 'Sold',
     beds: 'Beds',
     baths: 'Baths',
     area: 'Area',

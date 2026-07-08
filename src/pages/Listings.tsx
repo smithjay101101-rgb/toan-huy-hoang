@@ -70,7 +70,11 @@ export default function Listings({ dealType }: { dealType: DealType }) {
   const shown = useMemo(() => {
     const [min, max] = budgetRange(dealType, filter.budget)
     const code = filter.code.trim().replace(/^#/, '').toLowerCase()
-    return all.filter((l) => {
+    // Available first; rented/sold sink to the end (stable within groups).
+    const ranked = [...all].sort(
+      (a, b) => (a.availability ? 1 : 0) - (b.availability ? 1 : 0),
+    )
+    return ranked.filter((l) => {
       if (filter.category !== 'all' && l.category !== filter.category) return false
       if (filter.district !== 'all' && l.district !== filter.district) return false
       if (filter.bedrooms !== 'any' && l.bedrooms < Number(filter.bedrooms)) return false

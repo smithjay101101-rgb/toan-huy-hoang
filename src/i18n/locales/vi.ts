@@ -115,6 +115,8 @@ const vi: Dictionary = {
     from: 'Từ',
     perMonth: '/ tháng',
     priceOnRequest: 'Giá liên hệ',
+    rented: 'Đã cho thuê',
+    sold: 'Đã bán',
     beds: 'Phòng ngủ',
     baths: 'Phòng tắm',
     area: 'Diện tích',
