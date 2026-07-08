@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
-import { stripMarkdown } from './lib/text.mjs'
+import { stripMarkdown, normalizeAirtableMarkdown } from './lib/text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -80,7 +80,7 @@ function buildLocales(f) {
     out[loc] = {
       title: stripMarkdown(title).trim(),
       excerpt,
-      bodyMarkdown: String(body),
+      bodyMarkdown: normalizeAirtableMarkdown(body),
       metaTitle: stripMarkdown(f[`Meta_Title_${S}`] ?? title).trim(),
       metaDescription: stripMarkdown(f[`Meta_Description_${S}`] ?? '').trim() || excerpt,
       readingTime: readingTime(body),

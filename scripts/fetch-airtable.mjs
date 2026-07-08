@@ -14,7 +14,7 @@ import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { writeMockData } from './lib/placeholders.mjs'
 import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
-import { plainTextFromBody } from './lib/text.mjs'
+import { plainTextFromBody, normalizeAirtableMarkdown } from './lib/text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -243,6 +243,8 @@ async function buildFromAirtable() {
         }
       }
       const longDesc = localized(f, 'long_desc')
+      // Guarantee ##/### behave as headings even when Airtable escaped them.
+      for (const k of Object.keys(longDesc)) longDesc[k] = normalizeAirtableMarkdown(longDesc[k])
       // Prices may be entered in USD or VND; the site works in USD internally
       // (filters, dual display), so VND rows are converted here.
       // Keep the rate in sync with USD_TO_VND in src/lib/format.ts.
