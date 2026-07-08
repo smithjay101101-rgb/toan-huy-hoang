@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { ArrowLeft, BedDouble, Bath, Maximize, MapPin, Hash, Youtube } from 'lucide-react'
 import { useLocale } from '@/lib/locale'
 import { localePath } from '@/lib/locale'
@@ -16,6 +14,7 @@ import { localizeDistrict } from '@/data/locations'
 import Seo from '@/components/Seo'
 import JsonLd from '@/components/JsonLd'
 import PropertyImage from '@/components/PropertyImage'
+import RichText from '@/components/RichText'
 import Lightbox from '@/components/Lightbox'
 import Reveal from '@/components/Reveal'
 import { breadcrumbSchema, listingSchema } from '@/lib/schema'
@@ -184,13 +183,13 @@ export default function PropertyDetail() {
                 const raw = pick(listing.longDesc, locale)
                 const md = raw.includes('\n\n') ? raw : raw.replace(/\n/g, '\n\n')
                 return (
-                  <div
+                  <RichText
                     className={`prose prose-cream prose-headings:font-display mt-6 ${
                       isProject ? 'max-w-none' : 'prose-lg'
                     }`}
                   >
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{md}</ReactMarkdown>
-                  </div>
+                    {md}
+                  </RichText>
                 )
               })()}
             </Reveal>

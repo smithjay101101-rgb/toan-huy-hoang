@@ -1,7 +1,5 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { ChevronRight } from 'lucide-react'
 import { useLocale } from '@/lib/locale'
 import { localePath } from '@/lib/locale'
@@ -12,6 +10,7 @@ import Seo from '@/components/Seo'
 import JsonLd from '@/components/JsonLd'
 import GuideCard from '@/components/GuideCard'
 import PropertyImage from '@/components/PropertyImage'
+import RichText from '@/components/RichText'
 
 export default function GuideDetail() {
   const { t } = useTranslation()
@@ -114,10 +113,11 @@ export default function GuideDetail() {
               </div>
             )}
 
-            {/* Article body (Markdown, sanitized: react-markdown renders no raw HTML) */}
-            <div className="prose prose-cream prose-headings:font-display mt-10 max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{content.bodyMarkdown}</ReactMarkdown>
-            </div>
+            {/* Article body: shared renderer (demoted headings, new-tab
+                external links, raw HTML stripped). */}
+            <RichText className="prose prose-cream prose-headings:font-display mt-10 max-w-none">
+              {content.bodyMarkdown}
+            </RichText>
           </div>
         </div>
 

@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
+import { stripMarkdown } from './lib/text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -72,13 +73,16 @@ function buildLocales(f) {
     const title = f[`Title_${S}`]
     const body = f[`Body_${S}`]
     if (!title || !body) continue
-    const excerpt = f[`Excerpt_${S}`] ?? ''
+    // Titles, excerpts and meta strings must be plain text: strip any Markdown
+    // that rich text fields deliver, so cards and search snippets never show
+    // ** or # symbols. The body keeps its Markdown for the article renderer.
+    const excerpt = stripMarkdown(f[`Excerpt_${S}`] ?? '').trim()
     out[loc] = {
-      title: String(title).trim(),
-      excerpt: String(excerpt).trim(),
+      title: stripMarkdown(title).trim(),
+      excerpt,
       bodyMarkdown: String(body),
-      metaTitle: String(f[`Meta_Title_${S}`] ?? title).trim(),
-      metaDescription: String(f[`Meta_Description_${S}`] ?? excerpt).trim(),
+      metaTitle: stripMarkdown(f[`Meta_Title_${S}`] ?? title).trim(),
+      metaDescription: stripMarkdown(f[`Meta_Description_${S}`] ?? '').trim() || excerpt,
       readingTime: readingTime(body),
     }
   }
