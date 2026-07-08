@@ -101,6 +101,7 @@ jobs:
           node scripts/gen-sitemap.mjs
           npx vite-react-ssg build
           node scripts/fix-ssg-hash.mjs
+          node scripts/gen-redirects.mjs
 
       - name: Prepare static host files
         if: ${{ !((github.event_name == 'schedule' || github.event.action == 'airtable-poll') && steps.fresh.outputs.changed == 'no') }}

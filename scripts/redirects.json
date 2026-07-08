@@ -1,0 +1,4 @@
+{
+  "_comment": "Old-site URL -> new-site path. Filled at domain cutover so links to the old WordPress articles keep working (each entry becomes a tiny instant-forward page). Keys are old PATHS (no domain), values are new paths. Example: \"/bat-dong-san/can-ho-cho-thue\": \"/vi/property/blooming-tower-apartment-3-bedrooms-xuan-dieu\"",
+  "redirects": {}
+}
