@@ -181,7 +181,12 @@ export default function PropertyDetail() {
                   those are upgraded to real paragraph breaks first. */}
               {(() => {
                 const raw = pick(listing.longDesc, locale)
-                const md = raw.includes('\n\n') ? raw : raw.replace(/\n/g, '\n\n')
+                const body = raw.includes('\n\n') ? raw : raw.replace(/\n/g, '\n\n')
+                // The heading2/heading3 columns are prepended as Markdown so
+                // they get the exact same styling and rules as typed ##/###.
+                const h2 = listing.heading2 ? pick(listing.heading2, locale) : ''
+                const h3 = listing.heading3 ? pick(listing.heading3, locale) : ''
+                const md = [h2 && `## ${h2}`, h3 && `### ${h3}`, body].filter(Boolean).join('\n\n')
                 return (
                   <RichText
                     className={`prose prose-cream prose-headings:font-display mt-6 ${

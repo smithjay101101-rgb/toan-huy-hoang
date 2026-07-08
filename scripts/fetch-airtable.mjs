@@ -14,7 +14,7 @@ import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { writeMockData } from './lib/placeholders.mjs'
 import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
-import { plainTextFromBody, normalizeAirtableMarkdown } from './lib/text.mjs'
+import { plainTextFromBody, stripMarkdown, normalizeAirtableMarkdown } from './lib/text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -245,6 +245,16 @@ async function buildFromAirtable() {
       const longDesc = localized(f, 'long_desc')
       // Guarantee ##/### behave as headings even when Airtable escaped them.
       for (const k of Object.keys(longDesc)) longDesc[k] = normalizeAirtableMarkdown(longDesc[k])
+      // Optional per-language section headings (columns heading2_en …
+      // heading3_ko): plain text cells the site renders above the description
+      // as Heading 2 / Heading 3 — the no-Markdown way to get headings.
+      // Stray ##/** typed into the cells is stripped.
+      const heading2 = localized(f, 'heading2')
+      const heading3 = localized(f, 'heading3')
+      for (const k of Object.keys(heading2)) {
+        heading2[k] = stripMarkdown(heading2[k]).trim()
+        heading3[k] = stripMarkdown(heading3[k]).trim()
+      }
       // Prices may be entered in USD or VND; the site works in USD internally
       // (filters, dual display), so VND rows are converted here.
       // Keep the rate in sync with USD_TO_VND in src/lib/format.ts.
@@ -279,6 +289,8 @@ async function buildFromAirtable() {
         areaM2: Number(f.area_m2 ?? 0),
         shortDesc: shortFromLong(longDesc),
         longDesc,
+        heading2,
+        heading3,
         heroImage: heroImage ?? gallery[0] ?? placeholderAsset(slug, titleEn),
         gallery,
         lat: f.lat != null ? Number(f.lat) : null,

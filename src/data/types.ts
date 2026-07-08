@@ -50,6 +50,13 @@ export interface Listing {
   areaM2: number
   shortDesc: Localized
   longDesc: Localized
+  /**
+   * Optional per-language section headings (Airtable columns heading2_* /
+   * heading3_*), rendered above the description as H2/H3 — the plain-cell
+   * alternative to typing ##/### inside the description.
+   */
+  heading2?: Localized
+  heading3?: Localized
   heroImage: ImageAsset
   gallery: ImageAsset[]
   lat: number | null
