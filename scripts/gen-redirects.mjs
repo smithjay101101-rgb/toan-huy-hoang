@@ -1,10 +1,15 @@
 // Legacy-URL redirects for the static host. GitHub Pages cannot serve real
-// 301s, so each mapping in scripts/redirects.json becomes a tiny prerendered
-// page at the OLD path that instantly forwards to the new one (meta refresh 0
-// + rel=canonical — the same pattern the site root uses for / -> /en, and the
-// static-host convention Google treats as a permanent move).
+// 301s, so each mapping becomes a tiny prerendered page at the OLD path that
+// instantly forwards to the new one (meta refresh 0 + rel=canonical — the
+// same pattern the site root uses for / -> /en, and the static-host
+// convention Google treats as a permanent move).
 //
-// Fill redirects.json at domain cutover with the old WordPress paths.
+// Mappings come from two places:
+//  1. The Airtable columns old_url (Listings/Projects) and Old_URL (Guides):
+//     each row's old WordPress link redirects to that row's new page. The
+//     client fills these as content is migrated — zero cutover-day work.
+//  2. scripts/redirects.json, for old pages that are not a row (category
+//     pages, the old contact page, …). Manual entries win on conflict.
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
@@ -13,8 +18,31 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const DIST = join(ROOT, 'dist')
 
-const { redirects = {} } = JSON.parse(await readFile(join(__dirname, 'redirects.json'), 'utf8'))
-const entries = Object.entries(redirects)
+async function loadJson(path, fallback) {
+  try {
+    return JSON.parse(await readFile(path, 'utf8'))
+  } catch {
+    return fallback
+  }
+}
+
+const { redirects: manual = {} } = await loadJson(join(__dirname, 'redirects.json'), {})
+const listings = await loadJson(join(ROOT, 'src', 'data', 'listings.json'), [])
+const guides = await loadJson(join(ROOT, 'src', 'data', 'guides.json'), [])
+
+// Old articles/pages were Vietnamese; guides fall back to whichever locale
+// exists when there is no VI version.
+const auto = {}
+for (const l of listings) {
+  for (const p of l.oldPaths ?? []) auto[p] = `/vi/property/${l.slug}`
+}
+for (const g of guides) {
+  const loc = g.locales?.vi ? 'vi' : g.locales?.en ? 'en' : Object.keys(g.locales ?? {})[0]
+  if (!loc) continue
+  for (const p of g.oldPaths ?? []) auto[p] = `/${loc}/guides/${g.slug}`
+}
+
+const entries = Object.entries({ ...auto, ...manual })
 if (entries.length === 0) {
   console.log('[redirects] none configured, skipping')
   process.exit(0)

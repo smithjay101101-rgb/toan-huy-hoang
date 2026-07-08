@@ -71,6 +71,8 @@ export interface Listing {
    * SoldOut for search engines. Null/absent = available (normal display).
    */
   availability?: Availability | null
+  /** Old-site URL paths (Airtable old_url) redirected here after cutover. */
+  oldPaths?: string[]
   /**
    * Optional YouTube video tour (Airtable column `youtube_url`). The detail
    * page shows a video section only when this parses to a real video link.
@@ -110,6 +112,8 @@ export interface GuideContent {
 export interface Guide {
   slug: string
   category: GuideCategory
+  /** Old-site URL paths (Airtable Old_URL) redirected here after cutover. */
+  oldPaths?: string[]
   /** Optimized card thumbnail + optional OG image. Null when none. */
   coverImage: ImageAsset | null
   publishedDate: string

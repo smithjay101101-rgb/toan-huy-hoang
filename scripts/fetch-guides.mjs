@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
-import { stripMarkdown, normalizeAirtableMarkdown } from './lib/text.mjs'
+import { stripMarkdown, normalizeAirtableMarkdown, oldPathsFrom } from './lib/text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -115,6 +115,8 @@ async function buildFromAirtable() {
     out.push({
       slug,
       category: f.Category ?? 'Lifestyle',
+      // Old WordPress URL(s) of this article (column Old_URL) for redirects.
+      oldPaths: oldPathsFrom(f.Old_URL),
       coverImage,
       publishedDate: published,
       updatedDate: f.Updated_Date ?? published,

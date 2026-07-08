@@ -17,6 +17,30 @@ export function normalizeAirtableMarkdown(md) {
     .replace(/^([ \t]*\d+)\\\.(?=[ \t])/gm, '$1.') // 1\. item
 }
 
+/**
+ * Old-site URLs pasted into the old_url / Old_URL columns, normalized to
+ * paths for the redirect generator. Accepts full URLs or bare paths, several
+ * per cell (comma/space/newline separated). New-site locale paths are
+ * rejected so a pasted NEW link can't hijack a live route.
+ */
+export function oldPathsFrom(raw) {
+  return String(raw || '')
+    .split(/[\s,]+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((s) => {
+      try {
+        return new URL(s).pathname
+      } catch {
+        const bare = s.split(/[?#]/)[0]
+        return bare.startsWith('/') ? bare : null
+      }
+    })
+    .filter(Boolean)
+    .map((p) => p.replace(/\/+$/, ''))
+    .filter((p) => p && p !== '/' && !/^\/(en|vi|ru|ko)(\/|$)/.test(p))
+}
+
 /** Strip Markdown syntax, keeping the words (headings keep their text). */
 export function stripMarkdown(md) {
   return String(md || '')

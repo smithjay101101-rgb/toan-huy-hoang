@@ -14,7 +14,7 @@ import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { writeMockData } from './lib/placeholders.mjs'
 import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
-import { plainTextFromBody, stripMarkdown, normalizeAirtableMarkdown } from './lib/text.mjs'
+import { plainTextFromBody, stripMarkdown, normalizeAirtableMarkdown, oldPathsFrom } from './lib/text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -304,6 +304,9 @@ async function buildFromAirtable() {
         datePublished: f.date_published ?? new Date().toISOString().slice(0, 10),
         availability,
         youtubeUrl,
+        // Old WordPress URL(s) of this property (column old_url) -> the
+        // redirect generator forwards them here after the domain cutover.
+        oldPaths: oldPathsFrom(f.old_url),
         // Development facts (optional columns; used when category = Project).
         developer: f.developer ? String(f.developer).trim() : null,
         units: f.units ? String(f.units).trim() : null,
