@@ -164,11 +164,26 @@ function fakeAsset(slug, alt) {
   }
 }
 
+// Long descriptions may carry Markdown (Airtable rich text fields deliver
+// bold/headings/lists as Markdown). The derived short blurb and meta
+// description must be plain text, so strip the syntax before trimming.
+function plainText(md) {
+  return String(md || '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '') // images
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // links -> their text
+    .replace(/^#{1,6}\s+.*$/gm, '') // drop heading lines: blurbs want sentences
+    .replace(/^>\s?/gm, '') // blockquotes
+    .replace(/^\s*[-*+]\s+/gm, '') // list markers
+    .replace(/(\*\*|__)(.*?)\1/g, '$2') // bold
+    .replace(/(\*|_)(.*?)\1/g, '$2') // italic
+    .replace(/`+/g, '')
+}
+
 // The client maintains only the long description per locale. The short version
 // (card blurb + meta description) is derived from its first paragraph/sentence,
 // trimmed to a sensible length on a word or sentence boundary.
 function firstPart(text, max = 200) {
-  const para = String(text || '').split('\n')[0].trim()
+  const para = plainText(text).split('\n').map((l) => l.trim()).filter(Boolean)[0] ?? ''
   if (para.length <= max) return para
   const slice = para.slice(0, max)
   const stop = Math.max(slice.lastIndexOf('. '), slice.lastIndexOf('! '), slice.lastIndexOf('? '))

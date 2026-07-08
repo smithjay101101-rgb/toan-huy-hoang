@@ -175,21 +175,24 @@ export default function PropertyDetail() {
 
             <Reveal>
               <p className="eyebrow-ink">{t('detail.overview')}</p>
-              {isProject ? (
-                <div className="prose prose-cream prose-headings:font-display mt-6 max-w-none">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{pick(listing.longDesc, locale)}</ReactMarkdown>
-                </div>
-              ) : (
-                <div className="mt-6 space-y-5 text-lg leading-relaxed text-ink/80">
-                  {pick(listing.longDesc, locale)
-                    .split('\n')
-                    .map((para, i) => (
-                      <p key={i} className="max-w-prose">
-                        {para}
-                      </p>
-                    ))}
-                </div>
-              )}
+              {/* Descriptions are Markdown: Airtable long-text fields with rich
+                  text enabled deliver bold/headings/lists as Markdown, and the
+                  prose theme renders them in the brand typography. Legacy
+                  plain-text rows separate paragraphs with single newlines, so
+                  those are upgraded to real paragraph breaks first. */}
+              {(() => {
+                const raw = pick(listing.longDesc, locale)
+                const md = raw.includes('\n\n') ? raw : raw.replace(/\n/g, '\n\n')
+                return (
+                  <div
+                    className={`prose prose-cream prose-headings:font-display mt-6 ${
+                      isProject ? 'max-w-none' : 'prose-lg'
+                    }`}
+                  >
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{md}</ReactMarkdown>
+                  </div>
+                )
+              })()}
             </Reveal>
 
             {/* Gallery (master plan on developments) */}
