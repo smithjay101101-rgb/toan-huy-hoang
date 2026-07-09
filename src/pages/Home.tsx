@@ -25,7 +25,7 @@ export default function Home() {
         <link
           rel="preload"
           as="image"
-          href="/media/hero-city.avif"
+          href="/media/hero-city-1280.avif"
           type="image/avif"
           {...{
             fetchpriority: 'high',

@@ -16,6 +16,12 @@ const ROOT = join(__dirname, '..')
 const PUBLIC_DIR = join(ROOT, 'public')
 const MANIFEST = join(ROOT, 'src', 'data', 'media-variants.json')
 
+// Never serve a static art image wider than this. Retina desktops otherwise
+// pull the 2600px hero original (~330 KB) as the LCP, which is the single
+// biggest thing standing between a visitor and a painted page. 1600px covers
+// full-width on virtually every screen; the committed originals stay on disk
+// as the <img> fallback but are no longer offered in the srcset.
+const CAP = 1600
 // Full-bleed heroes get the viewport ladder; the portrait renders at <=50vw on
 // desktop; the 800px card placeholders only need one phone-sized rung.
 const HERO_LADDER = [640, 960, 1280]
@@ -30,30 +36,24 @@ const STATIC = [
 
 const sharp = (await import('sharp')).default
 
-async function widthOf(path) {
-  return (await sharp(path).metadata()).width
-}
-
 const manifest = {}
 for (const { base, ladder } of STATIC) {
   const jpg = join(PUBLIC_DIR, `${base}.jpg`)
   const meta = await sharp(jpg).metadata()
-  const widths = ladder.filter((w) => w < (meta.width ?? 0))
-  for (const w of widths) {
+  const jpgW = meta.width ?? 0
+  const topW = Math.min(CAP, jpgW)
+  // Ladder rungs below the cap, plus the cap itself as the largest candidate.
+  const rungs = [...new Set([...ladder.filter((w) => w < topW), topW])].sort((a, b) => a - b)
+  for (const w of rungs) {
     const resized = sharp(jpg).resize({ width: w, withoutEnlargement: true })
-    await resized.clone().avif({ quality: 60 }).toFile(join(PUBLIC_DIR, `${base}-${w}.avif`))
-    await resized.clone().webp({ quality: 74 }).toFile(join(PUBLIC_DIR, `${base}-${w}.webp`))
+    await resized.clone().avif({ quality: 62 }).toFile(join(PUBLIC_DIR, `${base}-${w}.avif`))
+    await resized.clone().webp({ quality: 76 }).toFile(join(PUBLIC_DIR, `${base}-${w}.webp`))
   }
-  // The committed originals stay untouched as the largest candidates; measure
-  // them individually (they can be wider than the jpg they sit beside).
-  manifest[base] = {
-    widths,
-    avifW: await widthOf(join(PUBLIC_DIR, `${base}.avif`)),
-    webpW: await widthOf(join(PUBLIC_DIR, `${base}.webp`)),
-    w: meta.width,
-    h: meta.height,
-  }
-  console.log(`[media] ${base}: ${widths.join(', ') || 'no rungs'} + original ${meta.width}w`)
+  const srcset = (ext) => rungs.map((w) => `${base}-${w}.${ext} ${w}w`).join(', ')
+  // Precompute the srcset strings here (the one place that knows the exact
+  // rungs and the cap), so the site and the data pipeline just read them.
+  manifest[base] = { avifSet: srcset('avif'), webpSet: srcset('webp'), w: jpgW, h: meta.height, top: topW }
+  console.log(`[media] ${base}: ${rungs.join(', ')}w (cap ${CAP})`)
 }
 
 await writeFile(MANIFEST, JSON.stringify(manifest, null, 2), 'utf8')

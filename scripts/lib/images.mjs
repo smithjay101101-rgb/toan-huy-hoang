@@ -11,8 +11,10 @@ import { mkdir } from 'node:fs/promises'
 
 /** Ladder rungs below the cap; the top rung is min(source width, MAX_WIDTH). */
 export const LADDER = [400, 800, 1200, 1600]
-/** Never ship wider than this: oversized Airtable uploads are capped here. */
-export const MAX_WIDTH = 2000
+/** Never ship wider than this: oversized Airtable uploads are capped here.
+ *  1600 keeps listing heroes crisp at full width without shipping a 2000px+
+ *  photo as the LCP. */
+export const MAX_WIDTH = 1600
 
 const escXml = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -107,13 +109,9 @@ export function loadMediaVariants(root) {
   }
 }
 
-/** srcset string for a static /media image from the manifest, or undefined. */
+/** Precomputed (capped) srcset for a static /media image, or undefined. */
 export function staticSrcSet(manifest, base, ext) {
   const m = manifest[base]
   if (!m) return undefined
-  const orig = ext === 'avif' ? m.avifW : m.webpW
-  return [
-    ...m.widths.filter((w) => w < orig).map((w) => `${base}-${w}.${ext} ${w}w`),
-    `${base}.${ext} ${orig}w`,
-  ].join(', ')
+  return ext === 'avif' ? m.avifSet : m.webpSet
 }

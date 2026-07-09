@@ -5,27 +5,24 @@
 import manifest from '@/data/media-variants.json'
 
 interface VariantEntry {
-  widths: number[]
-  avifW: number
-  webpW: number
+  avifSet: string
+  webpSet: string
   w: number
   h: number
+  top: number
 }
 
 const MEDIA: Record<string, VariantEntry> = manifest
 
 /**
  * Width-descriptor srcset for a static image, e.g.
- * "/media/hero-city-640.avif 640w, …, /media/hero-city.avif 1800w".
- * Falls back to the single original URL when no variants exist, so callers
- * can use it unconditionally.
+ * "/media/hero-city-640.avif 640w, …, /media/hero-city-1600.avif 1600w".
+ * Precomputed (and capped) by scripts/gen-media-variants.mjs. Falls back to
+ * the single original URL when no variants exist, so callers use it
+ * unconditionally.
  */
 export function mediaSrcSet(base: string, ext: 'avif' | 'webp'): string {
   const m = MEDIA[base]
   if (!m) return `${base}.${ext}`
-  const orig = ext === 'avif' ? m.avifW : m.webpW
-  return [
-    ...m.widths.filter((w) => w < orig).map((w) => `${base}-${w}.${ext} ${w}w`),
-    `${base}.${ext} ${orig}w`,
-  ].join(', ')
+  return ext === 'avif' ? m.avifSet : m.webpSet
 }
