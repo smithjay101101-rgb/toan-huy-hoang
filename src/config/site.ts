@@ -47,15 +47,17 @@ const SOCIALS: Record<SocialKind, SocialLink> = {
   telegram: { kind: 'telegram', label: 'Telegram', href: 'https://t.me/danangluxuryrealty' },
 }
 
-// Per the client (2026-07-09): Korean pages show Naver Blog, Russian pages
-// the Telegram channel, English and Vietnamese pages the YouTube channel.
-// ("Youtube và Fanpage" read as the YouTube channel page; the facebook entry
-// stays dormant above — add 'facebook' here if he later wants the fanpage.)
+// Per the client (2026-07-09, rev): every language shows the same two brand
+// channels — YouTube + Facebook. (Superseded the earlier per-locale scheme of
+// Naver for KO / Telegram for RU.) YouTube is live; Facebook appears once its
+// page URL is filled above. Telegram/Naver stay in SOCIALS, unused, in case
+// they are wanted back.
+const YT_FB: SocialKind[] = ['youtube', 'facebook']
 const SOCIAL_ORDER: Record<Locale, SocialKind[]> = {
-  en: ['youtube'],
-  vi: ['youtube'],
-  ko: ['naver'],
-  ru: ['telegram'],
+  en: YT_FB,
+  vi: YT_FB,
+  ko: YT_FB,
+  ru: YT_FB,
 }
 
 export function socialsFor(locale: Locale): SocialLink[] {
