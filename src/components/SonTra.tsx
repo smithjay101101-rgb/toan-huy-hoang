@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { Locale } from '@/i18n'
 import { listings } from '@/data'
 import { localePath } from '@/lib/locale'
-import { formatPriceParts, pick } from '@/lib/format'
-import { useCurrency } from '@/lib/currency'
+import { pick } from '@/lib/format'
 import { mediaSrcSet } from '@/lib/media'
 import { localizeDistrict } from '@/data/locations'
 import PropertyImage from './PropertyImage'
@@ -94,11 +93,6 @@ export default function SonTra({ locale }: { locale: Locale }) {
   }, [])
 
   const href = localePath(locale, `property/${listing.slug}`)
-  // The featured card leads with its price (toggled currency first).
-  const { currency } = useCurrency()
-  const { usd, vnd } = formatPriceParts(listing, locale)
-  const cardPrice =
-    listing.price > 0 ? (currency === 'vnd' && vnd ? vnd : usd) : t('listings.priceOnRequest')
 
   return (
     <section
@@ -167,13 +161,15 @@ export default function SonTra({ locale }: { locale: Locale }) {
         </h2>
       </div>
 
-      {/* Floating listing card. */}
-      <div className="absolute z-[5] bottom-6 left-1/2 w-[88%] max-w-[340px] -translate-x-1/2 translate-y-0 lg:bottom-auto lg:left-auto lg:right-[6%] lg:top-1/2 lg:w-[340px] lg:-translate-y-1/2 lg:translate-x-0">
+      {/* Floating listing card. z-[7] keeps it above the cream bottom-seam
+          gradient (z-[6]) so the card never gets washed out on phones, where
+          it sits inside that melt zone. */}
+      <div className="absolute z-[7] bottom-6 left-1/2 w-[88%] max-w-[340px] -translate-x-1/2 translate-y-0 lg:bottom-auto lg:left-auto lg:right-[6%] lg:top-1/2 lg:w-[340px] lg:-translate-y-1/2 lg:translate-x-0">
         <Link
           to={href}
           className="group block overflow-hidden text-text shadow-[0_24px_60px_rgba(0,0,0,0.35)] transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] lg:hover:scale-[1.04]"
           style={{
-            background: 'rgba(13,22,30,0.58)',
+            background: 'rgba(13,22,30,0.7)',
             backdropFilter: 'blur(18px) saturate(120%)',
             WebkitBackdropFilter: 'blur(18px) saturate(120%)',
             border: '1px solid rgba(255,255,255,0.22)',
@@ -190,18 +186,12 @@ export default function SonTra({ locale }: { locale: Locale }) {
               {t('sontra.cardEyebrow')} · {localizeDistrict(listing.district, locale)}
             </div>
             <div
-              className="mb-2 font-display text-[2rem] font-semibold leading-[1.04]"
+              className="mb-3 font-display text-[2rem] font-semibold leading-[1.04]"
               style={{ textShadow: '0 2px 16px rgba(0,0,0,0.4)' }}
             >
               {pick(listing.title, locale)}
             </div>
-            {/* Price up front (user-visible pricing everywhere a listing shows). */}
-            <div
-              className="mb-3 font-display text-[1.55rem] font-semibold tabular-nums"
-              style={{ color: '#f4d488', textShadow: '0 2px 14px rgba(0,0,0,0.55)' }}
-            >
-              {cardPrice}
-            </div>
+            {/* No price on the flagship card: discretion sells the viewing. */}
             <div className="mb-4 flex gap-3 text-[14px] font-light text-white/90">
               <span>
                 {listing.bedrooms} {t('listings.beds')}

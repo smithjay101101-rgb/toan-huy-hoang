@@ -76,7 +76,6 @@ export default function PropertyDetail() {
   const priceMain = currency === 'vnd' && vnd ? vnd : usd
   const priceSub = currency === 'vnd' && vnd ? usd : vnd
   const hasPrice = listing.price > 0
-  const primaryChannel = contactFor(locale).channels[0]
   // Video tour link, only for listings whose Airtable row carries one.
   const videoUrl = listing.youtubeUrl?.trim() || null
 
@@ -85,7 +84,7 @@ export default function PropertyDetail() {
       <Seo
         title={`${title}. ${district}, Da Nang.`}
         description={pick(listing.shortDesc, locale)}
-        image={listing.heroImage.avif ?? listing.heroImage.src}
+        image={listing.heroImage.og ?? listing.heroImage.avif ?? listing.heroImage.src}
         type="article"
       />
       <JsonLd
@@ -185,7 +184,10 @@ export default function PropertyDetail() {
                   plain-text rows separate paragraphs with single newlines, so
                   those are upgraded to real paragraph breaks first. */}
               {(() => {
-                const raw = pick(listing.longDesc, locale)
+                // trim() first: a stray trailing blank line would otherwise
+                // defeat the single-newline paragraph upgrade and merge every
+                // legacy paragraph into one.
+                const raw = pick(listing.longDesc, locale).trim()
                 const body = raw.includes('\n\n') ? raw : raw.replace(/\n/g, '\n\n')
                 // The heading2/heading3 columns are prepended as Markdown so
                 // they get the exact same styling and rules as typed ##/###.
@@ -361,17 +363,22 @@ export default function PropertyDetail() {
             <div className="truncate text-xs tabular-nums text-white/70">{priceSub}</div>
           )}
         </div>
-        <a
-          href={primaryChannel.href}
-          target={primaryChannel.href.startsWith('http') ? '_blank' : undefined}
-          rel={primaryChannel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-          aria-label={t('detail.inquireOn', { channel: primaryChannel.label })}
-          className="btn btn-primary shrink-0"
-          style={{ minHeight: 44, padding: '12px 22px' }}
+        {/* Frosted like the hero CTAs (the bar is dark, white glass reads). */}
+        <Link
+          to={localePath(locale, 'contact')}
+          className="btn shrink-0"
+          style={{
+            minHeight: 44,
+            padding: '12px 24px',
+            color: '#fff',
+            border: '1px solid rgba(255,255,255,0.75)',
+            background: 'rgba(255,255,255,0.12)',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+          }}
         >
-          <ChannelIcon kind={primaryChannel.kind} size={16} />
-          {primaryChannel.label}
-        </a>
+          {t('nav.contact')}
+        </Link>
       </div>
     </>
   )
