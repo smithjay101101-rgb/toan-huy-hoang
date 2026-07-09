@@ -44,7 +44,7 @@ const SOCIALS: Record<SocialKind, SocialLink> = {
   facebook: { kind: 'facebook', label: 'Facebook', href: '' },
   tiktok: { kind: 'tiktok', label: 'TikTok', href: '' },
   naver: { kind: 'naver', label: 'Naver Blog', href: '' },
-  telegram: { kind: 'telegram', label: 'Telegram', href: '' },
+  telegram: { kind: 'telegram', label: 'Telegram', href: 'https://t.me/danangluxuryrealty' },
 }
 
 // Per the client (2026-07-09): Korean pages show Naver Blog, Russian pages
