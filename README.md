@@ -32,8 +32,9 @@ POSTing `{"event_type":"airtable-publish"}` to the GitHub dispatches API.
   `currency` column accordingly; VND converts to USD at build time
   (`USD_TO_VND` in `scripts/fetch-airtable.mjs`, keep in sync with
   `src/lib/format.ts`). The site displays USD and VND.
-- `code` is optional: blank rows get a stable auto-generated TH-nnn; a typed
-  code wins. Codes are searchable and shown on cards and detail pages.
+- `code` is the property reference (e.g. TH-129), typed manually in the `code`
+  column — it is NOT auto-generated. Searchable, and shown on cards + detail
+  pages. Blank = the listing shows no reference.
 - Photos: `hero_image` (one) + `gallery` (several). Images are downloaded,
   resized into responsive variants, and **watermarked** ("TOAN HUY HOANG
   REALTY COMPANY", baked into the pixels) at build time; a listing without

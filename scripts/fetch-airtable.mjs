@@ -82,17 +82,6 @@ function canonicalCategory(raw) {
   return CATEGORIES.find((c) => foldKey(c) === key) ?? 'Villa'
 }
 
-// Every listing gets a searchable property code. When the Airtable row has no
-// code, derive a stable one from the record id (same row keeps the same code
-// across rebuilds). Collisions bump to the next free number.
-function autoCode(recId, used) {
-  let h = 0
-  for (const c of String(recId)) h = (h * 31 + c.charCodeAt(0)) >>> 0
-  let n = 100 + (h % 900)
-  while (used.has(`TH-${n}`)) n = 100 + ((n - 99) % 900)
-  return `TH-${n}`
-}
-
 async function fetchAirtableRecords(table) {
   const records = []
   let offset
@@ -203,7 +192,6 @@ async function buildFromAirtable() {
   ]
   const out = []
   const usedSlugs = new Set()
-  const usedCodes = new Set()
   for (const { rec, fromProjects } of records) {
     // Each record is processed independently: one bad row or broken attachment
     // skips that listing (with a log line), never the whole catalog.
@@ -265,8 +253,9 @@ async function buildFromAirtable() {
         price = Math.round(price / USD_TO_VND)
         currency = 'USD'
       }
-      const code = f.code ? String(f.code).trim() : autoCode(rec.id, usedCodes)
-      usedCodes.add(code)
+      // The property code is whatever the agent types in the `code` column;
+      // no auto-generation. Blank = the listing simply shows no reference.
+      const code = f.code ? String(f.code).trim() : null
       // Off-market state (single select `availability`: Available/Rented/Sold).
       // One cell drives the localized badge in all four languages; anything
       // unrecognized (or Available/empty) means normally available.
