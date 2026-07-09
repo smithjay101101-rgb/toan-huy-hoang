@@ -275,9 +275,6 @@ const ko: Dictionary = {
     privacy: '개인정보처리방침',
     terms: '이용약관',
   },
-  common: {
-    placeholderNote: '플레이스홀더 콘텐츠. 최종 자료로 교체하세요.',
-  },
 }
 
 export default ko

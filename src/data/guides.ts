@@ -14,10 +14,6 @@ export const GUIDE_CATEGORY_KEY: Record<GuideCategory, string> = {
 // Build-time generated guides, imported statically so pages are fully prerendered.
 export const guides = guidesJson as unknown as Guide[]
 
-export function getGuides(): Guide[] {
-  return guides
-}
-
 /** Locales a guide is fully translated into (in site order). */
 export function guideLocales(g: Guide): Locale[] {
   return Object.keys(g.locales) as Locale[]

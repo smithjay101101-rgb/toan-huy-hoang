@@ -36,11 +36,6 @@ export function isLocale(value: string | undefined): value is Locale {
   return value === 'en' || value === 'vi' || value === 'ru' || value === 'ko'
 }
 
-/** The opposite locale, for the language switcher. */
-export function otherLocale(locale: Locale): Locale {
-  return locale === 'en' ? 'vi' : 'en'
-}
-
 /**
  * Swap the locale prefix on a path while preserving the rest.
  * "/en/property/abc" -> "/vi/property/abc"

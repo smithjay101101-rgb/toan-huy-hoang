@@ -23,6 +23,12 @@ In the existing base (`appZ9wP5ZlerVW3z8`), add a new table named **`Guides`**
 | `Updated_Date` | Date | Sitemap `lastmod` + `dateModified`. Falls back to `Published_Date`. |
 | `Featured` | Checkbox | Optional. Surfaces the guide first on the index. |
 | `Author` | Single line text | Optional. Defaults to "Toan Huy Hoang". |
+| `Old_URL` | Single line text | Optional. The article's URL on the previous website; the build generates a redirect from that old address to this guide (several allowed, comma-separated). |
+
+`Body_*` fields have **rich text enabled**: bold, lists, links, and headings
+render on the site (`##` + space = Heading 2, `###` = Heading 3; a heading can
+be a link: `## [words](/vi/guides/slug)`). Internal links must start with `/`
+(never a full domain) so the domain cutover cannot break them.
 
 **Russian (`_RU`) is included** because the site has 4 locales (EN/VI/RU/KO).
 Leave the RU fields blank if you do not have Russian copy; that guide simply

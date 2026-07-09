@@ -27,31 +27,53 @@ POSTing `{"event_type":"airtable-publish"}` to the GitHub dispatches API.
 
 - A row appears on the site when `status = Published`. `deal_type` (Buy/Rent)
   picks the page; `category = Project` shows on the Projects page instead.
-- `district` must be one of the 11 canonical names (accents and casing are
-  normalized automatically). `price` is USD; the site displays USD and VND.
+- `district` must be one of the 10 canonical names (accents and casing are
+  normalized automatically). `price` may be entered in USD or VND — set the
+  `currency` column accordingly; VND converts to USD at build time
+  (`USD_TO_VND` in `scripts/fetch-airtable.mjs`, keep in sync with
+  `src/lib/format.ts`). The site displays USD and VND.
 - `code` is optional: blank rows get a stable auto-generated TH-nnn; a typed
   code wins. Codes are searchable and shown on cards and detail pages.
-- Photos: `hero_image` (one) + `gallery` (several). Images are downloaded and
-  optimized at build time; a listing without photos gets a styled placeholder.
+- Photos: `hero_image` (one) + `gallery` (several). Images are downloaded,
+  resized into responsive variants, and **watermarked** ("TOAN HUY HOANG
+  REALTY COMPANY", baked into the pixels) at build time; a listing without
+  photos gets a styled placeholder.
 - Languages: `title_en` + `long_desc_en` required; `_vi`, `_ru`, `_ko`
   variants optional (fall back to English). Card blurbs derive from the first
-  paragraph of the long description.
-
-**When real photos are uploaded:** remove the `FAKE_IMAGES: '1'` line from
-`.github/workflows/deploy.yml` (it currently substitutes brand photos).
+  paragraph of the long description (Markdown syntax is stripped).
+- **Rich descriptions:** `long_desc_*` fields have rich text enabled — bold,
+  bullet lists, links, and headings render on the site (`##` + space =
+  Heading 2, `###` = Heading 3; headings can also be links:
+  `## [words](/vi/property/slug)`).
+- `heading2_en..ko` / `heading3_en..ko` (optional): plain-text section titles
+  shown above the description — the no-Markdown way to add headings. Empty
+  language cells fall back to English.
+- `availability` (optional single select): `Rented` or `Sold` shows a
+  localized badge in all four languages, moves the listing to the end of the
+  grids, and excludes it from the homepage feature. Empty/`Available` =
+  normal. To remove a listing from the site entirely, change `status`.
+- `youtube_url` (optional): a YouTube link adds a "Video Tour" button on the
+  listing page. Empty = no button.
+- `old_url` (optional): the property's page URL on the previous website; the
+  build generates a redirect from that old address to this listing (used at
+  the domain cutover). Several links allowed, comma-separated.
 
 ### Guides (blog) — table `Guides`
 
 See `AIRTABLE-GUIDES.md` for the full schema and the rebuild automation. Key
 rule: a guide builds for a language only when both `Title_*` and `Body_*` are
-filled, so no thin translated pages ever exist.
+filled, so no thin translated pages ever exist. `Body_*` fields are rich
+text (same `##`/`###` heading rules as listings); `Old_URL` (optional) holds
+the article's address on the previous website for the cutover redirects.
 
 ## Configuration that may need updating
 
 | What | Where |
 |---|---|
 | Phone numbers / channels per language | `CONTACTS` in `src/config/site.ts` |
-| KakaoTalk link (currently falls back to a call + shows the ID) | `KAKAO_CHANNEL_URL` in `src/config/site.ts` |
+| KakaoTalk Open Profile link (client must create the profile in-app, handle `danangluxury`) | `KAKAO_CHANNEL_URL` in `src/config/site.ts` |
+| YouTube channel | `YOUTUBE_URL` in `src/config/site.ts` |
+| Old-site redirects not tied to a row (category pages etc.) | `scripts/redirects.json` |
 | Telegram username | `TELEGRAM_USERNAME` in `src/config/site.ts` |
 | USD to VND display rate | `USD_TO_VND` in `src/lib/format.ts` |
 | Office address wording | `contact.officeValue` + `footer.officeValue` in `src/i18n/locales/*` |

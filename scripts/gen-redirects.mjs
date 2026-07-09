@@ -12,7 +12,7 @@
 //     pages, the old contact page, …). Manual entries win on conflict.
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { dirname, join } from 'node:path'
+import { dirname, join, resolve, sep } from 'node:path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -56,19 +56,36 @@ for (const [oldPath, newPath] of entries) {
     console.warn(`[redirects] skipped (paths must start with /): ${oldPath} -> ${newPath}`)
     continue
   }
+  // Never shadow a live route (applies to manual redirects.json entries too;
+  // row-derived paths are pre-filtered in oldPathsFrom).
+  if (/^\/(en|vi|ru|ko)(\/|$|\.)/.test(oldPath)) {
+    console.warn(`[redirects] skipped (would overwrite a live page): ${oldPath}`)
+    continue
+  }
   // /old/article -> dist/old/article/index.html (pretty-URL shape WP used).
-  const dir = join(DIST, ...oldPath.split('/').filter(Boolean))
-  await mkdir(dir, { recursive: true })
-  await writeFile(
-    join(dir, 'index.html'),
-    `<!doctype html><html lang="vi"><head><meta charset="utf-8">
+  // resolve + containment check: '..' segments must never escape dist.
+  const dir = resolve(DIST, '.' + oldPath)
+  if (dir === DIST || !dir.startsWith(DIST + sep)) {
+    console.warn(`[redirects] skipped (path escapes the site root): ${oldPath}`)
+    continue
+  }
+  // One bad cell (e.g. a path colliding with an existing FILE like
+  // /media/hero-city.jpg) must skip that entry, never fail the build.
+  try {
+    await mkdir(dir, { recursive: true })
+    await writeFile(
+      join(dir, 'index.html'),
+      `<!doctype html><html lang="vi"><head><meta charset="utf-8">
 <meta http-equiv="refresh" content="0; url=${esc(newPath)}">
 <link rel="canonical" href="${esc(newPath)}">
 <title>Toan Huy Hoang</title>
 <meta name="robots" content="noindex">
 </head><body><a href="${esc(newPath)}">${esc(newPath)}</a></body></html>`,
-    'utf8',
-  )
-  n++
+      'utf8',
+    )
+    n++
+  } catch (err) {
+    console.warn(`[redirects] skipped ${oldPath}: ${err.message}`)
+  }
 }
 console.log(`[redirects] wrote ${n} forward pages`)

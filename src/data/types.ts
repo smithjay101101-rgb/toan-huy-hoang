@@ -21,6 +21,8 @@ export interface ImageAsset {
    */
   avifSet?: string
   webpSet?: string
+  /** Watermarked JPEG for social link previews — scrapers reject AVIF/WebP. */
+  og?: string
   width: number
   height: number
   alt: string

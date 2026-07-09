@@ -274,9 +274,6 @@ const ru: Dictionary = {
     privacy: 'Конфиденциальность',
     terms: 'Условия',
   },
-  common: {
-    placeholderNote: 'Заглушка. Замените финальным материалом.',
-  },
 }
 
 export default ru

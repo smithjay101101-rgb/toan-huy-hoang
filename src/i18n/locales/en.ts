@@ -275,9 +275,6 @@ const en = {
     privacy: 'Privacy',
     terms: 'Terms',
   },
-  common: {
-    placeholderNote: 'Placeholder content. Swap with final asset.',
-  },
 }
 
 export default en

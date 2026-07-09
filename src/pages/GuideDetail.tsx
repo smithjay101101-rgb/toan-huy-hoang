@@ -51,7 +51,7 @@ export default function GuideDetail() {
       <Seo
         title={content.metaTitle}
         description={content.metaDescription || content.excerpt}
-        image={guide.coverImage ? (guide.coverImage.avif ?? guide.coverImage.src) : undefined}
+        image={guide.coverImage ? (guide.coverImage.og ?? guide.coverImage.avif ?? guide.coverImage.src) : undefined}
         type="article"
         locales={available}
       />

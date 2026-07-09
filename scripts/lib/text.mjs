@@ -24,21 +24,38 @@ export function normalizeAirtableMarkdown(md) {
  * rejected so a pasted NEW link can't hijack a live route.
  */
 export function oldPathsFrom(raw) {
-  return String(raw || '')
-    .split(/[\s,]+/)
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .map((s) => {
+  const out = []
+  for (const token of String(raw || '').split(/[\s,]+/).map((s) => s.trim()).filter(Boolean)) {
+    // Full URL, scheme-less host paste ("olddomain.com/x"), or bare path.
+    const asUrl = /^[a-z][a-z0-9+.-]*:\/\//i.test(token)
+      ? token
+      : /^[\w-]+(\.[\w-]+)+(\/|$)/.test(token)
+        ? `https://${token}`
+        : null
+    let path = null
+    if (asUrl) {
       try {
-        return new URL(s).pathname
+        path = decodeURIComponent(new URL(asUrl).pathname)
       } catch {
-        const bare = s.split(/[?#]/)[0]
-        return bare.startsWith('/') ? bare : null
+        path = null
       }
-    })
-    .filter(Boolean)
-    .map((p) => p.replace(/\/+$/, ''))
-    .filter((p) => p && p !== '/' && !/^\/(en|vi|ru|ko)(\/|$)/.test(p))
+    } else if (token.startsWith('/')) {
+      path = token.split(/[?#]/)[0]
+      try {
+        path = decodeURIComponent(path)
+      } catch {
+        // keep the raw path if it is not valid percent-encoding
+      }
+    }
+    if (path) path = path.replace(/\/+$/, '')
+    // Reject empty/root paths and anything that would shadow a live route.
+    if (!path || path === '/' || /^\/(en|vi|ru|ko)(\/|$|\.)/.test(path)) {
+      console.warn(`[redirects] old link skipped (not usable as an old path): ${token}`)
+      continue
+    }
+    out.push(path)
+  }
+  return out
 }
 
 /** Strip Markdown syntax, keeping the words (headings keep their text). */
@@ -46,12 +63,16 @@ export function stripMarkdown(md) {
   return String(md || '')
     .replace(/!\[[^\]]*\]\([^)]*\)/g, '') // images
     .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // links -> their text
-    .replace(/^#{1,6}\s+/gm, '') // heading markers
+    .replace(/^#{1,6}[ \t]+/gm, '') // heading markers ([ \t]: \s would cross lines)
     .replace(/^>\s?/gm, '') // blockquotes
-    .replace(/^\s*[-*+]\s+/gm, '') // bullet markers
-    .replace(/^\s*\d+\.\s+/gm, '') // numbered-list markers
-    .replace(/(\*\*|__)(.*?)\1/g, '$2') // bold
-    .replace(/(\*|_)(.*?)\1/g, '$2') // italic
+    .replace(/^[ \t]*[-*+][ \t]+/gm, '') // bullet markers
+    .replace(/^[ \t]*\d+\.[ \t]+/gm, '') // numbered-list markers
+    // Emphasis only when flanked like real emphasis: "5* hotels and 4* spas"
+    // and snake_case_words must survive untouched.
+    .replace(/\*\*(?=\S)([\s\S]*?\S)\*\*/g, '$1') // bold **
+    .replace(/(^|\W)__(?=\S)([\s\S]*?\S)__(?=\W|$)/gm, '$1$2') // bold __
+    .replace(/\*(?=\S)([\s\S]*?\S)\*/g, '$1') // italic *
+    .replace(/(^|\W)_(?=\S)([^_]*\S)_(?=\W|$)/gm, '$1$2') // italic _
     .replace(/`+/g, '')
 }
 
@@ -61,5 +82,5 @@ export function stripMarkdown(md) {
  * syntax is stripped.
  */
 export function plainTextFromBody(md) {
-  return stripMarkdown(String(md || '').replace(/^#{1,6}\s+.*$/gm, ''))
+  return stripMarkdown(String(md || '').replace(/^#{1,6}[ \t]+.*$/gm, ''))
 }

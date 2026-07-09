@@ -15,12 +15,6 @@ export function getListingsByDeal(dealType: DealType): Listing[] {
   return listings.filter((l) => l.dealType === dealType && l.category !== 'Project')
 }
 
-export function getFeatured(limit = 4): Listing[] {
-  const featured = listings.filter((l) => l.featured)
-  const pool = featured.length >= limit ? featured : listings
-  return pool.slice(0, limit)
-}
-
 export function getListingBySlug(slug: string): Listing | undefined {
   return listings.find((l) => l.slug === slug)
 }

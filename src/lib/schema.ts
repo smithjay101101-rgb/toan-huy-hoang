@@ -48,7 +48,7 @@ export function listingSchema(listing: Listing, locale: Locale) {
     name: pick(listing.title, locale),
     description: pick(listing.shortDesc, locale),
     url: SITE.url + localePath(locale, `property/${listing.slug}`),
-    image: SITE.url + (listing.heroImage?.avif ?? listing.heroImage?.src ?? ''),
+    image: SITE.url + (listing.heroImage?.og ?? listing.heroImage?.avif ?? listing.heroImage?.src ?? ''),
     datePosted: listing.datePublished,
     offers: {
       '@type': 'Offer',
@@ -114,7 +114,7 @@ export function blogPostingSchema(guide: Guide, locale: Locale, content: GuideCo
       name: SITE.legalName,
       logo: { '@type': 'ImageObject', url: SITE.url + SITE.ogImage },
     },
-    ...(guide.coverImage ? { image: SITE.url + (guide.coverImage.avif ?? guide.coverImage.src) } : {}),
+    ...(guide.coverImage ? { image: SITE.url + (guide.coverImage.og ?? guide.coverImage.avif ?? guide.coverImage.src) } : {}),
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': SITE.url + localePath(locale, `guides/${guide.slug}`),

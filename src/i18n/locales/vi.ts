@@ -274,9 +274,6 @@ const vi: Dictionary = {
     privacy: 'Bảo Mật',
     terms: 'Điều Khoản',
   },
-  common: {
-    placeholderNote: 'Nội dung mẫu. Thay bằng tài sản cuối cùng.',
-  },
 }
 
 export default vi

@@ -72,11 +72,20 @@ export async function optimizeImage(sharp, publicDir, url, outDir, name, alt, { 
     await resized.clone().avif({ quality: 60 }).toFile(join(outDir, file(w, 'avif')))
     await resized.clone().webp({ quality: 74 }).toFile(join(outDir, file(w, 'webp')))
   }
+  // Social-preview JPEG: link scrapers (Zalo, WhatsApp, Facebook, iMessage)
+  // reject AVIF/WebP, so og:image points at this (watermarked like the rest —
+  // it is cut from the same master). 1200w is the OG sweet spot.
+  await master
+    .clone()
+    .resize({ width: Math.min(1200, top), withoutEnlargement: true })
+    .jpeg({ quality: 78 })
+    .toFile(join(outDir, `${name}-og.jpg`))
   const set = (ext) => widths.map((w) => `${rel}/${file(w, ext)} ${w}w`).join(', ')
   return {
     src: `${rel}/${name}.webp`,
     avif: `${rel}/${name}.avif`,
     webp: `${rel}/${name}.webp`,
+    og: `${rel}/${name}-og.jpg`,
     avifSet: set('avif'),
     webpSet: set('webp'),
     width: top,
