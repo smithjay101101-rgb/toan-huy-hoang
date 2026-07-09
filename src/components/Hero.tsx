@@ -89,8 +89,11 @@ export default function Hero({ locale }: { locale: Locale }) {
         </div>
       </div>
 
+      {/* Decorative scroll cue. Desktop only: on mobile the stacked CTA
+          buttons and the floating Contact button already own the bottom of the
+          hero, and a centered cue there collides with them (esp. long RU/VI). */}
       <div
-        className="absolute inset-x-0 z-10 flex justify-center"
+        className="absolute inset-x-0 z-10 hidden justify-center lg:flex"
         style={{ bottom: 30, color: 'rgba(255,255,255,0.85)' }}
         aria-hidden="true"
       >
