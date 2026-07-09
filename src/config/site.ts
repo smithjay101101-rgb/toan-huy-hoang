@@ -48,11 +48,12 @@ const SOCIALS: Record<SocialKind, SocialLink> = {
 }
 
 // Per the client (2026-07-09): Korean pages show Naver Blog, Russian pages
-// the Telegram channel, English and Vietnamese pages YouTube + the Facebook
-// fanpage. Nothing else per locale.
+// the Telegram channel, English and Vietnamese pages the YouTube channel.
+// ("Youtube và Fanpage" read as the YouTube channel page; the facebook entry
+// stays dormant above — add 'facebook' here if he later wants the fanpage.)
 const SOCIAL_ORDER: Record<Locale, SocialKind[]> = {
-  en: ['youtube', 'facebook'],
-  vi: ['youtube', 'facebook'],
+  en: ['youtube'],
+  vi: ['youtube'],
   ko: ['naver'],
   ru: ['telegram'],
 }
