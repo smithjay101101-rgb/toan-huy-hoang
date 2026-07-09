@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { MapPin, Youtube } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
-import { SITE, YOUTUBE_URL, contactFor } from '@/config/site'
+import { SITE, contactFor, socialsFor } from '@/config/site'
 import LanguageSwitcher from './LanguageSwitcher'
-import { ChannelIcon } from './icons'
+import { ChannelIcon, SocialIcon } from './icons'
 
 const EXPLORE = ['buy', 'rent', 'projects', 'guides', 'about', 'contact'] as const
 
@@ -49,6 +49,26 @@ export default function Footer({ locale }: { locale: Locale }) {
             <p className="text-[14px] font-light leading-[1.7]" style={{ color: 'rgba(238,240,240,0.7)', maxWidth: '34ch' }}>
               {t('footer.blurb')}
             </p>
+            {/* Social platforms, per-locale (KO: Naver, RU: Telegram channel,
+                EN/VI: YouTube + fanpage). Small quiet icons; entries without a
+                link yet stay hidden. 44px tap boxes. */}
+            {socialsFor(locale).length > 0 && (
+              <div className="mt-5 flex flex-wrap items-center gap-1" style={{ marginLeft: -13 }}>
+                {socialsFor(locale).map((s) => (
+                  <a
+                    key={s.kind}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="flex h-11 w-11 items-center justify-center transition-colors duration-200 hover:text-gold-2"
+                    style={{ color: 'rgba(238,240,240,0.7)' }}
+                  >
+                    <SocialIcon kind={s.kind} size={18} />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
@@ -84,17 +104,6 @@ export default function Footer({ locale }: { locale: Locale }) {
                   </a>
                 </li>
               ))}
-              <li>
-                <a
-                  href={YOUTUBE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${linkCls} inline-flex items-center gap-2`}
-                >
-                  <Youtube size={14} strokeWidth={1.5} />
-                  YouTube
-                </a>
-              </li>
               <li>
                 <a href={`mailto:${SITE.email}`} className={linkCls}>
                   {SITE.email}

@@ -24,6 +24,44 @@ export const SITE = {
 export const YOUTUBE_URL = 'https://www.youtube.com/channel/UCga6gXWL6YcDrefxO2t43Kg'
 
 // ---------------------------------------------------------------------------
+// Social platforms (small footer icon row). Only entries with a filled href
+// render, so the row grows as the client sends links. SWAP: paste the real
+// page/channel URLs as Toan provides them. The Telegram entry here is the
+// public broadcast CHANNEL (different from the RU contact chat above).
+// ---------------------------------------------------------------------------
+
+export type SocialKind = 'youtube' | 'facebook' | 'tiktok' | 'naver' | 'telegram'
+
+export interface SocialLink {
+  kind: SocialKind
+  /** Brand name, shown verbatim as the accessible label in every language. */
+  label: string
+  href: string
+}
+
+const SOCIALS: Record<SocialKind, SocialLink> = {
+  youtube: { kind: 'youtube', label: 'YouTube', href: YOUTUBE_URL },
+  facebook: { kind: 'facebook', label: 'Facebook', href: '' },
+  tiktok: { kind: 'tiktok', label: 'TikTok', href: '' },
+  naver: { kind: 'naver', label: 'Naver Blog', href: '' },
+  telegram: { kind: 'telegram', label: 'Telegram', href: '' },
+}
+
+// Per the client (2026-07-09): Korean pages show Naver Blog, Russian pages
+// the Telegram channel, English and Vietnamese pages YouTube + the Facebook
+// fanpage. Nothing else per locale.
+const SOCIAL_ORDER: Record<Locale, SocialKind[]> = {
+  en: ['youtube', 'facebook'],
+  vi: ['youtube', 'facebook'],
+  ko: ['naver'],
+  ru: ['telegram'],
+}
+
+export function socialsFor(locale: Locale): SocialLink[] {
+  return (SOCIAL_ORDER[locale] ?? SOCIAL_ORDER.en).map((k) => SOCIALS[k]).filter((s) => s.href)
+}
+
+// ---------------------------------------------------------------------------
 // Per-locale contact channels. VI and EN share the Zalo/WhatsApp number; the
 // Korean audience gets KakaoTalk and the Russian audience gets Telegram, each
 // on the second number.

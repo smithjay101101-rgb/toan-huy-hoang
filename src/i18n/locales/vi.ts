@@ -177,7 +177,7 @@ const vi: Dictionary = {
   about: {
     eyebrow: 'Giới Thiệu',
     headline: 'Chuyên gia bản địa, tiêu chuẩn toàn cầu.',
-    tldr: 'Mười hai năm tại Đà Nẵng, hàng trăm ngôi nhà, một nguyên tắc: quyết định đúng đắn trước mọi giao dịch.',
+    tldr: 'Mười hai năm tại Đà Nẵng, hơn một nghìn ngôi nhà, một nguyên tắc: quyết định đúng đắn trước mọi giao dịch.',
     body1:
       'Hơn mười hai năm qua, Toàn Huy Hoàng đã đồng hành cùng người mua và nhà đầu tư khắp Đà Nẵng, từ bãi biển yên bình Non Nước đến đường chân trời đang vươn lên bên sông Hàn.',
     body2:

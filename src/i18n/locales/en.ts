@@ -178,7 +178,7 @@ const en = {
   about: {
     eyebrow: 'About',
     headline: 'A local expert, a global standard.',
-    tldr: 'Twelve years in Da Nang, hundreds of homes, one principle: the right decision before any sale.',
+    tldr: 'Twelve years in Da Nang, over a thousand homes, one principle: the right decision before any sale.',
     body1:
       'For over twelve years, Toan Huy Hoang has guided buyers and investors through Da Nang, from the quiet beaches of Non Nuoc to the rising skyline along the Han River.',
     body2:
