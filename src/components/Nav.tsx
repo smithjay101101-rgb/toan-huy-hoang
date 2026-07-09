@@ -6,6 +6,7 @@ import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
 import { contactFor } from '@/config/site'
 import LanguageSwitcher from './LanguageSwitcher'
+import NavLocaleButton from './NavLocaleButton'
 import ChannelButton from './ChannelButton'
 
 const ITEMS = [
@@ -107,17 +108,22 @@ export default function Nav({ locale }: { locale: Locale }) {
           ))}
         </div>
 
-        {/* Mobile trigger */}
-        <button
-          type="button"
-          className="flex items-center justify-center text-text lg:hidden"
-          style={{ minWidth: 44, minHeight: 44 }}
-          aria-label={open ? t('nav.close') : t('nav.menu')}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
-        </button>
+        {/* Mobile controls: frosted language button beside the hamburger.
+            The language button is hidden while the overlay is open (the menu
+            carries its own switcher, and the X takes over). */}
+        <div className="flex items-center gap-2.5 lg:hidden">
+          {!open && <NavLocaleButton current={locale} />}
+          <button
+            type="button"
+            className="flex items-center justify-center text-text"
+            style={{ minWidth: 44, minHeight: 44 }}
+            aria-label={open ? t('nav.close') : t('nav.menu')}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+          </button>
+        </div>
       </nav>
     </header>
 
