@@ -47,7 +47,10 @@ export default function SonTra({ locale }: { locale: Locale }) {
     // down into the listing card. Scroll-driven travel is desktop-only.
     if (reduce || mobile) {
       if (img) img.style.transform = 'scale(1)'
-      head.style.transform = mobile ? 'translateY(13vh)' : 'translateY(calc(58vh - 40px))'
+      // Mobile: px floor clears the fixed nav even in its tall (expanded)
+      // state on short screens; the trimmed card below still leaves a wide
+      // gap for a 2-3 line RU/KO wrap. Desktop reduced-motion keeps it centered.
+      head.style.transform = mobile ? 'translateY(max(14vh, 116px))' : 'translateY(calc(58vh - 40px))'
       head.style.opacity = '1'
       return
     }
@@ -98,7 +101,7 @@ export default function SonTra({ locale }: { locale: Locale }) {
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ height: 'max(100vh, 720px)', background: 'var(--bg)', fontFamily: "'Jost', sans-serif" }}
+      style={{ height: 'max(100vh, 760px)', background: 'var(--bg)', fontFamily: "'Jost', sans-serif" }}
       aria-label={t('coast.eyebrow')}
     >
       <picture>
@@ -127,12 +130,13 @@ export default function SonTra({ locale }: { locale: Locale }) {
         aria-hidden="true"
       />
 
-      {/* Top seam: dark-to-dark blend from the hero above. */}
+      {/* Top seam: dark-to-dark blend from the hero above; also the headline's
+          readability bed. Deeper on mobile (where the big headline sits in it
+          over a bright photo) than on desktop. */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[38vh] lg:h-[20vh]"
         style={{
-          height: '20vh',
-          background: 'linear-gradient(180deg, #0d1a24 0%, rgba(13,26,36,0) 100%)',
+          background: 'linear-gradient(180deg, #0d1a24 0%, rgba(13,26,36,0.35) 45%, rgba(13,26,36,0) 100%)',
         }}
         aria-hidden="true"
       />
@@ -145,12 +149,14 @@ export default function SonTra({ locale }: { locale: Locale }) {
           style={{
             top: 0,
             left: 'clamp(24px, 5vw, 56px)',
-            transform: 'translateY(13vh)',
+            transform: 'translateY(max(14vh, 116px))',
             willChange: 'transform, opacity',
             maxWidth: '18ch',
             paddingRight: 24,
-            fontSize: 'clamp(37px, 7vw, 114px)',
-            lineHeight: 1.04,
+            // Smaller floor on phones (a 2-3 line RU/KO wrap must clear the
+            // card); desktop keeps the large cap.
+            fontSize: 'clamp(31px, 7vw, 114px)',
+            lineHeight: 1.06,
             letterSpacing: '0.01em',
             textWrap: 'balance',
             textShadow: '0 4px 40px rgba(0,0,0,0.45), 0 2px 12px rgba(0,0,0,0.4)',
@@ -175,24 +181,24 @@ export default function SonTra({ locale }: { locale: Locale }) {
             border: '1px solid rgba(255,255,255,0.22)',
           }}
         >
-          <div className="h-[190px] w-full overflow-hidden">
+          <div className="h-[160px] w-full overflow-hidden lg:h-[190px]">
             <PropertyImage image={listing.heroImage} sizes="340px" className="h-full w-full object-cover" />
           </div>
-          <div className="px-6 pb-6 pt-5">
+          <div className="px-6 pb-5 pt-4 lg:pb-6 lg:pt-5">
             <div
-              className="mb-3 text-[12px] font-medium uppercase tracking-[0.3em]"
+              className="mb-2 text-[12px] font-medium uppercase tracking-[0.3em] lg:mb-3"
               style={{ color: '#f4d488', textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
             >
               {t('sontra.cardEyebrow')} · {localizeDistrict(listing.district, locale)}
             </div>
             <div
-              className="mb-3 font-display text-[2rem] font-semibold leading-[1.04]"
+              className="mb-2 line-clamp-2 font-display text-[1.75rem] font-semibold leading-[1.08] lg:mb-3 lg:text-[2rem] lg:leading-[1.04]"
               style={{ textShadow: '0 2px 16px rgba(0,0,0,0.4)' }}
             >
               {pick(listing.title, locale)}
             </div>
             {/* No price on the flagship card: discretion sells the viewing. */}
-            <div className="mb-4 flex gap-3 text-[14px] font-light text-white/90">
+            <div className="mb-3 flex gap-3 text-[14px] font-light text-white/90 lg:mb-4">
               <span>
                 {listing.bedrooms} {t('listings.beds')}
               </span>
@@ -203,7 +209,7 @@ export default function SonTra({ locale }: { locale: Locale }) {
               <span className="opacity-40">·</span>
               <span>{listing.areaM2} m²</span>
             </div>
-            <p className="mb-5 text-[14px] font-light leading-[1.6] text-white/80">
+            <p className="mb-4 line-clamp-2 text-[14px] font-light leading-[1.55] text-white/80 lg:mb-5 lg:line-clamp-3">
               {pick(listing.shortDesc, locale)}
             </p>
             <div className="flex items-center justify-end border-t border-white/25 pt-4">
