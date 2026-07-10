@@ -41,7 +41,7 @@ export interface SocialLink {
 
 const SOCIALS: Record<SocialKind, SocialLink> = {
   youtube: { kind: 'youtube', label: 'YouTube', href: YOUTUBE_URL },
-  facebook: { kind: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/toanhuyhoangrealty' },
+  facebook: { kind: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/houseforrentdanangvietnam' },
   tiktok: { kind: 'tiktok', label: 'TikTok', href: '' },
   naver: { kind: 'naver', label: 'Naver Blog', href: '' },
   telegram: { kind: 'telegram', label: 'Telegram', href: 'https://t.me/danangluxuryrealty' },

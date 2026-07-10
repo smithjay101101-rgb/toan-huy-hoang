@@ -52,7 +52,10 @@ export default function Hero({ locale }: { locale: Locale }) {
         <h1
           className="font-display font-semibold text-text"
           style={{
-            fontSize: 'clamp(64px, 9vw, 148px)',
+            // Vietnamese lines run long (KHÁM PHÁ ĐÀ NẴNG), so VI gets its own
+            // smaller scale per the client; other languages keep the big one.
+            fontSize:
+              locale === 'vi' ? 'clamp(44px, 7vw, 112px)' : 'clamp(64px, 9vw, 148px)',
             // 1.03, not tighter: Vietnamese stacked diacritics (Đà Nẵng) and
             // Korean glyphs clip against the line above below ~1.0.
             lineHeight: 1.03,
