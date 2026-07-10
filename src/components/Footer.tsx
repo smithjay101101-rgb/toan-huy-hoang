@@ -53,7 +53,7 @@ export default function Footer({ locale }: { locale: Locale }) {
                 EN/VI: YouTube + fanpage). Small quiet icons; entries without a
                 link yet stay hidden. 44px tap boxes. */}
             {socialsFor(locale).length > 0 && (
-              <div className="mt-5 flex flex-wrap items-center gap-1" style={{ marginLeft: -13 }}>
+              <div className="mt-5 flex flex-wrap items-center gap-2" style={{ marginLeft: -12 }}>
                 {socialsFor(locale).map((s) => (
                   <a
                     key={s.kind}
@@ -61,10 +61,10 @@ export default function Footer({ locale }: { locale: Locale }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="flex h-11 w-11 items-center justify-center transition-colors duration-200 hover:text-gold-2"
-                    style={{ color: 'rgba(238,240,240,0.7)' }}
+                    className="flex h-12 w-12 items-center justify-center transition-colors duration-200 hover:text-gold-2"
+                    style={{ color: 'rgba(238,240,240,0.85)' }}
                   >
-                    <SocialIcon kind={s.kind} size={18} />
+                    <SocialIcon kind={s.kind} size={26} />
                   </a>
                 ))}
               </div>
