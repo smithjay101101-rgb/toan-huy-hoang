@@ -4,7 +4,7 @@ import type { Dictionary } from './en'
 const ru: Dictionary = {
   meta: {
     home: {
-      title: 'Toan Huy Hoang. Элитная недвижимость в Дананге.',
+      title: 'Toan Huy Hoang - Элитная недвижимость в Дананге',
       description:
         'Элитная недвижимость, инвестиционные возможности и исключительная жизнь в Дананге, Вьетнам. Личное сопровождение от Toan Huy Hoang.',
     },

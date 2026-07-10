@@ -5,7 +5,7 @@ import type { Dictionary } from './en'
 const ko: Dictionary = {
   meta: {
     home: {
-      title: '또안 후이 호앙. 다낭 럭셔리 부동산.',
+      title: '또안 후이 호앙 - 다낭 럭셔리 부동산',
       description:
         '베트남 다낭의 럭셔리 부동산, 투자 기회, 그리고 특별한 삶. 또안 후이 호앙의 프라이빗 컨설팅.',
     },

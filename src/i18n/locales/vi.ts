@@ -5,7 +5,7 @@ import type { Dictionary } from './en'
 const vi: Dictionary = {
   meta: {
     home: {
-      title: 'Toan Huy Hoang. Bất Động Sản Cao Cấp Đà Nẵng.',
+      title: 'Toan Huy Hoang - Bất Động Sản Cao Cấp Đà Nẵng',
       description:
         'Bất động sản cao cấp, cơ hội đầu tư và cuộc sống khác biệt tại Đà Nẵng. Tư vấn riêng tư cùng Toàn Huy Hoàng.',
     },

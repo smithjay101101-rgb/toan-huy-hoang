@@ -3,7 +3,7 @@
 const en = {
   meta: {
     home: {
-      title: 'Toan Huy Hoang. Luxury Real Estate in Da Nang.',
+      title: 'Toan Huy Hoang - Luxury Real Estate In Da Nang',
       description:
         'Luxury properties, investment opportunities, and exceptional living in Da Nang, Vietnam. Private guidance from Toan Huy Hoang.',
     },
