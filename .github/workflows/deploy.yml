@@ -12,10 +12,12 @@ on:
       # (their cron is punctual; GitHub throttles */5 schedules to ~hourly) and
       # by the "Update website" button in Airtable for on-demand publishes.
       - airtable-poll
-  # Backup poll on GitHub's own cron, at off-peak minutes which get much
-  # better treatment than */5. The Cloudflare Worker is the primary driver.
+  # Backup poll on GitHub's own cron. Every 4 hours only: the repo is PRIVATE,
+  # so Actions minutes are metered (2,000/month free) and the old 4x/hour poll
+  # would burn ~5,000. The "Update website" button in Airtable remains the
+  # instant publish path; this cron just catches forgotten button presses.
   schedule:
-    - cron: '6,21,36,51 * * * *'
+    - cron: '21 */4 * * *'
 
 # Don't pile up deploys. Real deploy events (push, manual, instant hook) may
 # cancel an in-flight run; fingerprint-gated polls must never cancel one (a
