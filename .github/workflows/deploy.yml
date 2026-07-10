@@ -96,7 +96,7 @@ jobs:
       - name: Build
         if: ${{ !((github.event_name == 'schedule' || github.event.action == 'airtable-poll') && steps.fresh.outputs.changed == 'no') }}
         env:
-          SITE_URL: https://smithjay101101-rgb.github.io
+          SITE_URL: https://toanrealestate.com
         run: |
           node scripts/gen-sitemap.mjs
           npx vite-react-ssg build
@@ -119,6 +119,9 @@ jobs:
           publish_branch: main
           publish_dir: ./dist
           force_orphan: true
+          # Writes the CNAME file on every publish so the custom domain sticks
+          # (force_orphan replaces the whole tree, which would otherwise wipe it).
+          cname: toanrealestate.com
           commit_message: "Deploy from toan-huy-hoang@${{ github.sha }}"
 
       # GitHub Pages' branch publisher flakes with "Deployment failed, try

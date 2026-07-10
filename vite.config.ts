@@ -8,9 +8,9 @@ export default defineConfig({
   plugins: [react()],
   // Single source of truth for the live origin. The same SITE_URL drives the
   // sitemap (scripts/gen-sitemap.mjs) and the canonical/OG tags (via SITE.url),
-  // so they can never disagree. Defaults to the GitHub Pages domain.
+  // so they can never disagree. The custom domain (Cloudflare -> GitHub Pages).
   define: {
-    __SITE_URL__: JSON.stringify(process.env.SITE_URL || 'https://smithjay101101-rgb.github.io'),
+    __SITE_URL__: JSON.stringify(process.env.SITE_URL || 'https://toanrealestate.com'),
   },
   resolve: {
     alias: {
