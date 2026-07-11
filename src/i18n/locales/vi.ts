@@ -7,7 +7,7 @@ const vi: Dictionary = {
     home: {
       title: 'Toan Huy Hoang - Bất Động Sản Cao Cấp Đà Nẵng',
       description:
-        'Bất động sản cao cấp, cơ hội đầu tư và cuộc sống khác biệt tại Đà Nẵng. Tư vấn riêng tư cùng Toàn Huy Hoàng.',
+        'Bất động sản cao cấp, cơ hội đầu tư và cuộc sống khác biệt tại Đà Nẵng. Tư vấn riêng tư cùng Toan Huy Hoang.',
     },
     buy: {
       title: 'Bất Động Sản Bán Tại Đà Nẵng. Toan Huy Hoang.',
@@ -25,12 +25,12 @@ const vi: Dictionary = {
         'Những dự án mang tính biểu tượng và cơ hội đầu tư định hình tương lai ven biển Đà Nẵng.',
     },
     about: {
-      title: 'Về Toàn Huy Hoàng. Bất Động Sản Đà Nẵng.',
+      title: 'Về Toan Huy Hoang. Bất Động Sản Đà Nẵng.',
       description:
         'Mười hai năm đồng hành cùng người mua và nhà đầu tư tại Đà Nẵng. Người sáng lập, cố vấn, chuyên gia địa phương đáng tin cậy.',
     },
     contact: {
-      title: 'Liên Hệ Toàn Huy Hoàng. Đà Nẵng.',
+      title: 'Liên Hệ Toan Huy Hoang. Đà Nẵng.',
       description:
         'Bắt đầu một cuộc trò chuyện riêng tư về bất động sản và đầu tư tại Đà Nẵng.',
     },
@@ -49,7 +49,7 @@ const vi: Dictionary = {
   hero: {
     line1: 'Khám phá',
     line2: 'Đà Nẵng',
-    line3: 'cùng Toàn',
+    line3: 'cùng Toan',
     subhead:
       'Bất động sản cao cấp, cơ hội đầu tư và cuộc sống khác biệt tại thành phố ven biển sôi động nhất Việt Nam.',
     buy: 'Mua Bất Động Sản',
@@ -66,8 +66,8 @@ const vi: Dictionary = {
   },
   meet: {
     eyebrow: 'Gặp Chuyên Viên Của Bạn',
-    name: 'Toàn Huy Hoàng',
-    bio: 'Một chuyên viên bất động sản Đà Nẵng đáng tin cậy với hơn 12 năm kinh nghiệm giúp khách hàng mua ngôi nhà mơ ước hoặc tìm nơi thuê hoàn hảo. Toàn và đội ngũ đồng hành cùng bạn trong từng bước.',
+    name: 'Toan Huy Hoang',
+    bio: 'Một chuyên viên bất động sản Đà Nẵng đáng tin cậy với hơn 12 năm kinh nghiệm giúp khách hàng mua ngôi nhà mơ ước hoặc tìm nơi thuê hoàn hảo. Toan và đội ngũ đồng hành cùng bạn trong từng bước.',
     statYears: 'Năm Kinh Nghiệm',
     statHomes: 'Giao Dịch Thành Công',
     cta: 'Liên Hệ Ngay →',
@@ -79,10 +79,10 @@ const vi: Dictionary = {
   },
   founder: {
     eyebrow: 'Người Sáng Lập',
-    name: 'Toàn Huy Hoàng',
+    name: 'Toan Huy Hoang',
     headline: 'Người đồng hành đáng tin cậy của bạn tại Đà Nẵng.',
     body:
-      'Toàn Huy Hoàng tư vấn cho người mua, nhà đầu tư và các gia đình với sự kín đáo của một chuyên viên ngân hàng tư nhân và trực giác của một người con bản địa. Không phải người bán hàng. Một người đồng hành hiểu rõ vùng đất này đang đi về đâu.',
+      'Toan Huy Hoang tư vấn cho người mua, nhà đầu tư và các gia đình với sự kín đáo của một chuyên viên ngân hàng tư nhân và trực giác của một người con bản địa. Không phải người bán hàng. Một người đồng hành hiểu rõ vùng đất này đang đi về đâu.',
     quote:
       'Mục tiêu của tôi không chỉ là giúp bạn mua bất động sản. Mục tiêu của tôi là giúp bạn đầu tư đúng đắn tại một trong những thành phố ven biển hấp dẫn nhất châu Á.',
     stats: {
@@ -163,7 +163,7 @@ const vi: Dictionary = {
     relatedProjects: 'Dự án nổi bật',
     inquireTitle: 'Đặt lịch xem riêng',
     inquireBody:
-      'Trao đổi trực tiếp với Toàn Huy Hoàng. Không áp lực, không ràng buộc. Chỉ có sự tư vấn tận tâm.',
+      'Trao đổi trực tiếp với Toan Huy Hoang. Không áp lực, không ràng buộc. Chỉ có sự tư vấn tận tâm.',
     inquireOn: 'Nhắn tin qua {{channel}}',
     backTo: 'Trở lại tất cả bất động sản',
   },
@@ -179,7 +179,7 @@ const vi: Dictionary = {
     headline: 'Chuyên gia bản địa, tiêu chuẩn toàn cầu.',
     tldr: 'Mười hai năm tại Đà Nẵng, hơn một nghìn ngôi nhà, một nguyên tắc: quyết định đúng đắn trước mọi giao dịch.',
     body1:
-      'Hơn mười hai năm qua, Toàn Huy Hoàng đã đồng hành cùng người mua và nhà đầu tư khắp Đà Nẵng, từ bãi biển yên bình Non Nước đến đường chân trời đang vươn lên bên sông Hàn.',
+      'Hơn mười hai năm qua, Toan Huy Hoang đã đồng hành cùng người mua và nhà đầu tư khắp Đà Nẵng, từ bãi biển yên bình Non Nước đến đường chân trời đang vươn lên bên sông Hàn.',
     body2:
       'Triết lý rất đơn giản. Hiểu con người trước khi hiểu bất động sản. Nắm rõ các quận, các chủ đầu tư và hướng đi của thị trường. Sau đó tư vấn trung thực, kể cả khi câu trả lời trung thực là hãy chờ đợi.',
     valuesTitle: 'Cách chúng tôi làm việc',
@@ -229,7 +229,7 @@ const vi: Dictionary = {
     messagePlaceholder: 'Bạn đang tìm kiếm điều gì tại Đà Nẵng?',
     send: 'Gửi Yêu Cầu',
     orMessageOn: 'Hoặc nhắn trực tiếp qua {{channel}}',
-    prefill: 'Chào anh Toàn, tôi quan tâm và muốn được tư vấn bất động sản.',
+    prefill: 'Chào anh Toan, tôi quan tâm và muốn được tư vấn bất động sản.',
     promise1: 'Phản hồi cá nhân trong vòng một ngày làm việc',
     promise2: 'Không áp lực, không ràng buộc, hoàn toàn riêng tư',
     promise3: 'Hỗ trợ tiếng Việt, Anh, Nga và Hàn',
@@ -262,7 +262,7 @@ const vi: Dictionary = {
     nav: 'Điều Hướng',
     legal: 'Đây là trang giới thiệu thương hiệu. Thông tin bất động sản mang tính tham khảo.',
     rights: 'Bảo lưu mọi quyền.',
-    signature: 'Toàn Huy Hoàng',
+    signature: 'Toan Huy Hoang',
     eyebrow: 'Đà Nẵng · Việt Nam',
     closing: 'Tìm chốn an cư bên biển của bạn.',
     book: 'Đặt Lịch Tư Vấn →',

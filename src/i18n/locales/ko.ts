@@ -5,32 +5,32 @@ import type { Dictionary } from './en'
 const ko: Dictionary = {
   meta: {
     home: {
-      title: '또안 후이 호앙 - 다낭 럭셔리 부동산',
+      title: 'Toan Huy Hoang - 다낭 럭셔리 부동산',
       description:
-        '베트남 다낭의 럭셔리 부동산, 투자 기회, 그리고 특별한 삶. 또안 후이 호앙의 프라이빗 컨설팅.',
+        '베트남 다낭의 럭셔리 부동산, 투자 기회, 그리고 특별한 삶. Toan Huy Hoang의 프라이빗 컨설팅.',
     },
     buy: {
-      title: '다낭 매매 부동산. 또안 후이 호앙.',
+      title: '다낭 매매 부동산. Toan Huy Hoang.',
       description:
         '다낭 전역의 빌라, 아파트, 토지를 엄선한 매물. 라이프스타일을 먼저, 투자 가치는 확실하게.',
     },
     rent: {
-      title: '다낭 럭셔리 임대. 또안 후이 호앙.',
+      title: '다낭 럭셔리 임대. Toan Huy Hoang.',
       description:
         '다낭의 특별한 임대 주택. 해안 빌라, 스카이라인 아파트, 그리고 사려 깊은 삶.',
     },
     projects: {
-      title: '다낭 개발 프로젝트. 또안 후이 호앙.',
+      title: '다낭 개발 프로젝트. Toan Huy Hoang.',
       description:
         '다낭 해안의 미래를 만들어가는 랜드마크 개발과 투자 기회.',
     },
     about: {
-      title: '또안 후이 호앙 소개. 다낭 부동산.',
+      title: 'Toan Huy Hoang 소개. 다낭 부동산.',
       description:
         '12년간 다낭에서 매수자와 투자자를 안내해 온 창립자이자 자문, 신뢰받는 현지 전문가.',
     },
     contact: {
-      title: '또안 후이 호앙에게 문의. 다낭.',
+      title: 'Toan Huy Hoang에게 문의. 다낭.',
       description:
         '다낭의 부동산과 투자에 관한 프라이빗 상담을 시작하세요.',
     },
@@ -49,7 +49,7 @@ const ko: Dictionary = {
   hero: {
     line1: '다낭을',
     line2: '발견하다',
-    line3: '또안과 함께',
+    line3: 'Toan과 함께',
     subhead:
       '베트남에서 가장 역동적인 해안 도시의 럭셔리 부동산, 투자 기회, 그리고 특별한 삶.',
     buy: '부동산 매매',
@@ -66,8 +66,8 @@ const ko: Dictionary = {
   },
   meet: {
     eyebrow: '담당 에이전트 소개',
-    name: '또안 후이 호앙',
-    bio: '12년 이상의 경험으로 고객이 꿈의 집을 사거나 완벽한 임대를 찾도록 돕는 신뢰받는 다낭 부동산 에이전트. 또안과 그의 팀이 모든 단계를 함께합니다.',
+    name: 'Toan Huy Hoang',
+    bio: '12년 이상의 경험으로 고객이 꿈의 집을 사거나 완벽한 임대를 찾도록 돕는 신뢰받는 다낭 부동산 에이전트. Toan과 그의 팀이 모든 단계를 함께합니다.',
     statYears: '년 경력',
     statHomes: '거래 완료 주택',
     cta: '문의하기 →',
@@ -79,10 +79,10 @@ const ko: Dictionary = {
   },
   founder: {
     eyebrow: '창립자',
-    name: '또안 후이 호앙',
+    name: 'Toan Huy Hoang',
     headline: '다낭 부동산의 신뢰할 수 있는 파트너.',
     body:
-      '또안 후이 호앙은 프라이빗 뱅커의 신중함과 평생 현지인의 직관으로 매수자, 투자자, 가족을 자문합니다. 단순한 영업자가 아니라, 이 해안이 어디로 향하는지 아는 파트너입니다.',
+      'Toan Huy Hoang은 프라이빗 뱅커의 신중함과 평생 현지인의 직관으로 매수자, 투자자, 가족을 자문합니다. 단순한 영업자가 아니라, 이 해안이 어디로 향하는지 아는 파트너입니다.',
     quote:
       '제 목표는 단순히 부동산을 사도록 돕는 것이 아닙니다. 아시아에서 가장 역동적인 해안 도시 중 한 곳에서 올바른 투자를 하도록 돕는 것입니다.',
     stats: {
@@ -164,7 +164,7 @@ const ko: Dictionary = {
     relatedProjects: '주요 프로젝트',
     inquireTitle: '프라이빗 투어 예약',
     inquireBody:
-      '또안 후이 호앙과 직접 상담하세요. 부담도, 의무도 없습니다. 오직 사려 깊은 안내만 있습니다.',
+      'Toan Huy Hoang과 직접 상담하세요. 부담도, 의무도 없습니다. 오직 사려 깊은 안내만 있습니다.',
     inquireOn: '{{channel}} 메시지 보내기',
     backTo: '전체 매물로 돌아가기',
   },
@@ -180,7 +180,7 @@ const ko: Dictionary = {
     headline: '현지 전문가, 글로벌 기준.',
     tldr: '다낭에서의 12년, 천 채가 넘는 주택, 하나의 원칙: 어떤 거래보다 올바른 결정이 먼저입니다.',
     body1:
-      '12년 이상 또안 후이 호앙은 논느억의 고요한 해변부터 한강을 따라 떠오르는 스카이라인까지, 다낭에서 매수자와 투자자를 안내해 왔습니다.',
+      '12년 이상 Toan Huy Hoang은 논느억의 고요한 해변부터 한강을 따라 떠오르는 스카이라인까지, 다낭에서 매수자와 투자자를 안내해 왔습니다.',
     body2:
       '방식은 단순합니다. 부동산보다 사람을 먼저 이해합니다. 지역과 개발사, 그리고 시장의 방향을 압니다. 그리고 정직하게 자문합니다. 정직한 답이 기다리라는 것일 때조차도.',
     valuesTitle: '저희의 방식',
@@ -230,7 +230,7 @@ const ko: Dictionary = {
     messagePlaceholder: '다낭에서 무엇을 찾고 계신가요?',
     send: '문의 보내기',
     orMessageOn: '또는 {{channel}} 바로 메시지 보내기',
-    prefill: '안녕하세요 또안님, 부동산 문의에 관심이 있습니다.',
+    prefill: '안녕하세요 Toan님, 부동산 문의에 관심이 있습니다.',
     promise1: '영업일 기준 하루 안에 직접 답변',
     promise2: '부담도, 의무도 없이 완전히 비공개로',
     promise3: '영어, 베트남어, 러시아어, 한국어 상담 가능',
@@ -263,7 +263,7 @@ const ko: Dictionary = {
     nav: '메뉴',
     legal: '본 페이지는 브랜드 소개입니다. 부동산 정보는 참고용입니다.',
     rights: '모든 권리 보유.',
-    signature: '또안 후이 호앙',
+    signature: 'Toan Huy Hoang',
     eyebrow: '다낭 · 베트남',
     closing: '바닷가의 당신의 자리를 찾아드립니다.',
     book: '상담 예약하기 →',
