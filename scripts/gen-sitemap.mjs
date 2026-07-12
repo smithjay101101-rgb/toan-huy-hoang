@@ -24,28 +24,36 @@ ${links}
 }
 
 async function main() {
-  let slugs = []
+  let listings = []
   try {
     const raw = await readFile(join(ROOT, 'src', 'data', 'listings.json'), 'utf8')
-    slugs = JSON.parse(raw).map((l) => l.slug)
+    listings = JSON.parse(raw)
   } catch {
     // no data yet, sitemap will contain static pages only
   }
 
-  const paths = [
-    ...STATIC.map((s) => (s ? `/${s}` : '')),
-    ...slugs.map((slug) => `/property/${slug}`),
-  ]
-
   const entries = []
-  for (const sub of paths) {
+  // Static pages: the path is identical across locales.
+  for (const s of STATIC) {
+    const sub = s ? `/${s}` : ''
     for (const locale of LOCALES) {
-      const localized = `/${locale}${sub}`
       const alternates = [
         ...LOCALES.map((l) => ({ lang: l, path: `/${l}${sub}` })),
         { lang: 'x-default', path: `/en${sub}` },
       ]
-      entries.push(urlEntry(localized, alternates))
+      entries.push(urlEntry(`/${locale}${sub}`, alternates))
+    }
+  }
+  // Listings: each locale may carry its own slug (slugs.vi/.ru/.ko, fallback
+  // to the base slug), so loc and hreflang alternates are built per locale.
+  for (const l of listings) {
+    const subFor = (loc) => `/property/${l.slugs?.[loc] ?? l.slug}`
+    for (const locale of LOCALES) {
+      const alternates = [
+        ...LOCALES.map((x) => ({ lang: x, path: `/${x}${subFor(x)}` })),
+        { lang: 'x-default', path: `/en${subFor('en')}` },
+      ]
+      entries.push(urlEntry(`/${locale}${subFor(locale)}`, alternates))
     }
   }
 
@@ -62,13 +70,13 @@ async function main() {
     if (locs.length === 0) continue
     const xdef = locs.includes('en') ? 'en' : locs[0]
     const lastmod = g.updatedDate || g.publishedDate
-    const sub = `/guides/${g.slug}`
+    const subFor = (loc) => `/guides/${g.slugs?.[loc] ?? g.slug}`
     for (const locale of locs) {
       const alternates = [
-        ...locs.map((l) => ({ lang: l, path: `/${l}${sub}` })),
-        { lang: 'x-default', path: `/${xdef}${sub}` },
+        ...locs.map((l) => ({ lang: l, path: `/${l}${subFor(l)}` })),
+        { lang: 'x-default', path: `/${xdef}${subFor(xdef)}` },
       ]
-      entries.push(urlEntry(`/${locale}${sub}`, alternates, lastmod))
+      entries.push(urlEntry(`/${locale}${subFor(locale)}`, alternates, lastmod))
     }
   }
 

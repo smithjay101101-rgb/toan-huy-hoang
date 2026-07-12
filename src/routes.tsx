@@ -10,8 +10,8 @@ import GuidesIndex from '@/pages/GuidesIndex'
 import GuideDetail from '@/pages/GuideDetail'
 import RootRedirect from '@/pages/RootRedirect'
 import { LOCALES, type Locale } from '@/i18n'
-import { getAllSlugs } from '@/data'
-import { getGuidesForLocale } from '@/data/guides'
+import { getAllSlugsFor } from '@/data'
+import { getGuidesForLocale, guideSlugFor } from '@/data/guides'
 
 // Build the page set for one locale. Paths are relative to the Layout at '/'.
 function localeRoutes(locale: string): RouteRecord[] {
@@ -27,17 +27,22 @@ function localeRoutes(locale: string): RouteRecord[] {
       path: `/${locale}/property/:slug`,
       Component: PropertyDetail,
       entry: 'src/pages/PropertyDetail.tsx',
-      // One prerendered page per published listing per locale.
-      getStaticPaths: () => getAllSlugs().map((slug) => `/${locale}/property/${slug}`),
+      // One prerendered page per published listing per locale, under that
+      // locale's own slug when one exists.
+      getStaticPaths: () =>
+        getAllSlugsFor(locale as Locale).map((slug) => `/${locale}/property/${slug}`),
     },
     { path: `/${locale}/guides`, Component: GuidesIndex, entry: 'src/pages/GuidesIndex.tsx' },
     {
       path: `/${locale}/guides/:slug`,
       Component: GuideDetail,
       entry: 'src/pages/GuideDetail.tsx',
-      // One prerendered page per guide, but only for locales that guide exists in.
+      // One prerendered page per guide, only for locales that guide exists in,
+      // under that locale's own slug.
       getStaticPaths: () =>
-        getGuidesForLocale(locale as Locale).map((g) => `/${locale}/guides/${g.slug}`),
+        getGuidesForLocale(locale as Locale).map(
+          (g) => `/${locale}/guides/${guideSlugFor(g, locale as Locale)}`,
+        ),
     },
   ]
 }

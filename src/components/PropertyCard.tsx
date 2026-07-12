@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { Listing, ImageAsset } from '@/data/types'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
+import { slugFor } from '@/data'
 import { formatPriceParts, pick } from '@/lib/format'
 import { useCurrency } from '@/lib/currency'
 import { mediaSrcSet } from '@/lib/media'
@@ -19,7 +20,7 @@ interface Props {
 
 export default function PropertyCard({ listing, locale, feature = false, priority = false }: Props) {
   const { t } = useTranslation()
-  const href = localePath(locale, `property/${listing.slug}`)
+  const href = localePath(locale, `property/${slugFor(listing, locale)}`)
   const { usd, vnd } = formatPriceParts(listing, locale)
   const { currency } = useCurrency()
   // The toggled currency leads; the other stays as the small line below.

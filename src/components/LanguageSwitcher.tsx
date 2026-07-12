@@ -1,20 +1,15 @@
 import { Link, useLocation } from 'react-router-dom'
-import { LOCALES, LOCALE_LABEL, swapLocaleInPath, type Locale } from '@/i18n'
-import { localePath } from '@/lib/locale'
-import { getGuideBySlug } from '@/data/guides'
+import { LOCALES, LOCALE_LABEL, type Locale } from '@/i18n'
+import { localeHref } from '@/lib/locale'
 
 /**
- * Language switch that preserves the current path in the target locale. Guides
- * only exist in the locales they are translated into, so on a guide page the
- * switch sends missing locales to that language's guides index instead of a
- * URL that would 404 on the static host.
+ * Language switch that preserves the current page in the target locale.
+ * localeHref maps detail-page slugs to each locale's own slug and sends
+ * guides missing in a locale to that language's guides index.
  */
 export default function LanguageSwitcher({ current, compact = false }: { current: Locale; compact?: boolean }) {
   const { pathname } = useLocation()
-  const guideSlug = pathname.match(/^\/[a-z]{2}\/guides\/([^/]+)$/)?.[1]
-  const guide = guideSlug ? getGuideBySlug(guideSlug) : undefined
-  const hrefFor = (l: Locale) =>
-    guide && !guide.locales[l] ? localePath(l, 'guides') : swapLocaleInPath(pathname, l)
+  const hrefFor = (l: Locale) => localeHref(pathname, l)
   // Touch contexts (mobile menu, footer) get 44x44 tap boxes with an 8px gap.
   // The desktop nav bar passes `compact`: mouse context on a tight horizontal
   // budget — the wide boxes there squeeze the menu until VI labels wrap.

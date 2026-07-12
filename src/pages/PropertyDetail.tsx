@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeft, BedDouble, Bath, Maximize, MapPin, Hash, Youtube } from 'lucide-react'
 import { useLocale } from '@/lib/locale'
 import { localePath } from '@/lib/locale'
-import { getListingBySlug, getListings } from '@/data'
+import { getListingBySlug, getListings, slugFor } from '@/data'
+import { LOCALES, type Locale } from '@/i18n'
 import PropertyCard from '@/components/PropertyCard'
 import { formatPriceParts, formatArea, pick } from '@/lib/format'
 import { useCurrency } from '@/lib/currency'
@@ -82,10 +83,15 @@ export default function PropertyDetail() {
   return (
     <>
       <Seo
-        title={`${title}. ${district}, Da Nang.`}
+        title={`${title} - ${district}, Da Nang`}
         description={pick(listing.shortDesc, locale)}
         image={listing.heroImage.og ?? listing.heroImage.avif ?? listing.heroImage.src}
         type="article"
+        alternatePaths={
+          Object.fromEntries(
+            LOCALES.map((l) => [l, localePath(l, `property/${slugFor(listing, l)}`)]),
+          ) as Partial<Record<Locale, string>>
+        }
       />
       <JsonLd
         data={[
@@ -95,7 +101,7 @@ export default function PropertyDetail() {
               name: t(isProject ? 'nav.projects' : 'nav.' + listing.dealType),
               path: localePath(locale, isProject ? 'projects' : listing.dealType),
             },
-            { name: title, path: localePath(locale, `property/${listing.slug}`) },
+            { name: title, path: localePath(locale, `property/${slugFor(listing, locale)}`) },
           ]),
         ]}
       />

@@ -1,5 +1,7 @@
 import { SITE, CONTACTS, YOUTUBE_URL } from '@/config/site'
 import { localePath } from '@/lib/locale'
+import { slugFor } from '@/data'
+import { guideSlugFor } from '@/data/guides'
 import { formatArea, pick } from '@/lib/format'
 import type { Listing, Guide, GuideContent } from '@/data/types'
 import type { Locale } from '@/i18n'
@@ -47,7 +49,7 @@ export function listingSchema(listing: Listing, locale: Locale) {
     '@type': 'RealEstateListing',
     name: pick(listing.title, locale),
     description: pick(listing.shortDesc, locale),
-    url: SITE.url + localePath(locale, `property/${listing.slug}`),
+    url: SITE.url + localePath(locale, `property/${slugFor(listing, locale)}`),
     image: SITE.url + (listing.heroImage?.og ?? listing.heroImage?.avif ?? listing.heroImage?.src ?? ''),
     datePosted: listing.datePublished,
     offers: {
@@ -117,7 +119,7 @@ export function blogPostingSchema(guide: Guide, locale: Locale, content: GuideCo
     ...(guide.coverImage ? { image: SITE.url + (guide.coverImage.og ?? guide.coverImage.avif ?? guide.coverImage.src) } : {}),
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': SITE.url + localePath(locale, `guides/${guide.slug}`),
+      '@id': SITE.url + localePath(locale, `guides/${guideSlugFor(guide, locale)}`),
     },
   }
 }

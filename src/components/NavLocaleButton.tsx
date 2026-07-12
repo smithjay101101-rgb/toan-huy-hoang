@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ChevronDown } from 'lucide-react'
-import { LOCALES, LOCALE_LABEL, swapLocaleInPath, type Locale } from '@/i18n'
-import { localePath } from '@/lib/locale'
-import { getGuideBySlug } from '@/data/guides'
+import { LOCALES, LOCALE_LABEL, type Locale } from '@/i18n'
+import { localeHref } from '@/lib/locale'
 
 /**
  * Mobile-only language control for the top bar, sitting beside the hamburger.
@@ -28,10 +27,7 @@ export default function NavLocaleButton({ current }: { current: Locale }) {
     return () => document.removeEventListener('pointerdown', onDown)
   }, [open])
 
-  const guideSlug = pathname.match(/^\/[a-z]{2}\/guides\/([^/]+)$/)?.[1]
-  const guide = guideSlug ? getGuideBySlug(guideSlug) : undefined
-  const hrefFor = (l: Locale) =>
-    guide && !guide.locales[l] ? localePath(l, 'guides') : swapLocaleInPath(pathname, l)
+  const hrefFor = (l: Locale) => localeHref(pathname, l)
 
   return (
     <div ref={ref} className="relative lg:hidden">

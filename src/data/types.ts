@@ -41,6 +41,11 @@ export interface Localized {
 export interface Listing {
   id: string
   slug: string
+  /**
+   * Per-locale URL slugs (Airtable columns slug_vi / slug_ru / slug_ko), for
+   * localized SEO URLs. A missing locale falls back to `slug`.
+   */
+  slugs?: Partial<Record<Locale, string>>
   /** Short property reference (e.g. "TH-101") the agent quotes to clients. */
   code?: string | null
   title: Localized
@@ -113,6 +118,8 @@ export interface GuideContent {
 
 export interface Guide {
   slug: string
+  /** Per-locale URL slugs (Airtable Slug_VI/_RU/_KO); fallback = `slug`. */
+  slugs?: Partial<Record<Locale, string>>
   category: GuideCategory
   /** Old-site URL paths (Airtable Old_URL) redirected here after cutover. */
   oldPaths?: string[]

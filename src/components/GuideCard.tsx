@@ -4,7 +4,7 @@ import type { Guide } from '@/data/types'
 import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
 import { formatDate } from '@/lib/format'
-import { GUIDE_CATEGORY_KEY } from '@/data/guides'
+import { GUIDE_CATEGORY_KEY, guideSlugFor } from '@/data/guides'
 import PropertyImage from './PropertyImage'
 
 /**
@@ -15,7 +15,7 @@ export default function GuideCard({ guide, locale }: { guide: Guide; locale: Loc
   const { t } = useTranslation()
   const c = guide.locales[locale]
   if (!c) return null
-  const href = localePath(locale, `guides/${guide.slug}`)
+  const href = localePath(locale, `guides/${guideSlugFor(guide, locale)}`)
   const category = t(`guides.categories.${GUIDE_CATEGORY_KEY[guide.category]}`)
 
   return (

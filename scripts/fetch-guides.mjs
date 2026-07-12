@@ -36,6 +36,9 @@ const LOCALES = [
 function slugify(s) {
   return String(s)
     .toLowerCase()
+    // NFD leaves the Vietnamese d-with-stroke intact (it is not a combining
+    // sequence), so map it by hand or "Da Nang" arrives as "a-nang".
+    .replace(/\u0111/g, 'd')
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
@@ -101,11 +104,51 @@ async function buildFromAirtable() {
   const sharp = (await import('sharp')).default
   const records = await fetchRecords()
   const out = []
+  // ONE global URL namespace across base + localized slugs of every guide:
+  // getGuideBySlug matches any slug of any guide regardless of locale, so two
+  // guides sharing a value in ANY locale would silently render the same
+  // article. The same slug on the same guide (e.g. identical Slug_VI and
+  // Slug_RU) is fine — both URLs resolve to that guide.
+  const slugOwner = new Map() // slug -> record id
+  const claim = (want, id) => {
+    let s = want
+    if (slugOwner.has(s) && slugOwner.get(s) !== id) {
+      let i = 2
+      while (slugOwner.has(`${want}-${i}`)) i++
+      s = `${want}-${i}`
+    }
+    slugOwner.set(s, id)
+    return s
+  }
+  // Pass 1: every guide claims its base slug before any localized slug is
+  // considered, so dedup cannot depend on row order (an early row's Slug_VI
+  // must never steal a later row's base URL).
+  const baseSlug = new Map()
   for (const rec of records) {
     const f = rec.fields
-    const slug = f.Slug ? slugify(f.Slug) : slugify(f.Title_EN ?? rec.id)
+    baseSlug.set(rec.id, claim(f.Slug ? slugify(f.Slug) : slugify(f.Title_EN ?? rec.id), rec.id))
+  }
+  for (const rec of records) {
+    const f = rec.fields
+    const slug = baseSlug.get(rec.id)
     const locales = buildLocales(f)
     if (Object.keys(locales).length === 0) continue // nothing fully translated, skip
+    // Localized URL slugs (columns Slug_VI / Slug_RU / Slug_KO); missing,
+    // junk, or duplicate ones fall back to the base slug.
+    const slugs = {}
+    for (const [loc, S] of [['vi', 'VI'], ['ru', 'RU'], ['ko', 'KO']]) {
+      const raw = f[`Slug_${S}`]
+      if (!raw) continue
+      const s = slugify(raw)
+      // Cyrillic/Hangul input strips to little or nothing under the a-z0-9
+      // slugifier; a residue under 3 chars is junk, not a usable URL.
+      if (!s || s.length < 3) {
+        console.warn(`[guides] ${slug}: Slug_${S} "${raw}" unusable after slugify, falling back to base slug`)
+        continue
+      }
+      if (s === slug) continue
+      slugs[loc] = claim(s, rec.id)
+    }
     let coverImage = null
     if (Array.isArray(f.Cover_Image) && f.Cover_Image[0]) {
       const alt = locales.en?.title ?? Object.values(locales)[0].title
@@ -114,6 +157,7 @@ async function buildFromAirtable() {
     const published = f.Published_Date ?? new Date().toISOString().slice(0, 10)
     out.push({
       slug,
+      ...(Object.keys(slugs).length ? { slugs } : {}),
       category: f.Category ?? 'Lifestyle',
       // Old WordPress URL(s) of this article (column Old_URL) for redirects.
       oldPaths: oldPathsFrom(f.Old_URL),

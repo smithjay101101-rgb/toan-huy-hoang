@@ -19,13 +19,21 @@ export function guideLocales(g: Guide): Locale[] {
   return Object.keys(g.locales) as Locale[]
 }
 
+/** The guide's URL slug in a locale (base `slug` when no localized one). */
+export function guideSlugFor(g: Guide, locale: Locale): string {
+  return g.slugs?.[locale] ?? g.slug
+}
+
 /** Guides available in a given locale, preserving the build sort order. */
 export function getGuidesForLocale(locale: Locale): Guide[] {
   return guides.filter((g) => g.locales[locale])
 }
 
+/** Look a guide up by ANY of its slugs (cross-locale links still resolve). */
 export function getGuideBySlug(slug: string): Guide | undefined {
-  return guides.find((g) => g.slug === slug)
+  return guides.find(
+    (g) => g.slug === slug || Object.values(g.slugs ?? {}).includes(slug),
+  )
 }
 
 /** Same-category guides available in this locale, excluding the current one. */

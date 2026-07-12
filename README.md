@@ -35,6 +35,10 @@ POSTing `{"event_type":"airtable-publish"}` to the GitHub dispatches API.
 - `code` is the property reference (e.g. TH-129), typed manually in the `code`
   column — it is NOT auto-generated. Searchable, and shown on cards + detail
   pages. Blank = the listing shows no reference.
+- `slug_vi` / `slug_ru` / `slug_ko` (optional): localized URL slugs, e.g.
+  `/vi/property/biet-thu-bien-non-nuoc` — keyworded URLs per language for SEO.
+  Blank = that language uses the default `slug`. Values are normalized to
+  lowercase-kebab automatically.
 - Photos: `hero_image` (one) + `gallery` (several). Images are downloaded,
   resized into responsive variants, and **watermarked** ("TOAN HUY HOANG
   REALTY COMPANY", baked into the pixels) at build time; a listing without

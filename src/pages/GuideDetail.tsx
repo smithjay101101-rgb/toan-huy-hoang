@@ -4,7 +4,8 @@ import { ChevronRight } from 'lucide-react'
 import { useLocale } from '@/lib/locale'
 import { localePath } from '@/lib/locale'
 import { formatDate } from '@/lib/format'
-import { getGuideBySlug, getRelatedGuides, guideLocales, GUIDE_CATEGORY_KEY } from '@/data/guides'
+import { getGuideBySlug, getRelatedGuides, guideLocales, guideSlugFor, GUIDE_CATEGORY_KEY } from '@/data/guides'
+import type { Locale } from '@/i18n'
 import { blogPostingSchema, breadcrumbSchema } from '@/lib/schema'
 import Seo from '@/components/Seo'
 import JsonLd from '@/components/JsonLd'
@@ -54,6 +55,11 @@ export default function GuideDetail() {
         image={guide.coverImage ? (guide.coverImage.og ?? guide.coverImage.avif ?? guide.coverImage.src) : undefined}
         type="article"
         locales={available}
+        alternatePaths={
+          Object.fromEntries(
+            available.map((l) => [l, localePath(l, `guides/${guideSlugFor(guide, l)}`)]),
+          ) as Partial<Record<Locale, string>>
+        }
       />
       <JsonLd
         data={[
@@ -61,7 +67,7 @@ export default function GuideDetail() {
           breadcrumbSchema([
             { name: t('footer.signature'), path: localePath(locale) },
             { name: t('nav.guides'), path: localePath(locale, 'guides') },
-            { name: content.title, path: localePath(locale, `guides/${guide.slug}`) },
+            { name: content.title, path: localePath(locale, `guides/${guideSlugFor(guide, locale)}`) },
           ]),
         ]}
       />

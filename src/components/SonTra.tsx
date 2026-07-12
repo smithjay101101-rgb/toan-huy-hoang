@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import type { Locale } from '@/i18n'
-import { listings } from '@/data'
+import { listings, slugFor } from '@/data'
 import { localePath } from '@/lib/locale'
 import { pick } from '@/lib/format'
 import { mediaSrcSet } from '@/lib/media'
@@ -95,7 +95,7 @@ export default function SonTra({ locale }: { locale: Locale }) {
     }
   }, [])
 
-  const href = localePath(locale, `property/${listing.slug}`)
+  const href = localePath(locale, `property/${slugFor(listing, locale)}`)
 
   return (
     <section

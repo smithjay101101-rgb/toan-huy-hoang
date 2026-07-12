@@ -47,6 +47,9 @@ const {
 function slugify(s) {
   return String(s)
     .toLowerCase()
+    // NFD leaves the Vietnamese d-with-stroke intact (it is not a combining
+    // sequence), so map it by hand or "Da Nang" arrives as "a-nang".
+    .replace(/\u0111/g, 'd')
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
@@ -191,19 +194,53 @@ async function buildFromAirtable() {
     ...projectRecords.map((rec) => ({ rec, fromProjects: true })),
   ]
   const out = []
-  const usedSlugs = new Set()
+  // ONE global URL namespace across base + localized slugs of every listing:
+  // getListingBySlug matches any slug of any listing regardless of locale, so
+  // two rows sharing a value in ANY locale would silently render the same
+  // page. The same slug on the same row (e.g. identical slug_vi and slug_ru)
+  // is fine — both URLs resolve to that listing.
+  const slugOwner = new Map() // slug -> record id
+  const claimSlug = (want, id) => {
+    let s = want
+    if (slugOwner.has(s) && slugOwner.get(s) !== id) {
+      let i = 2
+      while (slugOwner.has(`${want}-${i}`)) i++
+      s = `${want}-${i}`
+    }
+    slugOwner.set(s, id)
+    return s
+  }
+  // Pass 1: every row claims its base slug before any localized slug is
+  // considered, so dedup cannot depend on row order (an early row's slug_vi
+  // must never steal a later row's base URL).
+  const baseSlugs = new Map()
+  for (const { rec } of records) {
+    const f = rec.fields
+    baseSlugs.set(rec.id, claimSlug(f.slug ? slugify(f.slug) : slugify(f.title_en ?? rec.id), rec.id))
+  }
   for (const { rec, fromProjects } of records) {
     // Each record is processed independently: one bad row or broken attachment
     // skips that listing (with a log line), never the whole catalog.
     try {
       const f = rec.fields
-      let slug = f.slug ? slugify(f.slug) : slugify(f.title_en ?? rec.id)
-      if (usedSlugs.has(slug)) {
-        let i = 2
-        while (usedSlugs.has(`${slug}-${i}`)) i++
-        slug = `${slug}-${i}`
+      const slug = baseSlugs.get(rec.id)
+      // Localized URL slugs (columns slug_vi / slug_ru / slug_ko), so each
+      // language gets keyworded URLs (/vi/property/biet-thu-…). Missing,
+      // junk, or duplicate values fall back to the base slug.
+      const slugs = {}
+      for (const loc of ['vi', 'ru', 'ko']) {
+        const raw = f[`slug_${loc}`]
+        if (!raw) continue
+        const s = slugify(raw)
+        // Cyrillic/Hangul input strips to little or nothing under the a-z0-9
+        // slugifier; a residue under 3 chars is junk, not a usable URL.
+        if (!s || s.length < 3) {
+          console.warn(`[data] ${slug}: slug_${loc} "${raw}" unusable after slugify, falling back to base slug`)
+          continue
+        }
+        if (s === slug) continue
+        slugs[loc] = claimSlug(s, rec.id)
       }
-      usedSlugs.add(slug)
       const titleEn = f.title_en ?? 'Untitled'
       const dir = join(PUBLIC_DIR, 'listings', slug)
       let heroImage = null
@@ -271,6 +308,7 @@ async function buildFromAirtable() {
       out.push({
         id: rec.id,
         slug,
+        ...(Object.keys(slugs).length ? { slugs } : {}),
         code,
         title: localized(f, 'title'),
         dealType: fromProjects ? 'buy' : (f.deal_type ?? 'Buy').toLowerCase() === 'rent' ? 'rent' : 'buy',

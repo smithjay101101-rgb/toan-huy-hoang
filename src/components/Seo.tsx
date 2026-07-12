@@ -17,6 +17,12 @@ interface SeoProps {
    * present, otherwise the first available locale.
    */
   locales?: Locale[]
+  /**
+   * Explicit per-locale paths for the hreflang alternates, for pages whose
+   * slug differs by locale (localized listing/guide URLs). Locales missing
+   * here fall back to swapping the prefix on the current path.
+   */
+  alternatePaths?: Partial<Record<Locale, string>>
 }
 
 const OG_LOCALE: Record<Locale, string> = { en: 'en_US', vi: 'vi_VN', ru: 'ru_RU', ko: 'ko_KR' }
@@ -26,7 +32,7 @@ const OG_LOCALE: Record<Locale, string> = { en: 'en_US', vi: 'vi_VN', ru: 'ru_RU
  * (each locale links to its twin plus x-default to EN). Rendered into static
  * HTML by vite-react-ssg so crawlers and answer engines read it directly.
  */
-export default function Seo({ title, description, image, path, type = 'website', locales }: SeoProps) {
+export default function Seo({ title, description, image, path, type = 'website', locales, alternatePaths }: SeoProps) {
   const { pathname } = useLocation()
   const current = path ?? pathname
   const locale = localeFromPath(current)
@@ -34,6 +40,7 @@ export default function Seo({ title, description, image, path, type = 'website',
   const img = SITE.url + (image ?? SITE.ogImage)
   const alts = locales ?? LOCALES
   const xDefault: Locale = alts.includes('en') ? 'en' : (alts[0] ?? 'en')
+  const altHref = (l: Locale) => SITE.url + (alternatePaths?.[l] ?? swapLocaleInPath(current, l))
 
   return (
     <Head>
@@ -43,14 +50,9 @@ export default function Seo({ title, description, image, path, type = 'website',
       <link rel="canonical" href={url} />
 
       {alts.map((l) => (
-        <link
-          key={l}
-          rel="alternate"
-          hrefLang={l}
-          href={SITE.url + swapLocaleInPath(current, l)}
-        />
+        <link key={l} rel="alternate" hrefLang={l} href={altHref(l)} />
       ))}
-      <link rel="alternate" hrefLang="x-default" href={SITE.url + swapLocaleInPath(current, xDefault)} />
+      <link rel="alternate" hrefLang="x-default" href={altHref(xDefault)} />
 
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content={SITE.name} />

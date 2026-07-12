@@ -11,6 +11,7 @@ In the existing base (`appZ9wP5ZlerVW3z8`), add a new table named **`Guides`**
 | Field | Type | Notes |
 |---|---|---|
 | `Slug` | Single line text | Unique, lowercase kebab-case. The URL segment. Leave blank to auto-generate from `Title_EN`. |
+| `Slug_VI` `Slug_RU` `Slug_KO` | Single line text | Optional localized URL slugs (keyworded URLs per language for SEO). Blank = that language uses `Slug`. |
 | `Status` | Single select | Options: `Draft`, `Published`. Only `Published` is built. |
 | `Category` | Single select | Options: `Neighborhood Guides`, `Buying Process`, `Investment`, `Lifestyle`, `Legal`. |
 | `Title_EN` `Title_VI` `Title_RU` `Title_KO` | Single line text | One per language. |
