@@ -239,6 +239,10 @@ const vi: Dictionary = {
     officeValue: 'Tầng 7, Tòa nhà Camelia, 773 Ngô Quyền, Phường An Hải, Đà Nẵng',
     sent: 'Cảm ơn bạn. Tin nhắn đã được gửi, chúng tôi sẽ phản hồi trong vòng một ngày làm việc. Việc gấp, hãy viết trực tiếp:',
   },
+  consult: {
+    title: 'Đặt lịch tư vấn',
+    body: 'Nhắn tin cho chúng tôi qua kênh bạn quen dùng. Chúng tôi sẽ phản hồi ngay khi nhận được tin nhắn!',
+  },
   guides: {
     indexTitle: 'Cẩm nang',
     indexIntro: 'Những ghi chép về mua, đầu tư và an cư tại Đà Nẵng.',

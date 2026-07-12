@@ -240,6 +240,10 @@ const en = {
     officeValue: '7th Floor, Camelia Building, 773 Ngo Quyen, An Hai Ward, Da Nang',
     sent: 'Thank you. Your message is on its way, and you will hear from us within one business day. Anything urgent, write directly:',
   },
+  consult: {
+    title: 'Book a Consultation',
+    body: 'Message us on the channel you prefer. We will reply as soon as we see your request!',
+  },
   guides: {
     indexTitle: 'Guides',
     indexIntro: 'Notes on buying, investing, and living well in Da Nang.',

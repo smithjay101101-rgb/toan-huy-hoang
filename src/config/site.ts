@@ -101,44 +101,42 @@ export const KAKAO_ID = 'danangluxury'
 // phone-number deep link.
 export const TELEGRAM_USERNAME = 'danangluxuryrealty'
 
+// One definition per messenger, shared by the contact-page channel groups and
+// the consultation popup below.
+const CH_ZALO: ContactChannel = { kind: 'zalo', label: 'Zalo', href: 'https://zalo.me/0917112855' }
+const CH_WHATSAPP: ContactChannel = { kind: 'whatsapp', label: 'WhatsApp', href: 'https://wa.me/84917112855' }
+const CH_KAKAO: ContactChannel = {
+  kind: 'kakao',
+  label: 'KakaoTalk',
+  href: KAKAO_CHANNEL_URL || 'tel:+84943436888',
+  hint: KAKAO_CHANNEL_URL ? undefined : `ID: ${KAKAO_ID}`,
+}
+const CH_TELEGRAM: ContactChannel = {
+  kind: 'telegram',
+  label: 'Telegram',
+  // t.me links open the app on phones; tg://resolve?phone=84943436888 is
+  // the raw app deep link should a native-only entry ever be needed.
+  href: TELEGRAM_USERNAME ? `https://t.me/${TELEGRAM_USERNAME}` : 'https://t.me/+84943436888',
+}
+
 const ZALO_WHATSAPP: LocaleContact = {
   phoneDisplay: '0917 112 855',
   phoneTel: '+84917112855',
-  channels: [
-    { kind: 'zalo', label: 'Zalo', href: 'https://zalo.me/0917112855' },
-    { kind: 'whatsapp', label: 'WhatsApp', href: 'https://wa.me/84917112855' },
-  ],
+  channels: [CH_ZALO, CH_WHATSAPP],
 }
 
 // Korean audience: Zalo plus KakaoTalk (per the client).
 const KO_CHANNELS: LocaleContact = {
   phoneDisplay: '0943 436 888',
   phoneTel: '+84943436888',
-  channels: [
-    { kind: 'zalo', label: 'Zalo', href: 'https://zalo.me/0917112855' },
-    {
-      kind: 'kakao',
-      label: 'KakaoTalk',
-      href: KAKAO_CHANNEL_URL || 'tel:+84943436888',
-      hint: KAKAO_CHANNEL_URL ? undefined : `ID: ${KAKAO_ID}`,
-    },
-  ],
+  channels: [CH_ZALO, CH_KAKAO],
 }
 
 // Russian audience: WhatsApp (on the 0917 number) plus Telegram.
 const RU_CHANNELS: LocaleContact = {
   phoneDisplay: '0943 436 888',
   phoneTel: '+84943436888',
-  channels: [
-    { kind: 'whatsapp', label: 'WhatsApp', href: 'https://wa.me/84917112855' },
-    {
-      kind: 'telegram',
-      label: 'Telegram',
-      // t.me links open the app on phones; tg://resolve?phone=84943436888 is
-      // the raw app deep link should a native-only entry ever be needed.
-      href: TELEGRAM_USERNAME ? `https://t.me/${TELEGRAM_USERNAME}` : 'https://t.me/+84943436888',
-    },
-  ],
+  channels: [CH_WHATSAPP, CH_TELEGRAM],
 }
 
 export const CONTACTS: Record<Locale, LocaleContact> = {
@@ -159,14 +157,35 @@ export function contactFor(locale: Locale): LocaleContact {
 // open the chat directly).
 // ---------------------------------------------------------------------------
 
+// WhatsApp is the only channel whose link accepts a prefilled draft.
+// Telegram: t.me/<username> profile links ignore ?text= (only share and
+// bot links prefill), so the chat opens without a draft. No param added.
+function withPrefill(ch: ContactChannel, text: string): ContactChannel {
+  if (ch.kind === 'whatsapp' && ch.href.startsWith('https://wa.me/')) {
+    return { ...ch, href: `${ch.href}?text=${text}` }
+  }
+  return ch
+}
+
 export function channelsFor(locale: Locale, message: string): ContactChannel[] {
   const text = encodeURIComponent(message)
-  return contactFor(locale).channels.map((ch) => {
-    if (ch.kind === 'whatsapp' && ch.href.startsWith('https://wa.me/')) {
-      return { ...ch, href: `${ch.href}?text=${text}` }
-    }
-    // Telegram: t.me/<username> profile links ignore ?text= (only share and
-    // bot links prefill), so the chat opens without a draft. No param added.
-    return ch
-  })
+  return contactFor(locale).channels.map((ch) => withPrefill(ch, text))
+}
+
+// ---------------------------------------------------------------------------
+// "Book a Consultation" popup: every locale leads with the messengers its
+// audience actually uses (client spec 2026-07-12) — EN WhatsApp/Zalo/Telegram,
+// VI WhatsApp/Zalo, KO KakaoTalk/WhatsApp, RU Telegram/WhatsApp.
+// ---------------------------------------------------------------------------
+
+const CONSULT_CHANNELS: Record<Locale, ContactChannel[]> = {
+  en: [CH_WHATSAPP, CH_ZALO, CH_TELEGRAM],
+  vi: [CH_WHATSAPP, CH_ZALO],
+  ko: [CH_KAKAO, CH_WHATSAPP],
+  ru: [CH_TELEGRAM, CH_WHATSAPP],
+}
+
+export function consultChannelsFor(locale: Locale, message: string): ContactChannel[] {
+  const text = encodeURIComponent(message)
+  return (CONSULT_CHANNELS[locale] ?? CONSULT_CHANNELS.en).map((ch) => withPrefill(ch, text))
 }

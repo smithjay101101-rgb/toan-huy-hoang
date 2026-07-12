@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { MapPin } from 'lucide-react'
@@ -5,6 +6,7 @@ import type { Locale } from '@/i18n'
 import { localePath } from '@/lib/locale'
 import { SITE, contactFor, socialsFor } from '@/config/site'
 import LanguageSwitcher from './LanguageSwitcher'
+import ConsultModal from './ConsultModal'
 import { ChannelIcon, SocialIcon } from './icons'
 
 const EXPLORE = ['buy', 'rent', 'projects', 'guides', 'about', 'contact'] as const
@@ -16,6 +18,8 @@ const linkCls = 'inline-block cursor-pointer py-2 transition-colors duration-200
 export default function Footer({ locale }: { locale: Locale }) {
   const { t } = useTranslation()
   const contact = contactFor(locale)
+  // "Book a Consultation" always opens the messenger popup (never a bare link).
+  const [consultOpen, setConsultOpen] = useState(false)
   return (
     <footer className="bg-card" style={{ color: '#eef0f0', fontFamily: "'Jost', sans-serif" }}>
       <div className="mx-auto max-w-[1280px]" style={{ padding: '96px clamp(40px,6vw,96px) 0' }}>
@@ -32,13 +36,15 @@ export default function Footer({ locale }: { locale: Locale }) {
               {t('footer.closing')}
             </h2>
           </div>
-          <Link
-            to={localePath(locale, 'contact')}
-            className="inline-flex items-center gap-3 whitespace-nowrap bg-gold-2 px-[40px] py-[18px] text-[13px] font-semibold uppercase tracking-[0.22em] text-ink transition-colors duration-200 hover:bg-white"
+          <button
+            type="button"
+            onClick={() => setConsultOpen(true)}
+            className="inline-flex cursor-pointer items-center gap-3 whitespace-nowrap bg-gold-2 px-[40px] py-[18px] text-[13px] font-semibold uppercase tracking-[0.22em] text-ink transition-colors duration-200 hover:bg-white"
           >
             {t('footer.book')}
-          </Link>
+          </button>
         </div>
+        {consultOpen && <ConsultModal locale={locale} onClose={() => setConsultOpen(false)} />}
 
         {/* Columns */}
         <div className="grid grid-cols-1 gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
