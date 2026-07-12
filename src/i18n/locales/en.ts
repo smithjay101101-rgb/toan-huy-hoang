@@ -8,27 +8,27 @@ const en = {
         'Luxury properties, investment opportunities, and exceptional living in Da Nang, Vietnam. Private guidance from Toan Huy Hoang.',
     },
     buy: {
-      title: 'Properties for Sale in Da Nang. Toan Huy Hoang.',
+      title: 'Properties for Sale in Da Nang - Toan Huy Hoang',
       description:
         'A curated collection of villas, apartments, and land for sale across Da Nang. Lifestyle first, investment grade.',
     },
     rent: {
-      title: 'Luxury Rentals in Da Nang. Toan Huy Hoang.',
+      title: 'Luxury Rentals in Da Nang - Toan Huy Hoang',
       description:
         'Exceptional homes for rent in Da Nang. Coastal villas, skyline apartments, and considered living.',
     },
     projects: {
-      title: 'Developments in Da Nang. Toan Huy Hoang.',
+      title: 'Developments in Da Nang - Toan Huy Hoang',
       description:
         'Landmark developments and investment opportunities shaping the future of coastal Da Nang.',
     },
     about: {
-      title: 'About Toan Huy Hoang. Da Nang Real Estate.',
+      title: 'About Toan Huy Hoang - Da Nang Real Estate',
       description:
         'Twelve years guiding buyers and investors through Da Nang. Founder, advisor, trusted local expert.',
     },
     contact: {
-      title: 'Contact Toan Huy Hoang. Da Nang.',
+      title: 'Contact Toan Huy Hoang - Da Nang',
       description:
         'Begin a private conversation about property and investment in Da Nang.',
     },
@@ -80,7 +80,7 @@ const en = {
   founder: {
     eyebrow: 'The Founder',
     name: 'Toan Huy Hoang',
-    headline: 'Your trusted partner in Da Nang real estate.',
+    headline: 'Your trusted partner in Da Nang real estate',
     body:
       'Toan Huy Hoang advises buyers, investors, and families with the discretion of a private banker and the instinct of a lifelong local. Not a salesperson. A partner who knows where this coastline is going.',
     quote:
@@ -177,7 +177,7 @@ const en = {
   },
   about: {
     eyebrow: 'About',
-    headline: 'A local expert, a global standard.',
+    headline: 'A local expert, a global standard',
     tldr: 'Twelve years in Da Nang, over a thousand homes, one principle: the right decision before any sale.',
     body1:
       'For over twelve years, Toan Huy Hoang has guided buyers and investors through Da Nang, from the quiet beaches of Non Nuoc to the rising skyline along the Han River.',
@@ -220,7 +220,7 @@ const en = {
   },
   contact: {
     eyebrow: 'Contact',
-    headline: 'Begin a private conversation.',
+    headline: 'Begin a private conversation',
     body:
       'Tell us what you are looking for. We will reply personally, usually within one business day.',
     name: 'Name',
@@ -265,7 +265,7 @@ const en = {
     rights: 'All rights reserved.',
     signature: 'Toan Huy Hoang',
     eyebrow: 'Da Nang · Vietnam',
-    closing: "Let's find your place by the sea.",
+    closing: "Let's find your place by the sea",
     book: 'Book a Consultation →',
     blurb: 'Luxury property advisory across Da Nang. Buying, renting, and investment for discerning clients.',
     explore: 'Explore',

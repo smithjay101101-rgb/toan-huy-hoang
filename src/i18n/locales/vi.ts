@@ -10,27 +10,27 @@ const vi: Dictionary = {
         'Bất động sản cao cấp, cơ hội đầu tư và cuộc sống khác biệt tại Đà Nẵng. Tư vấn riêng tư cùng Toan Huy Hoang.',
     },
     buy: {
-      title: 'Bất Động Sản Bán Tại Đà Nẵng. Toan Huy Hoang.',
+      title: 'Bất Động Sản Bán Tại Đà Nẵng - Toan Huy Hoang',
       description:
         'Bộ sưu tập biệt thự, căn hộ và đất nền chọn lọc tại Đà Nẵng. Phong cách sống dẫn đầu, giá trị đầu tư vững chắc.',
     },
     rent: {
-      title: 'Cho Thuê Cao Cấp Tại Đà Nẵng. Toan Huy Hoang.',
+      title: 'Cho Thuê Cao Cấp Tại Đà Nẵng - Toan Huy Hoang',
       description:
         'Những căn nhà đặc biệt cho thuê tại Đà Nẵng. Biệt thự ven biển, căn hộ view thành phố, không gian sống tinh tế.',
     },
     projects: {
-      title: 'Dự Án Tại Đà Nẵng. Toan Huy Hoang.',
+      title: 'Dự Án Tại Đà Nẵng - Toan Huy Hoang',
       description:
         'Những dự án mang tính biểu tượng và cơ hội đầu tư định hình tương lai ven biển Đà Nẵng.',
     },
     about: {
-      title: 'Về Toan Huy Hoang. Bất Động Sản Đà Nẵng.',
+      title: 'Về Toan Huy Hoang - Bất Động Sản Đà Nẵng',
       description:
         'Mười hai năm đồng hành cùng người mua và nhà đầu tư tại Đà Nẵng. Người sáng lập, cố vấn, chuyên gia địa phương đáng tin cậy.',
     },
     contact: {
-      title: 'Liên Hệ Toan Huy Hoang. Đà Nẵng.',
+      title: 'Liên Hệ Toan Huy Hoang - Đà Nẵng',
       description:
         'Bắt đầu một cuộc trò chuyện riêng tư về bất động sản và đầu tư tại Đà Nẵng.',
     },
@@ -80,7 +80,7 @@ const vi: Dictionary = {
   founder: {
     eyebrow: 'Người Sáng Lập',
     name: 'Toan Huy Hoang',
-    headline: 'Người đồng hành đáng tin cậy của bạn tại Đà Nẵng.',
+    headline: 'Người đồng hành đáng tin cậy của bạn tại Đà Nẵng',
     body:
       'Toan Huy Hoang tư vấn cho người mua, nhà đầu tư và các gia đình với sự kín đáo của một chuyên viên ngân hàng tư nhân và trực giác của một người con bản địa. Không phải người bán hàng. Một người đồng hành hiểu rõ vùng đất này đang đi về đâu.',
     quote:
@@ -176,7 +176,7 @@ const vi: Dictionary = {
   },
   about: {
     eyebrow: 'Giới Thiệu',
-    headline: 'Chuyên gia bản địa, tiêu chuẩn toàn cầu.',
+    headline: 'Chuyên gia bản địa, tiêu chuẩn toàn cầu',
     tldr: 'Mười hai năm tại Đà Nẵng, hơn một nghìn ngôi nhà, một nguyên tắc: quyết định đúng đắn trước mọi giao dịch.',
     body1:
       'Hơn mười hai năm qua, Toan Huy Hoang đã đồng hành cùng người mua và nhà đầu tư khắp Đà Nẵng, từ bãi biển yên bình Non Nước đến đường chân trời đang vươn lên bên sông Hàn.',
@@ -219,7 +219,7 @@ const vi: Dictionary = {
   },
   contact: {
     eyebrow: 'Liên Hệ',
-    headline: 'Bắt đầu một cuộc trò chuyện riêng tư.',
+    headline: 'Bắt đầu một cuộc trò chuyện riêng tư',
     body:
       'Hãy cho chúng tôi biết bạn đang tìm kiếm điều gì. Chúng tôi sẽ phản hồi trực tiếp, thường trong vòng một ngày làm việc.',
     name: 'Họ và tên',
@@ -264,7 +264,7 @@ const vi: Dictionary = {
     rights: 'Bảo lưu mọi quyền.',
     signature: 'Toan Huy Hoang',
     eyebrow: 'Đà Nẵng · Việt Nam',
-    closing: 'Tìm chốn an cư bên biển của bạn.',
+    closing: 'Tìm chốn an cư bên biển của bạn',
     book: 'Đặt Lịch Tư Vấn →',
     blurb: 'Tư vấn bất động sản cao cấp khắp Đà Nẵng. Mua, thuê và đầu tư cho những khách hàng tinh tế.',
     explore: 'Khám Phá',

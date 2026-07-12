@@ -10,27 +10,27 @@ const ko: Dictionary = {
         '베트남 다낭의 럭셔리 부동산, 투자 기회, 그리고 특별한 삶. Toan Huy Hoang의 프라이빗 컨설팅.',
     },
     buy: {
-      title: '다낭 매매 부동산. Toan Huy Hoang.',
+      title: '다낭 매매 부동산 - Toan Huy Hoang',
       description:
         '다낭 전역의 빌라, 아파트, 토지를 엄선한 매물. 라이프스타일을 먼저, 투자 가치는 확실하게.',
     },
     rent: {
-      title: '다낭 럭셔리 임대. Toan Huy Hoang.',
+      title: '다낭 럭셔리 임대 - Toan Huy Hoang',
       description:
         '다낭의 특별한 임대 주택. 해안 빌라, 스카이라인 아파트, 그리고 사려 깊은 삶.',
     },
     projects: {
-      title: '다낭 개발 프로젝트. Toan Huy Hoang.',
+      title: '다낭 개발 프로젝트 - Toan Huy Hoang',
       description:
         '다낭 해안의 미래를 만들어가는 랜드마크 개발과 투자 기회.',
     },
     about: {
-      title: 'Toan Huy Hoang 소개. 다낭 부동산.',
+      title: 'Toan Huy Hoang 소개 - 다낭 부동산',
       description:
         '12년간 다낭에서 매수자와 투자자를 안내해 온 창립자이자 자문, 신뢰받는 현지 전문가.',
     },
     contact: {
-      title: 'Toan Huy Hoang에게 문의. 다낭.',
+      title: 'Toan Huy Hoang에게 문의 - 다낭',
       description:
         '다낭의 부동산과 투자에 관한 프라이빗 상담을 시작하세요.',
     },
@@ -80,7 +80,7 @@ const ko: Dictionary = {
   founder: {
     eyebrow: '창립자',
     name: 'Toan Huy Hoang',
-    headline: '다낭 부동산의 신뢰할 수 있는 파트너.',
+    headline: '다낭 부동산의 신뢰할 수 있는 파트너',
     body:
       'Toan Huy Hoang은 프라이빗 뱅커의 신중함과 평생 현지인의 직관으로 매수자, 투자자, 가족을 자문합니다. 단순한 영업자가 아니라, 이 해안이 어디로 향하는지 아는 파트너입니다.',
     quote:
@@ -177,7 +177,7 @@ const ko: Dictionary = {
   },
   about: {
     eyebrow: '소개',
-    headline: '현지 전문가, 글로벌 기준.',
+    headline: '현지 전문가, 글로벌 기준',
     tldr: '다낭에서의 12년, 천 채가 넘는 주택, 하나의 원칙: 어떤 거래보다 올바른 결정이 먼저입니다.',
     body1:
       '12년 이상 Toan Huy Hoang은 논느억의 고요한 해변부터 한강을 따라 떠오르는 스카이라인까지, 다낭에서 매수자와 투자자를 안내해 왔습니다.',
@@ -220,7 +220,7 @@ const ko: Dictionary = {
   },
   contact: {
     eyebrow: '문의',
-    headline: '프라이빗한 대화를 시작하세요.',
+    headline: '프라이빗한 대화를 시작하세요',
     body:
       '무엇을 찾고 계신지 알려주세요. 보통 영업일 기준 하루 안에 직접 답변드립니다.',
     name: '이름',
@@ -265,7 +265,7 @@ const ko: Dictionary = {
     rights: '모든 권리 보유.',
     signature: 'Toan Huy Hoang',
     eyebrow: '다낭 · 베트남',
-    closing: '바닷가의 당신의 자리를 찾아드립니다.',
+    closing: '바닷가의 당신의 자리를 찾아드립니다',
     book: '상담 예약하기 →',
     blurb: '다낭 전역의 럭셔리 부동산 자문. 안목 있는 고객을 위한 매매, 임대, 투자.',
     explore: '둘러보기',
