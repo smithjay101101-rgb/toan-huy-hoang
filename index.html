@@ -9,6 +9,16 @@
          above-the-fold latin faces so headings + body swap in immediately. -->
     <link rel="preload" as="font" type="font/woff2" href="/fonts/cormorant-garamond-600-latin.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/jost-400-latin.woff2" crossorigin />
+    <!-- Google Analytics (GA4). SPA route changes are tracked by GA4's
+         Enhanced measurement (history events), so config here fires once.
+         The build-time CSP allowlists these Google domains (fix-ssg-hash.mjs). -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLV1VP8BWT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-LLV1VP8BWT');
+    </script>
     <!-- Title and meta are injected per route at prerender time. -->
   </head>
   <body>

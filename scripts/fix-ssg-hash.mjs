@@ -34,11 +34,15 @@ async function walkHtml(dir) {
 // limited to the map embed, and everything else same-origin.
 const CSP = [
   "default-src 'self'",
-  "img-src 'self' data:",
+  // GA4 falls back to an image beacon when sendBeacon/fetch is unavailable.
+  "img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com",
   "font-src 'self'",
   "style-src 'self' 'unsafe-inline'",
-  "script-src 'self' 'unsafe-inline'",
-  "connect-src 'self'",
+  // Google Analytics (gtag.js in index.html, property G-LLV1VP8BWT).
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+  // GA4 sends hits to region endpoints (region1.google-analytics.com etc.),
+  // hence the wildcard; analytics.google.com covers debug/DebugView.
+  "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
   'frame-src https://www.openstreetmap.org',
   "object-src 'none'",
   "base-uri 'self'",
