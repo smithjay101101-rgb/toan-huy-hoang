@@ -1,5 +1,6 @@
 import type { RouteRecord } from 'vite-react-ssg'
 import Layout from '@/components/Layout'
+import RouteError from '@/components/RouteError'
 import Home from '@/pages/Home'
 import Listings from '@/pages/Listings'
 import PropertyDetail from '@/pages/PropertyDetail'
@@ -52,6 +53,9 @@ export const routes: RouteRecord[] = [
     path: '/',
     Component: Layout,
     entry: 'src/components/Layout.tsx',
+    // Loader/chunk failures from any child bubble here; see RouteError for
+    // the stale-deploy auto-recovery this exists for.
+    errorElement: <RouteError />,
     children: [
       { index: true, Component: RootRedirect, entry: 'src/pages/RootRedirect.tsx' },
       ...LOCALES.flatMap((l) => localeRoutes(l)),
