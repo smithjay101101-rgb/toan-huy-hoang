@@ -108,6 +108,7 @@ const ru: Dictionary = {
     filterAll: 'Все',
     categoryNames: {
       villa: 'Вилла',
+      house: 'Дом',
       apartment: 'Апартаменты',
       land: 'Земля',
       project: 'Проект',

@@ -52,7 +52,7 @@ const BUDGETS: Record<DealType, Bracket[]> = {
 }
 
 /** The categories offered on Buy/Rent (Projects live on their own page). */
-export const LISTING_CATEGORIES = ['Villa', 'Apartment', 'Land'] as const
+export const LISTING_CATEGORIES = ['Villa', 'House', 'Apartment', 'Land'] as const
 
 /** [min, max] for a budget key; max is exclusive (Infinity = open-ended). */
 export function budgetRange(deal: DealType, key: string): [number, number] {

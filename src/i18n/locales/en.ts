@@ -109,6 +109,7 @@ const en = {
     filterAll: 'All',
     categoryNames: {
       villa: 'Villa',
+      house: 'House',
       apartment: 'Apartment',
       land: 'Land',
       project: 'Project',

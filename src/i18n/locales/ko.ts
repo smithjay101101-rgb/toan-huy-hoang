@@ -109,6 +109,7 @@ const ko: Dictionary = {
     filterAll: '전체',
     categoryNames: {
       villa: '빌라',
+      house: '주택',
       apartment: '아파트',
       land: '토지',
       project: '프로젝트',

@@ -4,7 +4,7 @@
 import type { Locale } from '@/i18n'
 
 export type DealType = 'buy' | 'rent'
-export type Category = 'Villa' | 'Apartment' | 'Land' | 'Project'
+export type Category = 'Villa' | 'House' | 'Apartment' | 'Land' | 'Project'
 /** Off-market states (Airtable `availability` column); absent = available. */
 export type Availability = 'rented' | 'sold'
 

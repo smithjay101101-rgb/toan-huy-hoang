@@ -108,6 +108,7 @@ const vi: Dictionary = {
     filterAll: 'Tất Cả',
     categoryNames: {
       villa: 'Biệt thự',
+      house: 'Nhà',
       apartment: 'Căn hộ',
       land: 'Đất',
       project: 'Dự án',
