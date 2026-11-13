@@ -12,15 +12,13 @@ on:
       # (their cron is punctual; GitHub throttles */5 schedules to ~hourly) and
       # by the "Update website" button in Airtable for on-demand publishes.
       - airtable-poll
-  # Backup poll on GitHub's own cron. Every 2 DAYS only: the repo is PRIVATE,
-  # so Actions minutes are metered (2,000/month free), and even a no-change
-  # poll costs ~15 min because the fingerprint step downloads every photo
-  # before it can compare. The every-4-hours version of this cron burned ~90
-  # min/day and nearly exhausted the July quota (1,809/2,000 with 12 days
-  # left). The "Update website" button in Airtable remains the instant publish
-  # path; this cron only catches forgotten button presses.
+  # Backup poll on GitHub's own cron, every 6 hours. The repo is public, so
+  # Actions minutes are free; 6h (not denser) because a run now takes ~1 hour
+  # with the full photo library. Primary publish path: the "Update website"
+  # button in Airtable, which opens the free Cloudflare Worker in
+  # workers/publish-button (Airtable's Free plan blocks "Run script").
   schedule:
-    - cron: '21 2 */2 * *'
+    - cron: '21 */6 * * *'
 
 # Don't pile up deploys. Real deploy events (push, manual, instant hook) may
 # cancel an in-flight run; fingerprint-gated polls must never cancel one (a
