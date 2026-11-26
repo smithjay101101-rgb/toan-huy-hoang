@@ -59,6 +59,20 @@ jobs:
 
       - run: npm ci
 
+      # Processed-photo cache: restore last run's watermarked variants so
+      # unchanged Airtable photos are reused instead of re-downloaded and
+      # re-encoded (scripts/lib/images.mjs). A fresh key every run + prefix
+      # restore = always the newest copy; GitHub evicts old ones by itself.
+      - name: Restore processed photos
+        uses: actions/cache@v4
+        with:
+          path: |
+            public/listings
+            public/guides
+            .image-cache.json
+          key: photos-v1-${{ github.run_id }}
+          restore-keys: photos-v1-
+
       - name: Fetch Airtable content
         id: data
         env:

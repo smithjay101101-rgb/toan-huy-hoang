@@ -5,7 +5,7 @@
 // candidate instead of the full-size upload. The returned asset carries
 // `avifSet`/`webpSet` srcset strings (with w descriptors) that PropertyImage
 // feeds to <source srcSet>, making its `sizes` prop actually select a size.
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync, readdirSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { mkdir } from 'node:fs/promises'
 
@@ -15,6 +15,66 @@ export const LADDER = [400, 800, 1200, 1600]
  *  1600 keeps listing heroes crisp at full width without shipping a 2000px+
  *  photo as the LCP. */
 export const MAX_WIDTH = 1600
+
+// ---------------------------------------------------------------------------
+// Processed-photo cache. CI restores public/listings, public/guides and
+// .image-cache.json from the previous run (actions/cache in deploy.yml). A
+// photo whose Airtable attachment (id + byte size) is unchanged reuses the
+// files already on disk instead of being downloaded, resized to every rung,
+// AVIF-encoded and watermarked again — that step was most of a deploy's
+// runtime (deploys had grown to 1-2 hours with the full photo library).
+// Bump CACHE_VERSION whenever the OUTPUT for the same input would change
+// (LADDER, MAX_WIDTH, qualities, watermark rendering) so everything rebuilds.
+// ---------------------------------------------------------------------------
+const CACHE_VERSION = 1
+let cache = null
+let cacheFile = null
+export const cacheStats = { hits: 0, misses: 0 }
+
+function ensureCache(publicDir) {
+  if (cache) return
+  cacheFile = join(publicDir, '..', '.image-cache.json')
+  try {
+    const c = JSON.parse(readFileSync(cacheFile, 'utf8'))
+    cache = c.version === CACHE_VERSION ? c.entries : {}
+  } catch {
+    cache = {}
+  }
+}
+
+/** Persist the cache index (call once at the end of a pipeline run). */
+export function saveImageCache() {
+  if (!cache || !cacheFile) return
+  writeFileSync(cacheFile, JSON.stringify({ version: CACHE_VERSION, entries: cache }), 'utf8')
+  console.log(`[images] cache: ${cacheStats.hits} reused, ${cacheStats.misses} processed`)
+}
+
+/**
+ * Delete subdirectories of `dir` not in `keep` (the current slugs). With the
+ * cache restoring last run's output, photos of deleted/renamed listings would
+ * otherwise ride along into dist (Vite copies public/ verbatim) forever.
+ */
+export function pruneStaleDirs(dir, keep) {
+  let entries = []
+  try {
+    entries = readdirSync(dir, { withFileTypes: true })
+  } catch {
+    return
+  }
+  for (const e of entries) {
+    if (e.isDirectory() && !keep.has(e.name)) {
+      rmSync(join(dir, e.name), { recursive: true, force: true })
+      console.log(`[images] pruned stale photos: ${e.name}`)
+    }
+  }
+}
+
+/** Cache identity of an Airtable attachment; undefined = never cache. */
+export function attachmentCacheId(att) {
+  return att && att.id ? `${att.id}:${att.size ?? ''}` : undefined
+}
+
+const escRe = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 const escXml = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -38,9 +98,30 @@ function watermarkSvg(w, h, text) {
 </svg>`
 }
 
-export async function optimizeImage(sharp, publicDir, url, outDir, name, alt, { watermark } = {}) {
+export async function optimizeImage(sharp, publicDir, url, outDir, name, alt, { watermark, cacheId } = {}) {
+  const rel = outDir.slice(publicDir.length).split('\\').join('/')
+  ensureCache(publicDir)
+  const key = cacheId ? `${cacheId}|${rel}|${name}|${watermark ?? ''}` : null
+  if (key && cache[key]) {
+    const hit = cache[key]
+    if (hit.files.every((f) => existsSync(join(publicDir, ...f.split('/').filter(Boolean))))) {
+      cacheStats.hits++
+      // alt comes fresh: titles can change without the photo changing.
+      return { ...hit.asset, alt }
+    }
+    delete cache[key]
+  }
+  cacheStats.misses++
   await mkdir(outDir, { recursive: true })
+  // A replaced photo may have a different width set: sweep this slot's old
+  // variants first so leftovers (e.g. a hero-1200 from a wider predecessor)
+  // never ship next to the new ladder.
+  const slot = new RegExp(`^${escRe(name)}(-\\d+)?\\.(avif|webp)$|^${escRe(name)}-og\\.jpg$`)
+  try {
+    for (const f of readdirSync(outDir)) if (slot.test(f)) rmSync(join(outDir, f), { force: true })
+  } catch {}
   const res = await fetch(url)
+  if (!res.ok) throw new Error(`download failed (HTTP ${res.status})`)
   const buf = Buffer.from(await res.arrayBuffer())
   // .rotate() bakes any EXIF orientation into the pixels (phone photos).
   const img = sharp(buf).rotate()
@@ -53,7 +134,6 @@ export async function optimizeImage(sharp, publicDir, url, outDir, name, alt, { 
   const top = Math.min(srcW, MAX_WIDTH)
   const topH = Math.round((srcH / srcW) * top)
   const widths = [...LADDER.filter((w) => w < top), top]
-  const rel = outDir.slice(publicDir.length).split('\\').join('/')
   // With a watermark, stamp the top-size master once and cut every rung from
   // it, so the mark stays proportionally identical across sizes and can never
   // be dodged by requesting a smaller candidate.
@@ -83,7 +163,7 @@ export async function optimizeImage(sharp, publicDir, url, outDir, name, alt, { 
     .jpeg({ quality: 78 })
     .toFile(join(outDir, `${name}-og.jpg`))
   const set = (ext) => widths.map((w) => `${rel}/${file(w, ext)} ${w}w`).join(', ')
-  return {
+  const asset = {
     src: `${rel}/${name}.webp`,
     avif: `${rel}/${name}.avif`,
     webp: `${rel}/${name}.webp`,
@@ -92,8 +172,15 @@ export async function optimizeImage(sharp, publicDir, url, outDir, name, alt, { 
     webpSet: set('webp'),
     width: top,
     height: Math.round((srcH / srcW) * top),
-    alt,
   }
+  if (key) {
+    const files = [
+      ...widths.flatMap((w) => [`${rel}/${file(w, 'avif')}`, `${rel}/${file(w, 'webp')}`]),
+      `${rel}/${name}-og.jpg`,
+    ]
+    cache[key] = { asset, files }
+  }
+  return { ...asset, alt }
 }
 
 /**

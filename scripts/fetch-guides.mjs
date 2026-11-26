@@ -11,7 +11,7 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
-import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
+import { optimizeImage, loadMediaVariants, staticSrcSet, saveImageCache, pruneStaleDirs, attachmentCacheId } from './lib/images.mjs'
 import { stripMarkdown, normalizeAirtableMarkdown, oldPathsFrom } from './lib/text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -152,7 +152,7 @@ async function buildFromAirtable() {
     let coverImage = null
     if (Array.isArray(f.Cover_Image) && f.Cover_Image[0]) {
       const alt = locales.en?.title ?? Object.values(locales)[0].title
-      coverImage = await optimizeImage(sharp, PUBLIC_DIR, f.Cover_Image[0].url, join(PUBLIC_DIR, 'guides', slug), 'cover', alt)
+      coverImage = await optimizeImage(sharp, PUBLIC_DIR, f.Cover_Image[0].url, join(PUBLIC_DIR, 'guides', slug), 'cover', alt, { cacheId: attachmentCacheId(f.Cover_Image[0]) })
     }
     const published = f.Published_Date ?? new Date().toISOString().slice(0, 10)
     out.push({
@@ -169,6 +169,8 @@ async function buildFromAirtable() {
       locales,
     })
   }
+  pruneStaleDirs(join(PUBLIC_DIR, 'guides'), new Set(out.map((g) => g.slug)))
+  saveImageCache()
   await writeOut(sortGuides(out))
   return out.length
 }

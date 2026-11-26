@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { writeMockData } from './lib/placeholders.mjs'
-import { optimizeImage, loadMediaVariants, staticSrcSet } from './lib/images.mjs'
+import { optimizeImage, loadMediaVariants, staticSrcSet, saveImageCache, pruneStaleDirs, attachmentCacheId } from './lib/images.mjs'
 import { plainTextFromBody, stripMarkdown, normalizeAirtableMarkdown, oldPathsFrom } from './lib/text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -250,7 +250,7 @@ async function buildFromAirtable() {
       } else {
         if (Array.isArray(f.hero_image) && f.hero_image[0]) {
           try {
-            heroImage = await optimizeImage(sharp, PUBLIC_DIR, f.hero_image[0].url, dir, 'hero', titleEn, { watermark: WATERMARK_TEXT })
+            heroImage = await optimizeImage(sharp, PUBLIC_DIR, f.hero_image[0].url, dir, 'hero', titleEn, { watermark: WATERMARK_TEXT, cacheId: attachmentCacheId(f.hero_image[0]) })
           } catch (err) {
             console.error(`[data] ${slug}: hero image failed (${err.message}), using placeholder`)
           }
@@ -259,7 +259,7 @@ async function buildFromAirtable() {
           for (let i = 0; i < f.gallery.length; i++) {
             try {
               gallery.push(
-                await optimizeImage(sharp, PUBLIC_DIR, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`, { watermark: WATERMARK_TEXT }),
+                await optimizeImage(sharp, PUBLIC_DIR, f.gallery[i].url, dir, `g${i + 1}`, `${titleEn}, view ${i + 1}`, { watermark: WATERMARK_TEXT, cacheId: attachmentCacheId(f.gallery[i]) }),
               )
             } catch (err) {
               console.error(`[data] ${slug}: gallery image ${i + 1} failed (${err.message}), skipped`)
@@ -351,6 +351,10 @@ async function buildFromAirtable() {
       ? (a.featured ? -1 : 1)
       : String(b.datePublished).localeCompare(String(a.datePublished)),
   )
+  if (!FAKE_IMAGES) {
+    pruneStaleDirs(join(PUBLIC_DIR, 'listings'), new Set(out.map((l) => l.slug)))
+    saveImageCache()
+  }
   await mkdir(join(DATA_FILE, '..'), { recursive: true })
   await writeFile(DATA_FILE, JSON.stringify(out, null, 2), 'utf8')
   return out.length

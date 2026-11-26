@@ -19,3 +19,7 @@ public/listings/
 
 # Scratch downloads from Higgsfield generations (source frames, references).
 .higgsfield/
+
+# Processed-photo cache index (CI restores it via actions/cache).
+.image-cache.json
+public/guides/
